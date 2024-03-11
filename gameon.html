@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snakes and Ladders</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .board {
+        display: flex;
+        flex-wrap: wrap;
+        width: 540px;
+        height: 720px;
+        border: 2px solid black;
+    }
+
+    .square {
+        width: calc(100% / 9);
+        height: calc(100% / 12);
+        border: 1px solid black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        font-size: 12px;
+    }
+
+    .player {
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        border-radius: 50%;
+    }
+</style>
+</head>
+<body>
+
+<div class="board" id="board"></div>
+
+<script>
+    // Create the game board
+    const boardElement = document.getElementById('board');
+    let squares = [];
+
+    for (let i = 0; i < 108; i++) {
+        const square = document.createElement('div');
+        square.classList.add('square');
+        square.textContent = i + 1;
+        boardElement.appendChild(square);
+        squares.push(square);
+    }
+
+    // Define snakes and ladders
+    const snakesAndLadders = {
+        16: 6,
+        47: 26,
+        49: 11,
+        56: 53,
+        62: 19,
+        64: 60,
+        87: 24,
+        93: 73,
+        95: 75,
+        98: 78,
+    };
+
+    // Move player
+    let currentPlayerIndex = 0;
+
+    function movePlayer(steps) {
+        squares[currentPlayerIndex].removeChild(playerElement);
+        currentPlayerIndex += steps;
+        currentPlayerIndex = Math.min(currentPlayerIndex, squares.length - 1);
+        currentPlayerIndex = Math.max(currentPlayerIndex, 0);
+        squares[currentPlayerIndex].appendChild(playerElement);
+    }
+
+    // Create player element
+    const playerElement = document.createElement('div');
+    playerElement.classList.add('player');
+    squares[0].appendChild(playerElement);
+
+    // Roll dice and move player
+    function rollDice() {
+        const diceRoll = Math.floor(Math.random() * 6) + 1;
+        movePlayer(diceRoll);
+        const newPosition = currentPlayerIndex + 1;
+        if (snakesAndLadders[newPosition]) {
+            movePlayer(snakesAndLadders[newPosition] - newPosition);
+        }
+    }
+
+    // Add event listener for rolling dice
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'r') {
+            rollDice();
+        }
+    });
+
+</script>
+
+</body>
+</html>
