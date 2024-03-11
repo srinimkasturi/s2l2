@@ -34,15 +34,22 @@
         background-color: red;
         border-radius: 50%;
     }
+
+    .message {
+        margin-top: 10px;
+        font-weight: bold;
+    }
 </style>
 </head>
 <body>
 
 <div class="board" id="board"></div>
+<div class="message" id="message"></div>
 
 <script>
     // Create the game board
     const boardElement = document.getElementById('board');
+    const messageElement = document.getElementById('message');
     let squares = [];
 
     for (let i = 0; i < 108; i++) {
@@ -53,26 +60,36 @@
         squares.push(square);
     }
 
-    // Define snakes and ladders
+    // Define snakes and ladders only on prime number cells
     const snakesAndLadders = {
-        16: 6,
-        47: 26,
-        49: 11,
-        56: 53,
-        62: 19,
-        64: 60,
-        87: 24,
-        93: 73,
-        95: 75,
-        98: 78,
+        2: 6,
+        3: 26,
+        5: 11,
+        7: 53,
+        11: 19,
+        13: 60,
+        17: 24,
+        19: 73,
+        23: 75,
+        29: 78,
     };
 
     // Move player
     let currentPlayerIndex = 0;
 
     function movePlayer(steps) {
-        squares[currentPlayerIndex].removeChild(playerElement);
-        currentPlayerIndex += steps;
+        const currentPosition = currentPlayerIndex + 1;
+        const newPosition = currentPosition + steps;
+        const message = `You rolled ${steps}. `;
+        if (snakesAndLadders[newPosition]) {
+            const newPositionAfterSnakeOrLadder = snakesAndLadders[newPosition];
+            const move = newPositionAfterSnakeOrLadder - newPosition;
+            currentPlayerIndex += move;
+            messageElement.textContent = message + `You landed on a snake or ladder! You were at ${currentPosition}, now you're at ${newPositionAfterSnakeOrLadder}.`;
+        } else {
+            currentPlayerIndex += steps;
+            messageElement.textContent = message + `You moved from ${currentPosition} to ${newPosition}.`;
+        }
         currentPlayerIndex = Math.min(currentPlayerIndex, squares.length - 1);
         currentPlayerIndex = Math.max(currentPlayerIndex, 0);
         squares[currentPlayerIndex].appendChild(playerElement);
@@ -87,10 +104,6 @@
     function rollDice() {
         const diceRoll = Math.floor(Math.random() * 6) + 1;
         movePlayer(diceRoll);
-        const newPosition = currentPlayerIndex + 1;
-        if (snakesAndLadders[newPosition]) {
-            movePlayer(snakesAndLadders[newPosition] - newPosition);
-        }
     }
 
     // Add event listener for rolling dice
@@ -104,3 +117,4 @@
 
 </body>
 </html>
+
