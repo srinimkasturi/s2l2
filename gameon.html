@@ -13,10 +13,10 @@
 
     .board {
         display: grid;
-        grid-template-columns: repeat(11, 1fr); /* Adjusted grid columns */
+        grid-template-columns: repeat(12, 1fr);
         grid-template-rows: repeat(9, 1fr);
-        width: 95vw; /* Adjusted board width */
-        height: 95vh; /* Adjusted board height */
+        width: 100vw;
+        height: 100vh;
         border: 2px solid black;
     }
 
@@ -27,6 +27,7 @@
         box-sizing: border-box;
         font-size: 12px;
         position: relative;
+        background-color: #f0f0f0; /* Default color */
     }
 
     .player {
@@ -82,13 +83,20 @@
         font-size: 16px;
     }
 
+    #message {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 18px;
+    }
+
     @media only screen and (max-width: 768px) {
         .board {
             width: 90vw;
             height: 90vw;
             max-width: 500px;
             max-height: 500px;
-            grid-template-columns: repeat(10, 1fr); /* Adjusted grid columns for smaller screens */
         }
     }
 
@@ -98,29 +106,19 @@
 
 <div class="board" id="board"></div>
 <button class="roll-button" id="rollButton">Roll Dice</button>
+<div id="message"></div>
 
 <script>
     // Create the game board
     const boardElement = document.getElementById('board');
     let squares = [];
 
-    for (let i = 108; i > 0; i--) {
+    for (let i = 0; i < 108; i++) {
         const square = document.createElement('div');
         square.classList.add('square');
-        square.textContent = i;
-        square.style.backgroundColor = generateRandomColor();
+        square.textContent = i + 1;
         boardElement.appendChild(square);
         squares.push(square);
-    }
-
-    // Generate a random pleasant color
-    function generateRandomColor() {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
     }
 
     // Define snakes and ladders
@@ -166,12 +164,12 @@
         const oldPosition = player.position;
         squares[oldPosition].querySelector(`.player${player.id}`).remove();
         player.position += steps;
-        player.position = Math.min(player.position, squares.length - 1);
+        player.position = Math.min(player.position, 107);
         player.position = Math.max(player.position, 0);
         squares[player.position].appendChild(createPlayerElement(player.id));
+        handleSnakesAndLadders(player);
         const message = `Player ${player.id + 1} moved from ${oldPosition + 1} to ${player.position + 1}`;
         document.getElementById('message').textContent = message;
-        handleSnakesAndLadders(player);
     }
 
     // Create player element
@@ -220,5 +218,6 @@
 
 </body>
 </html>
+
 
 
