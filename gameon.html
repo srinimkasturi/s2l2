@@ -68,6 +68,20 @@
         background-color: #2e7d32; /* Dark green */
     }
 
+    .roll-button {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
     @media only screen and (max-width: 768px) {
         .board {
             width: 90vw;
@@ -82,6 +96,7 @@
 <body>
 
 <div class="board" id="board"></div>
+<button class="roll-button" id="rollButton">Roll Dice</button>
 
 <script>
     // Create the game board
@@ -185,11 +200,7 @@
     }
 
     // Add event listener for rolling dice
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'r') {
-            rollDice();
-        }
-    });
+    document.getElementById('rollButton').addEventListener('click', rollDice);
 
 </script>
 
