@@ -33,7 +33,7 @@
         box-sizing: border-box;
         font-size: 12px;
         position: relative;
-        background-color: #f0f0f0; /* Default color */
+        background-color: rgba(255, 255, 255, 0.7); /* Default color with transparency */
     }
 
     .player {
@@ -60,19 +60,19 @@
     }
 
     .snake-head {
-        background-color: #e57373; /* Dull red */
+        background-color: rgba(0, 0, 0, 0.6); /* Darker color for snake head */
     }
 
     .snake-tail {
-        background-color: #b71c1c; /* Dark red */
+        background-color: rgba(0, 0, 0, 0.4); /* Darker color for snake tail */
     }
 
     .ladder-bottom {
-        background-color: #81c784; /* Dull green */
+        background-color: rgba(255, 255, 255, 0.9); /* Lighter color for ladder bottom */
     }
 
     .ladder-top {
-        background-color: #2e7d32; /* Dark green */
+        background-color: rgba(255, 255, 255, 0.7); /* Lighter color for ladder top */
     }
 
     .roll-button {
@@ -116,7 +116,7 @@
 <body>
 
 <h2>Slipper Slopes and Leaders Ladders Game Board</h2>
-<div id="message">Initail message</div> <!-- Move the message div under the h2 heading -->
+<div id="message"></div> <!-- Move the message div under the h2 heading -->
 
 <div class="container">
     <div class="board" id="board"></div>
