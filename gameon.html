@@ -13,10 +13,10 @@
 
     .board {
         display: grid;
-        grid-template-columns: repeat(12, 1fr);
+        grid-template-columns: repeat(11, 1fr); /* Adjusted grid columns */
         grid-template-rows: repeat(9, 1fr);
-        width: 100vw;
-        height: 100vh;
+        width: 95vw; /* Adjusted board width */
+        height: 95vh; /* Adjusted board height */
         border: 2px solid black;
     }
 
@@ -88,6 +88,7 @@
             height: 90vw;
             max-width: 500px;
             max-height: 500px;
+            grid-template-columns: repeat(10, 1fr); /* Adjusted grid columns for smaller screens */
         }
     }
 
@@ -107,8 +108,19 @@
         const square = document.createElement('div');
         square.classList.add('square');
         square.textContent = i;
+        square.style.backgroundColor = generateRandomColor();
         boardElement.appendChild(square);
         squares.push(square);
+    }
+
+    // Generate a random pleasant color
+    function generateRandomColor() {
+        const letters = '0123456789ABCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
     }
 
     // Define snakes and ladders
@@ -208,4 +220,5 @@
 
 </body>
 </html>
+
 
