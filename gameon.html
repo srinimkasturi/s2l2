@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Slipper Slopes and Leaders Ladders Game Board 3/12 4:39pm</title>
+<title>Slipper Slopes and Leaders Ladders Game Board</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -90,15 +90,12 @@
     }
 
     #message {
-        position: fixed;
-        top: 20px;
-        left: 50%;
-        transform: translateX(-50%);
+        text-align: center; /* Center the message */
         font-size: 18px;
         background-color: rgba(255, 255, 255, 0.8);
         padding: 10px;
         border-radius: 5px;
-        z-index: 999; /* Ensure message is on top */
+        margin-top: 10px; /* Add some space between h2 and message */
     }
 
     h2 {
@@ -119,12 +116,12 @@
 <body>
 
 <h2>Slipper Slopes and Leaders Ladders Game Board</h2>
+<div id="message">Initail message</div> <!-- Move the message div under the h2 heading -->
 
 <div class="container">
     <div class="board" id="board"></div>
     <button class="roll-button" id="rollButton">Roll Dice</button>
 </div>
-<div id="message"></div>
 
 <script>
     // Create the game board
@@ -236,7 +233,3 @@
 
 </body>
 </html>
-
-
-
-
