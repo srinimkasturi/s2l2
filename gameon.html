@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Snakes and Ladders</title>
+<title>Slipper Slopes and Leaders Ladders Game Board</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -101,6 +101,10 @@
         z-index: 999; /* Ensure message is on top */
     }
 
+    h2 {
+        text-align: center;
+    }
+
     @media only screen and (max-width: 768px) {
         .board {
             width: 90vw;
@@ -113,7 +117,9 @@
 </style>
 </head>
 <body>
-<h2>Slipper Slopes and Leaders Ladder Game Board!! V01</h2>
+
+<h2>Slipper Slopes and Leaders Ladders Game Board</h2>
+
 <div class="container">
     <div class="board" id="board"></div>
     <button class="roll-button" id="rollButton">Roll Dice</button>
@@ -160,12 +166,12 @@
         29: 78,
     };
 
-    // Players
+    // Players (starting from bottom right)
     const players = [
-        { color: 'red', position: 0, id: 0 },
-        { color: 'blue', position: 0, id: 1 },
-        { color: 'green', position: 0, id: 2 },
-        { color: 'yellow', position: 0, id: 3 }
+        { color: 'red', position: 107, id: 0 },
+        { color: 'blue', position: 107, id: 1 },
+        { color: 'green', position: 107, id: 2 },
+        { color: 'yellow', position: 107, id: 3 }
     ];
 
     // Current player
@@ -175,7 +181,7 @@
     function movePlayer(player, steps) {
         const oldPosition = player.position;
         squares[oldPosition].querySelector(`.player${player.id}`).remove();
-        player.position += steps;
+        player.position -= steps; // Move towards top left
         player.position = Math.min(player.position, 107);
         player.position = Math.max(player.position, 0);
         squares[player.position].appendChild(createPlayerElement(player.id));
@@ -230,5 +236,6 @@
 
 </body>
 </html>
+
 
 
