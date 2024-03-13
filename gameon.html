@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Slipper Slopes and Leaders Ladders Game Board 3-13 5pm</title>
+<title>Slipper Slopes and Leaders Ladders Game Board 3-13-506pm</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -127,15 +127,19 @@
     // Create the game board
     const boardElement = document.getElementById('board');
     let squares = [];
+    let counter = 108;
 
-    for (let i = 8; i >= 0; i--) {
-        for (let j = 11; j >= 0; j--) {
+    for (let i = 0; i < 9; i++) {
+        const row = document.createElement('div');
+        row.classList.add('row');
+        for (let j = 0; j < 12; j++) {
             const square = document.createElement('div');
             square.classList.add('square');
-            square.textContent = (i * 12) + (11 - j) + 1;
-            boardElement.appendChild(square);
+            square.textContent = counter--;
+            row.appendChild(square);
             squares.push(square);
         }
+        boardElement.appendChild(row);
     }
 
     // Define snakes and ladders
