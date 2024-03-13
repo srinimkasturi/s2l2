@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Slipper Slopes and Leaders Ladders Game Board 3-13-24-pm-2-17</title>
+<title>Slipper Slopes and Leaders Ladders Game Board 3-13 5pm</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -128,39 +128,41 @@
     const boardElement = document.getElementById('board');
     let squares = [];
 
-    for (let i = 0; i < 108; i++) {
-        const square = document.createElement('div');
-        square.classList.add('square');
-        square.textContent = i + 1;
-        boardElement.appendChild(square);
-        squares.push(square);
+    for (let i = 8; i >= 0; i--) {
+        for (let j = 11; j >= 0; j--) {
+            const square = document.createElement('div');
+            square.classList.add('square');
+            square.textContent = (i * 12) + (11 - j) + 1;
+            boardElement.appendChild(square);
+            squares.push(square);
+        }
     }
 
     // Define snakes and ladders
     const snakes = {
-        16: 6,
-        47: 26,
-        49: 11,
-        56: 53,
-        62: 19,
-        64: 60,
-        87: 24,
         93: 73,
         95: 75,
         98: 78,
+        87: 24,
+        62: 19,
+        64: 60,
+        56: 53,
+        49: 11,
+        47: 26,
+        16: 6
     };
 
     const ladders = {
-        2: 6,
-        3: 26,
-        5: 11,
-        7: 53,
-        11: 19,
-        13: 60,
-        17: 24,
-        19: 73,
-        23: 75,
         29: 78,
+        23: 75,
+        19: 73,
+        17: 24,
+        13: 60,
+        11: 19,
+        7: 53,
+        5: 11,
+        3: 26,
+        2: 6
     };
 
     // Players (starting from bottom right)
@@ -178,7 +180,7 @@
     function movePlayer(player, steps) {
         const oldPosition = player.position;
         squares[oldPosition].querySelector(`.player${player.id}`).remove();
-        player.position -= steps; // Move towards top left
+        player.position -= steps; // Move towards bottom right
         player.position = Math.min(player.position, 107);
         player.position = Math.max(player.position, 0);
         squares[player.position].appendChild(createPlayerElement(player.id));
@@ -233,6 +235,3 @@
 
 </body>
 </html>
-
-
-
