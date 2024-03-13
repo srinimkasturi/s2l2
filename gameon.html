@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Slipper Slopes and Leaders Ladders Game Board 3-13-506pm</title>
+<title>Slipper Slopes and Leaders Ladders Game Board</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -115,7 +115,7 @@
 </head>
 <body>
 
-<h2>Slipper Slopes and Leaders Ladders Game Board</h2>
+<h2>Slipper Slopes and Leaders Ladders Game Board 3-13-5-17-pm</h2>
 <div id="message">Welcome to Slipper Slopes and Leaders Ladders Game!</div> <!-- Default message -->
 
 <div class="container">
@@ -127,7 +127,7 @@
     // Create the game board
     const boardElement = document.getElementById('board');
     let squares = [];
-    let counter = 108;
+    let counter = 1;
 
     for (let i = 0; i < 9; i++) {
         const row = document.createElement('div');
@@ -135,9 +135,12 @@
         for (let j = 0; j < 12; j++) {
             const square = document.createElement('div');
             square.classList.add('square');
-            square.textContent = counter--;
+            square.textContent = counter++;
             row.appendChild(square);
             squares.push(square);
+        }
+        if (i % 2 === 0) {
+            squares = squares.reverse();
         }
         boardElement.appendChild(row);
     }
