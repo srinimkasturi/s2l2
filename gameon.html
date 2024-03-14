@@ -115,7 +115,7 @@
 </head>
 <body>
 
-<h2>Slipper Slopes and Leaders Ladders Game Board 3-13-5-17-pm</h2>
+<h2>Slipper Slopes and Leaders Ladders Game Board</h2>
 <div id="message">Welcome to Slipper Slopes and Leaders Ladders Game!</div> <!-- Default message -->
 
 <div class="container">
@@ -127,7 +127,7 @@
     // Create the game board
     const boardElement = document.getElementById('board');
     let squares = [];
-    let counter = 1;
+    let counter = 108;
 
     for (let i = 0; i < 9; i++) {
         const row = document.createElement('div');
@@ -135,7 +135,7 @@
         for (let j = 0; j < 12; j++) {
             const square = document.createElement('div');
             square.classList.add('square');
-            square.textContent = counter++;
+            square.textContent = counter--;
             row.appendChild(square);
             squares.push(square);
         }
@@ -242,3 +242,4 @@
 
 </body>
 </html>
+
