@@ -19,8 +19,8 @@
 
     .board {
         display: grid;
-        grid-template-columns: repeat(12, 1fr);
-        grid-template-rows: repeat(9, 1fr);
+        grid-template-columns: repeat(9, 1fr);
+        grid-template-rows: repeat(12, 1fr);
         width: 100%;
         height: 100%;
         border: 2px solid black;
@@ -61,18 +61,22 @@
 
     .snake-head {
         background-color: rgba(0, 0, 0, 0.6); /* Darker color for snake head */
+        font-weight: bold; /* Bold text for snake head */
     }
 
     .snake-tail {
         background-color: rgba(0, 0, 0, 0.4); /* Darker color for snake tail */
+        font-weight: bold; /* Bold text for snake tail */
     }
 
     .ladder-bottom {
         background-color: rgba(255, 255, 255, 0.9); /* Lighter color for ladder bottom */
+        font-weight: bold; /* Bold text for ladder bottom */
     }
 
     .ladder-top {
         background-color: rgba(255, 255, 255, 0.7); /* Lighter color for ladder top */
+        font-weight: bold; /* Bold text for ladder top */
     }
 
     .roll-button {
@@ -115,7 +119,7 @@
 </head>
 <body>
 
-<h2>Slipper Slopes and Leaders Ladders Game Board 3-15-11-am</h2>
+<h2>Slipper Slopes and Leaders Ladders Game Board</h2>
 <div id="message">Welcome to Slipper Slopes and Leaders Ladders Game!</div> <!-- Default message -->
 
 <div class="container">
@@ -128,18 +132,18 @@
     const boardElement = document.getElementById('board');
     let squares = [];
     const data = [
-        [108,	85	,	84	,	61	,	60	,	37	,	36	,	13	,	12	],
-        [107,	86	,	83	,	62	,	59	,	38	,	35	,	14	,	11	],
-        [106,	87	,	82	,	63	,	58	,	39	,	34	,	15	,	10	],
-        [105,	88	,	81	,	64	,	57	,	40	,	33	,	16	,	9	],
-        [104,	89	,	80	,	65	,	56	,	41	,	32	,	17	,	8	],
-        [103,	90	,	79	,	66	,	55	,	42	,	31	,	18	,	7	],
-        [102,	91	,	78	,	67	,	54	,	43	,	30	,	19	,	6	],
-        [101,	92	,	77	,	68	,	53	,	44	,	29	,	20	,	5	],
-        [100,	93	,	76	,	69	,	52	,	45	,	28	,	21	,	4	],
-        [99,	94	,	75	,	70	,	51	,	46	,	27	,	22	,	3	],
-        [98,	95	,	74	,	71	,	50	,	47	,	26	,	23	,	2	],
-        [97,96,73,72,49,48,25,24,1]  
+        [108, 85, 84, 61, 60, 37, 36, 13, 12],
+        [107, 86, 83, 62, 59, 38, 35, 14, 11],
+        [106, 87, 82, 63, 58, 39, 34, 15, 10],
+        [105, 88, 81, 64, 57, 40, 33, 16, 9],
+        [104, 89, 80, 65, 56, 41, 32, 17, 8],
+        [103, 90, 79, 66, 55, 42, 31, 18, 7],
+        [102, 91, 78, 67, 54, 43, 30, 19, 6],
+        [101, 92, 77, 68, 53, 44, 29, 20, 5],
+        [100, 93, 76, 69, 52, 45, 28, 21, 4],
+        [99, 94, 75, 70, 51, 46, 27, 22, 3],
+        [98, 95, 74, 71, 50, 47, 26, 23, 2],
+        [97, 96, 73, 72, 49, 48, 25, 24, 1]
     ];
 
     for (let i = 0; i < data.length; i++) {
@@ -182,17 +186,17 @@
         93: 98
     };
 
-    // Single player (starting from cell 108)
-    const player = { color: 'red', position: 107, id: 0 };
+    // Single player (starting from bottom right)
+    const player = { color: 'red', position: 107 };
 
     // Move player
     function movePlayer(steps) {
         const oldPosition = player.position;
-        squares[oldPosition].querySelector('.player').remove();
+        squares[oldPosition].querySelector('.player1').remove();
         player.position -= steps;
         player.position = Math.max(player.position, 0);
-        handleSnakesAndLadders();
         squares[player.position].appendChild(createPlayerElement());
+        handleSnakesAndLadders();
         const message = `Player moved from ${oldPosition + 1} to ${player.position + 1}`;
         document.getElementById('message').textContent = message;
     }
@@ -229,4 +233,3 @@
 </body>
 </html>
 
-</html>
