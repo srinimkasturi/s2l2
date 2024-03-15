@@ -3,233 +3,104 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Slipper Slopes and Leaders Ladders Game Board</title> 
+<title>Snakes and Ladders</title>
 <style>
     body {
         font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    .container {
-        position: relative;
-        width: 100%;
-        height: 100%;
     }
 
     .board {
-        display: grid;
-        grid-template-columns: repeat(9, 1fr);
-        grid-template-rows: repeat(12, 1fr);
-        width: 100%;
-        height: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        width: 540px;
+        height: 720px;
         border: 2px solid black;
     }
 
     .square {
+        width: calc(100% / 9);
+        height: calc(100% / 12);
+        border: 1px solid black;
         display: flex;
         align-items: center;
         justify-content: center;
         box-sizing: border-box;
         font-size: 12px;
-        position: relative;
-        background-color: transparent; /* Transparent background */
     }
 
     .player {
         width: 20px;
         height: 20px;
+        background-color: red;
         border-radius: 50%;
-        position: absolute;
     }
-
-    .player1 {
-        background-color: rgba(255, 0, 0, 1); /* Red player color */
-    }
-
-    .player2 {
-        background-color: rgba(0, 0, 255, 1); /* Blue player color */
-    }
-
-    .player3 {
-        background-color: rgba(0, 255, 0, 1); /* Green player color */
-    }
-
-    .player4 {
-        background-color: rgba(255, 255, 0, 1); /* Yellow player color */
-    }
-
-    .snake-head {
-        background-color: rgba(0, 0, 0, 0.6); /* Darker color for snake head */
-        font-weight: bold; /* Bold text for snake head */
-    }
-
-    .snake-tail {
-        background-color: rgba(0, 0, 0, 0.4); /* Darker color for snake tail */
-        font-weight: bold; /* Bold text for snake tail */
-    }
-
-    .ladder-bottom {
-        background-color: rgba(255, 255, 255, 0.9); /* Lighter color for ladder bottom */
-        font-weight: bold; /* Bold text for ladder bottom */
-    }
-
-    .ladder-top {
-        background-color: rgba(255, 255, 255, 0.7); /* Lighter color for ladder top */
-        font-weight: bold; /* Bold text for ladder top */
-    }
-
-    .roll-button {
-        position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
-        background-color: #007bff;
-        color: white;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-
-    #message {
-        text-align: center; /* Center the message */
-        font-size: 18px;
-        background-color: rgba(255, 255, 255, 0.8);
-        padding: 10px;
-        border-radius: 5px;
-        margin-top: 10px; /* Add some space between h2 and message */
-    }
-
-    h2 {
-        text-align: center;
-    }
-
-    @media only screen and (max-width: 768px) {
-        .board {
-            width: 90vw;
-            height: 90vw;
-            max-width: 500px;
-            max-height: 500px;
-        }
-    }
-
 </style>
 </head>
 <body>
 
-<h2>Slipper Slopes and Leaders Ladders Game Board 3-15-1-18-pm</h2>
-<div id="message">Welcome to Slipper Slopes and Leaders Ladders Game!</div> <!-- Default message -->
-
-<div class="container">
-    <div class="board" id="board"></div>
-    <button class="roll-button" id="rollButton">Roll Dice</button>
-</div>
+<div class="board" id="board"></div>
 
 <script>
     // Create the game board
     const boardElement = document.getElementById('board');
     let squares = [];
-    const data = [
-        [108, 85, 84, 61, 60, 37, 36, 13, 12],
-        [107, 86, 83, 62, 59, 38, 35, 14, 11],
-        [106, 87, 82, 63, 58, 39, 34, 15, 10],
-        [105, 88, 81, 64, 57, 40, 33, 16, 9],
-        [104, 89, 80, 65, 56, 41, 32, 17, 8],
-        [103, 90, 79, 66, 55, 42, 31, 18, 7],
-        [102, 91, 78, 67, 54, 43, 30, 19, 6],
-        [101, 92, 77, 68, 53, 44, 29, 20, 5],
-        [100, 93, 76, 69, 52, 45, 28, 21, 4],
-        [99, 94, 75, 70, 51, 46, 27, 22, 3],
-        [98, 95, 74, 71, 50, 47, 26, 23, 2],
-        [97, 96, 73, 72, 49, 48, 25, 24, 1]
-    ];
 
-    for (let i = 0; i < data.length; i++) {
-        const row = document.createElement('div');
-        row.classList.add('row');
-        for (let j = 0; j < data[i].length; j++) {
-            const square = document.createElement('div');
-            square.classList.add('square');
-            square.textContent = data[i][j];
-            row.appendChild(square);
-            squares.push(square);
-        }
-        boardElement.appendChild(row);
+    for (let i = 0; i < 108; i++) {
+        const square = document.createElement('div');
+        square.classList.add('square');
+        square.textContent = i + 1;
+        boardElement.appendChild(square);
+        squares.push(square);
     }
 
     // Define snakes and ladders
-    const snakes = {
-        15: 6,
-        26: 3,
-        27: 11,
-        48: 26,
-        50: 19,
-        54: 33,
-        62: 45,
+    const snakesAndLadders = {
+        16: 6,
+        47: 26,
+        49: 11,
+        56: 53,
+        62: 19,
         64: 60,
-        78: 39,
-        82: 71
+        87: 24,
+        93: 73,
+        95: 75,
+        98: 78,
     };
-
-    const ladders = {
-        5: 22,
-        8: 31,
-        12: 60,
-        25: 64,
-        38: 49,
-        44: 56,
-        59: 79,
-        66: 90,
-        72: 100,
-        93: 98
-    };
-
-    // Single player (starting from bottom right)
-    const player = { color: 'red', position: 107 };
 
     // Move player
+    let currentPlayerIndex = 0;
+
     function movePlayer(steps) {
-        const oldPosition = player.position;
-        squares[oldPosition].querySelector('.player1').remove();
-        player.position -= steps;
-        player.position = Math.max(player.position, 0);
-        squares[player.position].appendChild(createPlayerElement());
-        handleSnakesAndLadders();
-        const message = `Player moved from ${oldPosition + 1} to ${player.position + 1}`;
-        document.getElementById('message').textContent = message;
+        squares[currentPlayerIndex].removeChild(playerElement);
+        currentPlayerIndex += steps;
+        currentPlayerIndex = Math.min(currentPlayerIndex, squares.length - 1);
+        currentPlayerIndex = Math.max(currentPlayerIndex, 0);
+        squares[currentPlayerIndex].appendChild(playerElement);
     }
 
     // Create player element
-    function createPlayerElement() {
-        const playerElement = document.createElement('div');
-        playerElement.classList.add('player', 'player1');
-        playerElement.style.backgroundColor = 'rgba(255, 0, 0, 1)';
-        return playerElement;
-    }
-
-    // Handle snakes and ladders
-    function handleSnakesAndLadders() {
-        const newPosition = player.position + 1;
-        if (snakes[newPosition]) {
-            player.position = snakes[newPosition] - 1;
-        } else if (ladders[newPosition]) {
-            player.position = ladders[newPosition] - 1;
-        }
-    }
+    const playerElement = document.createElement('div');
+    playerElement.classList.add('player');
+    squares[0].appendChild(playerElement);
 
     // Roll dice and move player
     function rollDice() {
         const diceRoll = Math.floor(Math.random() * 6) + 1;
         movePlayer(diceRoll);
+        const newPosition = currentPlayerIndex + 1;
+        if (snakesAndLadders[newPosition]) {
+            movePlayer(snakesAndLadders[newPosition] - newPosition);
+        }
     }
 
     // Add event listener for rolling dice
-    document.getElementById('rollButton').addEventListener('click', rollDice);
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'r') {
+            rollDice();
+        }
+    });
 
 </script>
 
 </body>
 </html>
-
