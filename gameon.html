@@ -50,12 +50,18 @@
     const boardElement = document.getElementById('board');
     let squares = [];
 
-    for (let i = 0; i < 108; i++) {
-        const square = document.createElement('div');
-        square.classList.add('square');
-        square.textContent = i + 1;
-        boardElement.appendChild(square);
-        squares.push(square);
+    let number = 108;
+    for (let i = 0; i < 9; i++) {
+        const row = document.createElement('div');
+        row.classList.add('row');
+        for (let j = 0; j < 12; j++) {
+            const square = document.createElement('div');
+            square.classList.add('square');
+            square.textContent = number--;
+            row.appendChild(square);
+            squares.push(square);
+        }
+        boardElement.appendChild(row);
     }
 
     // Define snakes and ladders
