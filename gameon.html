@@ -11,20 +11,15 @@
 
     .board {
         display: flex;
-        flex-direction: column;
+        flex-wrap: wrap;
         width: 540px;
         height: 720px;
         border: 2px solid black;
     }
 
-    .row {
-        display: flex;
-        width: 100%;
-        height: calc(100% / 12);
-    }
-
     .square {
-        flex: 1;
+        width: calc(100% / 9);
+        height: calc(100% / 12);
         border: 1px solid black;
         display: flex;
         align-items: center;
@@ -55,14 +50,14 @@
     const boardElement = document.getElementById('board');
     let squares = [];
 
-    let number = 1;
+    let number = 108;
     for (let i = 0; i < 12; i++) {
         const row = document.createElement('div');
         row.classList.add('row');
         for (let j = 0; j < 9; j++) {
             const square = document.createElement('div');
             square.classList.add('square');
-            square.textContent = number++;
+            square.textContent = number--;
             row.appendChild(square);
             squares.push(square);
         }
@@ -124,12 +119,12 @@
     // Create player element
     const playerElement = document.createElement('div');
     playerElement.classList.add('player');
-    squares[0].appendChild(playerElement);
+    squares[squares.length - 1].appendChild(playerElement);
 
     // Roll dice and move player
     function rollDice() {
         const diceRoll = Math.floor(Math.random() * 6) + 1;
-        movePlayer(diceRoll);
+        movePlayer(-diceRoll); // Negative value to move backward
     }
 
     // Add event listener for rolling dice
@@ -143,4 +138,3 @@
 
 </body>
 </html>
-
