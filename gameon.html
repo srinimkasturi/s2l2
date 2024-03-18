@@ -11,15 +11,20 @@
 
     .board {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         width: 540px;
         height: 720px;
         border: 2px solid black;
     }
 
-    .square {
-        width: calc(100% / 9);
+    .row {
+        display: flex;
+        width: 100%;
         height: calc(100% / 12);
+    }
+
+    .square {
+        flex: 1;
         border: 1px solid black;
         display: flex;
         align-items: center;
@@ -50,14 +55,14 @@
     const boardElement = document.getElementById('board');
     let squares = [];
 
-    let number = 108;
-    for (let i = 0; i < 9; i++) {
+    let number = 1;
+    for (let i = 0; i < 12; i++) {
         const row = document.createElement('div');
         row.classList.add('row');
-        for (let j = 0; j < 12; j++) {
+        for (let j = 0; j < 9; j++) {
             const square = document.createElement('div');
             square.classList.add('square');
-            square.textContent = number--;
+            square.textContent = number++;
             row.appendChild(square);
             squares.push(square);
         }
@@ -138,3 +143,4 @@
 
 </body>
 </html>
+
