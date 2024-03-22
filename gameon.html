@@ -11,10 +11,16 @@
 
     .board {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: wrap-reverse; /* Reverse the wrap direction */
         width: 540px;
         height: 720px;
         border: 2px solid black;
+    }
+
+    .row {
+        display: flex;
+        flex-wrap: nowrap;
+        width: 100%;
     }
 
     .square {
@@ -54,12 +60,22 @@
     for (let i = 0; i < 12; i++) {
         const row = document.createElement('div');
         row.classList.add('row');
-        for (let j = 0; j < 9; j++) {
-            const square = document.createElement('div');
-            square.classList.add('square');
-            square.textContent = number--;
-            row.appendChild(square);
-            squares.push(square);
+        if (i % 2 === 0) { // If row number is even, numbers decrease from left to right
+            for (let j = 0; j < 9; j++) {
+                const square = document.createElement('div');
+                square.classList.add('square');
+                square.textContent = number--;
+                row.appendChild(square);
+                squares.push(square);
+            }
+        } else { // If row number is odd, numbers decrease from right to left
+            for (let j = 0; j < 9; j++) {
+                const square = document.createElement('div');
+                square.classList.add('square');
+                square.textContent = number--;
+                row.insertBefore(square, row.firstChild);
+                squares.push(square);
+            }
         }
         boardElement.appendChild(row);
     }
