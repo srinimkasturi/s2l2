@@ -12,9 +12,12 @@
     .board {
         display: flex;
         flex-wrap: wrap-reverse; /* Reverse the wrap direction */
-        width: 540px;
-        height: 720px;
+        width: 90vw; /* Adjusted width for mobile devices */
+        max-width: 540px; /* Maximum width for larger screens */
+        height: 90vw; /* Adjusted height for mobile devices */
+        max-height: 720px; /* Maximum height for larger screens */
         border: 2px solid black;
+        margin: auto; /* Center the board */
     }
 
     .row {
@@ -42,7 +45,20 @@
     }
 
     .message {
+        text-align: center;
         margin-top: 20px;
+    }
+
+    .roll-button {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
     }
 </style>
 </head>
@@ -50,6 +66,7 @@
 
 <div class="board" id="board"></div>
 <div class="message" id="message"></div>
+<button class="roll-button" id="rollButton">Roll Dice</button>
 
 <script>
     // Create the game board
@@ -144,11 +161,7 @@
     }
 
     // Add event listener for rolling dice
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'r') {
-            rollDice();
-        }
-    });
+    document.getElementById('rollButton').addEventListener('click', rollDice);
 
 </script>
 
