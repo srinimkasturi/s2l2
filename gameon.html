@@ -7,33 +7,26 @@
 <style>
     body {
         font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-
-    .container {
-        width: 80%;
-        margin: auto;
     }
 
     .board {
         display: flex;
         flex-wrap: wrap;
-        width: 100%;
-        max-width: 540px;
-        height: auto;
+        width: 80vw; /* 80% of viewport width */
+        height: 80vh; /* 80% of viewport height */
         border: 2px solid black;
     }
 
     .square {
         width: calc(100% / 9);
         height: calc(100% / 12);
-        border: none;
+        border: 1px solid black;
         display: flex;
         align-items: center;
         justify-content: center;
         box-sizing: border-box;
         font-size: 12px;
+        background-color: #f0f0f0; /* Pale grey */
     }
 
     .player {
@@ -42,98 +35,59 @@
         background-color: rgba(255, 0, 0, 0.7); /* Pale red */
         border-radius: 50%;
     }
-
-    .message {
-        margin-top: 20px;
-        text-align: center;
-        font-size: 16px;
-    }
-
-    .roll-button {
-        display: block;
-        margin: auto;
-        margin-top: 20px;
-        padding: 10px 20px;
-        background-color: #007bff; /* Blue */
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 16px;
-    }
 </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="board" id="board"></div>
-    <div class="message" id="message">Welcome to Snakes and Ladders!</div>
-    <button class="roll-button" id="rollButton">Roll Dice</button>
-</div>
+<div class="board" id="board"></div>
 
 <script>
+    // Function to generate a random pale color
+    function getRandomColor() {
+        const letters = 'BCDEF';
+        let color = '#';
+        for (let i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * letters.length)];
+        }
+        return color + '90'; // Add alpha value for opacity
+    }
+
     // Create the game board
     const boardElement = document.getElementById('board');
     let squares = [];
 
-    for (let i = 107; i >= 0; i--) {
+    for (let i = 0; i < 108; i++) {
         const square = document.createElement('div');
         square.classList.add('square');
         square.textContent = i + 1;
+        square.style.backgroundColor = getRandomColor(); // Set background color
         boardElement.appendChild(square);
         squares.push(square);
     }
 
-    // Define snakes and ladders
-    const snakes = {
-        15: 6,
-        26: 3,
-        27: 11,
-        48: 26,
-        50: 19,
-        54: 33,
-        62: 45,
-        64: 60,
-        78: 39,
-        82: 71
-    };
-
-    const ladders = {
-        5: 22,
-        8: 31,
-        12: 60,
-        25: 64,
-        38: 49,
-        44: 56,
-        59: 79,
-        66: 90,
-        72: 100,
-        93: 98
+    // Define snakes and ladders only on prime number cells
+    const snakesAndLadders = {
+        2: 6,
+        3: 26,
+        5: 11,
+        7: 53,
+        11: 19,
+        13: 60,
+        17: 24,
+        19: 73,
+        23: 75,
+        29: 78,
     };
 
     // Move player
     let currentPlayerIndex = 0;
 
     function movePlayer(steps) {
-        const oldPosition = currentPlayerIndex;
         squares[currentPlayerIndex].removeChild(playerElement);
         currentPlayerIndex += steps;
         currentPlayerIndex = Math.min(currentPlayerIndex, squares.length - 1);
         currentPlayerIndex = Math.max(currentPlayerIndex, 0);
         squares[currentPlayerIndex].appendChild(playerElement);
-
-        // Check if the player landed on a snake or ladder
-        let message = '';
-        if (snakes[currentPlayerIndex + 1]) {
-            message = `Oh no! You landed on a snake at ${oldPosition + 1} and moved back to ${currentPlayerIndex + 1}`;
-            movePlayer(snakes[currentPlayerIndex + 1] - (currentPlayerIndex + 1));
-        } else if (ladders[currentPlayerIndex + 1]) {
-            message = `Hooray! You landed on a ladder at ${oldPosition + 1} and moved forward to ${currentPlayerIndex + 1}`;
-            movePlayer(ladders[currentPlayerIndex + 1] - (currentPlayerIndex + 1));
-        } else {
-            message = `You moved from ${oldPosition + 1} to ${currentPlayerIndex + 1}`;
-        }
-        document.getElementById('message').textContent = message;
     }
 
     // Create player element
@@ -145,12 +99,21 @@
     function rollDice() {
         const diceRoll = Math.floor(Math.random() * 6) + 1;
         movePlayer(diceRoll);
+        const newPosition = currentPlayerIndex + 1;
+        if (snakesAndLadders[newPosition]) {
+            movePlayer(snakesAndLadders[newPosition] - newPosition);
+        }
     }
 
     // Add event listener for rolling dice
-    document.getElementById('rollButton').addEventListener('click', rollDice);
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'r') {
+            rollDice();
+        }
+    });
 
 </script>
 
 </body>
 </html>
+
