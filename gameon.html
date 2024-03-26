@@ -36,12 +36,13 @@
         justify-content: center;
         box-sizing: border-box;
         font-size: 12px;
+        background-color: #f0f0f0; /* Pale grey */
     }
 
     .player {
         width: 20px;
         height: 20px;
-        background-color: red;
+        background-color: rgba(255, 0, 0, 0.7); /* Pale red */
         border-radius: 50%;
     }
 
@@ -67,7 +68,7 @@
         const square = document.createElement('div');
         square.classList.add('square');
         square.textContent = 108 - i;
-        square.style.backgroundColor = getRandomColor();
+        square.style.backgroundColor = getRandomColor(); // Set pale color
         boardElement.appendChild(square);
         squares.push(square);
     }
@@ -135,14 +136,14 @@
         movePlayer(diceRoll);
     }
 
-    // Get random color
+    // Function to generate a random pale color
     function getRandomColor() {
-        const letters = '0123456789ABCDEF';
+        const letters = 'BCDEF';
         let color = '#';
         for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
+            color += letters[Math.floor(Math.random() * letters.length)];
         }
-        return color;
+        return color + '90'; // Add alpha value for opacity
     }
 
 </script>
