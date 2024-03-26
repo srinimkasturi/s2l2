@@ -12,19 +12,17 @@
     }
 
     .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        margin-top: 20px;
+        width: 80%;
+        margin: auto;
     }
 
     .board {
         display: flex;
         flex-wrap: wrap;
-        width: 540px;
-        height: 720px;
+        width: 100%;
+        max-width: 540px;
+        height: auto;
         border: 2px solid black;
-        overflow: hidden;
     }
 
     .square {
@@ -41,12 +39,27 @@
     .player {
         width: 20px;
         height: 20px;
-        background-color: red;
+        background-color: rgba(255, 0, 0, 0.7); /* Pale red */
         border-radius: 50%;
     }
 
     .message {
         margin-top: 20px;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .roll-button {
+        display: block;
+        margin: auto;
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #007bff; /* Blue */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
     }
 </style>
 </head>
@@ -54,8 +67,8 @@
 
 <div class="container">
     <div class="board" id="board"></div>
-    <div class="message" id="message"></div>
-    <button onclick="rollDice()">Roll Dice</button>
+    <div class="message" id="message">Welcome to Snakes and Ladders!</div>
+    <button class="roll-button" id="rollButton">Roll Dice</button>
 </div>
 
 <script>
@@ -63,40 +76,39 @@
     const boardElement = document.getElementById('board');
     let squares = [];
 
-    for (let i = 0; i < 108; i++) {
+    for (let i = 107; i >= 0; i--) {
         const square = document.createElement('div');
         square.classList.add('square');
-        square.textContent = 108 - i;
-        square.style.backgroundColor = getRandomColor();
+        square.textContent = i + 1;
         boardElement.appendChild(square);
         squares.push(square);
     }
 
     // Define snakes and ladders
     const snakes = {
-        6: 16,
-        26: 47,
-        11: 49,
-        53: 56,
-        19: 62,
-        60: 64,
-        24: 87,
-        73: 93,
-        75: 95,
-        78: 98,
+        15: 6,
+        26: 3,
+        27: 11,
+        48: 26,
+        50: 19,
+        54: 33,
+        62: 45,
+        64: 60,
+        78: 39,
+        82: 71
     };
 
     const ladders = {
-        6: 2,
-        26: 3,
-        11: 5,
-        53: 7,
-        19: 11,
-        60: 13,
-        24: 17,
-        73: 19,
-        75: 23,
-        78: 29,
+        5: 22,
+        8: 31,
+        12: 60,
+        25: 64,
+        38: 49,
+        44: 56,
+        59: 79,
+        66: 90,
+        72: 100,
+        93: 98
     };
 
     // Move player
@@ -135,18 +147,10 @@
         movePlayer(diceRoll);
     }
 
-    // Get random color
-    function getRandomColor() {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
+    // Add event listener for rolling dice
+    document.getElementById('rollButton').addEventListener('click', rollDice);
 
 </script>
 
 </body>
 </html>
-
