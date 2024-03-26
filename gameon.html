@@ -36,13 +36,12 @@
         justify-content: center;
         box-sizing: border-box;
         font-size: 12px;
-        background-color: #f0f0f0; /* Pale grey */
     }
 
     .player {
         width: 20px;
         height: 20px;
-        background-color: rgba(255, 0, 0, 0.7); /* Pale red */
+        background-color: red;
         border-radius: 50%;
     }
 
@@ -68,7 +67,7 @@
         const square = document.createElement('div');
         square.classList.add('square');
         square.textContent = 108 - i;
-        square.style.backgroundColor = getRandomColor(); // Set pale color
+        square.style.backgroundColor = getRandomColor();
         boardElement.appendChild(square);
         squares.push(square);
     }
@@ -128,7 +127,7 @@
     // Create player element
     const playerElement = document.createElement('div');
     playerElement.classList.add('player');
-    squares[0].appendChild(playerElement);
+    squares[107].appendChild(playerElement); // Start the player in cell with value 1
 
     // Roll dice and move player
     function rollDice() {
@@ -136,19 +135,20 @@
         movePlayer(diceRoll);
     }
 
-    // Function to generate a random pale color
+    // Get random color
     function getRandomColor() {
-        const letters = 'BCDEF';
+        const letters = '0123456789ABCDEF';
         let color = '#';
         for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * letters.length)];
+            color += letters[Math.floor(Math.random() * 16)];
         }
-        return color + '90'; // Add alpha value for opacity
+        return color;
     }
 
 </script>
 
 </body>
 </html>
+
 
 
