@@ -100,12 +100,12 @@
     };
 
     // Move player
-    let currentPlayerIndex = 0;
+    let currentPlayerIndex = 107; // Start the player in cell with value 1
 
     function movePlayer(steps) {
         const oldPosition = currentPlayerIndex;
         squares[currentPlayerIndex].removeChild(playerElement);
-        currentPlayerIndex += steps;
+        currentPlayerIndex -= steps; // Move towards cell with value 108
         currentPlayerIndex = Math.min(currentPlayerIndex, squares.length - 1);
         currentPlayerIndex = Math.max(currentPlayerIndex, 0);
         squares[currentPlayerIndex].appendChild(playerElement);
@@ -127,7 +127,7 @@
     // Create player element
     const playerElement = document.createElement('div');
     playerElement.classList.add('player');
-    squares[107].appendChild(playerElement); // Start the player in cell with value 1
+    squares[currentPlayerIndex].appendChild(playerElement);
 
     // Roll dice and move player
     function rollDice() {
@@ -149,6 +149,7 @@
 
 </body>
 </html>
+
 
 
 
