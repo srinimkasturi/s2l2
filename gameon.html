@@ -7,33 +7,30 @@
 <style>
     body {
         font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
     }
 
     .container {
-        text-align: center;
-        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
     }
 
     .board {
         display: flex;
-        flex-wrap: wrap-reverse;
-        width: 90vw;
-        max-width: 540px;
-        height: 90vw;
-        max-height: 720px;
-        margin: auto;
-    }
-
-    .row {
-        display: flex;
-        flex-wrap: nowrap;
-        width: 100%;
-        height: 60px; /* Increased height for better visibility */
+        flex-wrap: wrap;
+        width: 540px;
+        height: 720px;
+        border: 2px solid black;
+        overflow: hidden;
     }
 
     .square {
         width: calc(100% / 9);
         height: calc(100% / 12);
+        border: none;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -49,95 +46,60 @@
     }
 
     .message {
-        text-align: center;
         margin-top: 20px;
-    }
-
-    .roll-button {
-        display: block;
-        padding: 10px 20px;
-        font-size: 16px;
-        background-color: #007bff;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        margin: auto;
     }
 </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="message" id="message"></div>
-</div>
-
-<div class="container">
     <div class="board" id="board"></div>
-</div>
-
-<div class="container">
-    <button class="roll-button" id="rollButton">Roll Dice</button>
+    <div class="message" id="message"></div>
+    <button onclick="rollDice()">Roll Dice</button>
 </div>
 
 <script>
+    // Create the game board
     const boardElement = document.getElementById('board');
     let squares = [];
-    let number = 108;
 
-    for (let i = 0; i < 12; i++) {
-        const row = document.createElement('div');
-        row.classList.add('row');
-
-        if (i % 2 === 0) {
-            for (let j = 0; j < 9; j++) {
-                const square = document.createElement('div');
-                square.classList.add('square');
-                square.textContent = number--;
-                square.style.backgroundColor = getRandomColor();
-                row.appendChild(square);
-                squares.push(square);
-            }
-        } else {
-            for (let j = 0; j < 9; j++) {
-                const square = document.createElement('div');
-                square.classList.add('square');
-                square.textContent = number--;
-                square.style.backgroundColor = getRandomColor();
-                row.insertBefore(square, row.firstChild);
-                squares.push(square);
-            }
-        }
-
-        boardElement.appendChild(row);
+    for (let i = 0; i < 108; i++) {
+        const square = document.createElement('div');
+        square.classList.add('square');
+        square.textContent = 108 - i;
+        square.style.backgroundColor = getRandomColor();
+        boardElement.appendChild(square);
+        squares.push(square);
     }
 
+    // Define snakes and ladders
     const snakes = {
-        16: 6,
-        47: 26,
-        49: 11,
-        56: 53,
-        62: 19,
-        64: 60,
-        87: 24,
-        93: 73,
-        95: 75,
-        98: 78,
+        6: 16,
+        26: 47,
+        11: 49,
+        53: 56,
+        19: 62,
+        60: 64,
+        24: 87,
+        73: 93,
+        75: 95,
+        78: 98,
     };
 
     const ladders = {
-        2: 6,
-        3: 26,
-        5: 11,
-        7: 53,
-        11: 19,
-        13: 60,
-        17: 24,
-        19: 73,
-        23: 75,
-        29: 78,
+        6: 2,
+        26: 3,
+        11: 5,
+        53: 7,
+        19: 11,
+        60: 13,
+        24: 17,
+        73: 19,
+        75: 23,
+        78: 29,
     };
 
+    // Move player
     let currentPlayerIndex = 0;
 
     function movePlayer(steps) {
@@ -148,6 +110,7 @@
         currentPlayerIndex = Math.max(currentPlayerIndex, 0);
         squares[currentPlayerIndex].appendChild(playerElement);
 
+        // Check if the player landed on a snake or ladder
         let message = '';
         if (snakes[currentPlayerIndex + 1]) {
             message = `Oh no! You landed on a snake at ${oldPosition + 1} and moved back to ${currentPlayerIndex + 1}`;
@@ -161,17 +124,18 @@
         document.getElementById('message').textContent = message;
     }
 
+    // Create player element
     const playerElement = document.createElement('div');
     playerElement.classList.add('player');
     squares[0].appendChild(playerElement);
 
+    // Roll dice and move player
     function rollDice() {
         const diceRoll = Math.floor(Math.random() * 6) + 1;
         movePlayer(diceRoll);
     }
 
-    document.getElementById('rollButton').addEventListener('click', rollDice);
-
+    // Get random color
     function getRandomColor() {
         const letters = '0123456789ABCDEF';
         let color = '#';
@@ -180,7 +144,9 @@
         }
         return color;
     }
+
 </script>
 
 </body>
 </html>
+
