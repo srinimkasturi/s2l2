@@ -63,10 +63,10 @@
     const boardElement = document.getElementById('board');
     let squares = [];
 
-    for (let i = 107; i >= 0; i--) {
+    for (let i = 0; i < 108; i++) {
         const square = document.createElement('div');
         square.classList.add('square');
-        square.textContent = i + 1;
+        square.textContent = 108 - i;
         square.style.backgroundColor = getRandomColor();
         boardElement.appendChild(square);
         squares.push(square);
@@ -96,13 +96,12 @@
     };
 
     // Move player
-    let currentPlayerIndex = 0;
+    let currentPlayerIndex = 107; // Start at cell value 108
 
     function movePlayer(steps) {
         const oldPosition = currentPlayerIndex;
         squares[currentPlayerIndex].removeChild(playerElement);
-        currentPlayerIndex += steps;
-        currentPlayerIndex = Math.min(currentPlayerIndex, squares.length - 1);
+        currentPlayerIndex -= steps; // Move towards cell value 1
         currentPlayerIndex = Math.max(currentPlayerIndex, 0);
         squares[currentPlayerIndex].appendChild(playerElement);
 
@@ -123,7 +122,7 @@
     // Create player element
     const playerElement = document.createElement('div');
     playerElement.classList.add('player');
-    squares[0].appendChild(playerElement);
+    squares[currentPlayerIndex].appendChild(playerElement);
 
     // Roll dice and move player
     function rollDice() {
@@ -145,9 +144,6 @@
 
 </body>
 </html>
-
-
-
 
 
 
