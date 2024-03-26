@@ -63,7 +63,7 @@
     const boardElement = document.getElementById('board');
     let squares = [];
 
-    for (let i = 0; i < 108; i++) {
+    for (let i = 107; i >= 0; i--) {
         const square = document.createElement('div');
         square.classList.add('square');
         square.textContent = i + 1;
@@ -74,29 +74,25 @@
 
     // Define snakes and ladders
     const snakes = {
-        16: 6,
-        47: 26,
-        49: 11,
-        56: 53,
-        62: 19,
-        64: 60,
-        87: 24,
-        93: 73,
-        95: 75,
-        98: 78,
+        107: 99,
+        84: 85,
+        61: 84,
+        48: 62,
+        37: 59,
+        26: 38,
+        13: 35,
+        6: 14,
     };
 
     const ladders = {
-        6: 16,
-        26: 47,
-        11: 49,
-        53: 56,
-        19: 62,
-        60: 64,
-        24: 87,
-        73: 93,
-        75: 95,
-        78: 98,
+        91: 108,
+        88: 100,
+        73: 101,
+        64: 105,
+        51: 109,
+        40: 106,
+        29: 103,
+        16: 96,
     };
 
     // Move player
@@ -149,6 +145,7 @@
 
 </body>
 </html>
+
 
 
 
