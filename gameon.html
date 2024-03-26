@@ -108,13 +108,13 @@
         // Check if the player landed on a snake or ladder
         let message = '';
         if (snakes[currentPlayerIndex + 1]) {
-            message = `Oh no! You landed on a snake at ${oldPosition + 1} and moved back to ${currentPlayerIndex + 1}`;
+            message = `Oh no! You landed on a snake at ${108 - oldPosition} and moved back to ${108 - currentPlayerIndex}`;
             movePlayer(snakes[currentPlayerIndex + 1] - (currentPlayerIndex + 1));
         } else if (ladders[currentPlayerIndex + 1]) {
-            message = `Hooray! You landed on a ladder at ${oldPosition + 1} and moved forward to ${currentPlayerIndex + 1}`;
+            message = `Hooray! You landed on a ladder at ${108 - oldPosition} and moved forward to ${108 - currentPlayerIndex}`;
             movePlayer(ladders[currentPlayerIndex + 1] - (currentPlayerIndex + 1));
         } else {
-            message = `You moved from ${oldPosition + 1} to ${currentPlayerIndex + 1}`;
+            message = `You moved from ${108 - oldPosition} to ${108 - currentPlayerIndex}`;
         }
         document.getElementById('message').textContent = message;
     }
@@ -132,12 +132,9 @@
 
     // Get random color
     function getRandomColor() {
-        const letters = '0123456789ABCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
+        const hue = Math.floor(Math.random() * 360);
+        const pastel = 'hsl(' + hue + ', 100%, 80%)';
+        return pastel;
     }
 
 </script>
