@@ -105,18 +105,17 @@
         // Check if the player landed on a snake or ladder
         if (snakes[currentPlayerIndex + 1]) {
             currentPlayerIndex = snakes[currentPlayerIndex + 1] - 1;
+            document.getElementById('message').textContent = `You rolled a ${steps}. Oh no! You landed on a snake at ${108 - oldPosition} and moved back to ${108 - currentPlayerIndex}`;
         } else if (ladders[currentPlayerIndex + 1]) {
             currentPlayerIndex = ladders[currentPlayerIndex + 1] - 1;
+            document.getElementById('message').textContent = `You rolled a ${steps}. Hooray! You landed on a ladder at ${108 - oldPosition} and moved forward to ${108 - currentPlayerIndex}`;
         } else {
             currentPlayerIndex -= steps; // Move towards cell value 1
             currentPlayerIndex = Math.max(currentPlayerIndex, 0);
+            document.getElementById('message').textContent = `You rolled a ${steps} and moved from ${108 - oldPosition} to ${108 - currentPlayerIndex}`;
         }
 
         squares[currentPlayerIndex].appendChild(playerElement);
-
-        // Display message
-        let message = `You rolled a ${steps} and moved from ${108 - oldPosition} to ${108 - currentPlayerIndex}`;
-        document.getElementById('message').textContent = message;
     }
 
     // Create player element
@@ -141,6 +140,7 @@
 
 </body>
 </html>
+
 
 
 
