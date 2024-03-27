@@ -74,7 +74,7 @@
 
     // Define snakes and ladders
     const snakes = {
-        107: 21, // Changed from 108: 100
+        107: 99,
         84: 85,
         61: 84,
         48: 62,
@@ -85,14 +85,14 @@
     };
 
     const ladders = {
-        71: 106, // Changed from 91: 108
+        71: 106,
         88: 100,
         73: 101,
         64: 105,
-        51: 93, // Changed from 51: 109
+        51: 93,
         40: 106,
         29: 103,
-        16: 96,
+        16: 21,
     };
 
     // Move player
@@ -111,8 +111,8 @@
             message = `You rolled a ${steps}. Oh no! You landed on a snake at ${108 - oldPosition} and moved back to ${108 - currentPlayerIndex}`;
             movePlayer(snakes[currentPlayerIndex + 1] - (currentPlayerIndex + 1));
         } else if (ladders[currentPlayerIndex + 1]) {
-            message = `You rolled a ${steps}. Hooray! You landed on a ladder at ${108 - oldPosition} and moved forward to ${108 - currentPlayerIndex}`;
-            movePlayer(ladders[currentPlayerIndex + 1] - (currentPlayerIndex + 1));
+            message = `You rolled a ${steps}. Hooray! You landed on a ladder at ${108 - oldPosition} and moved forward to ${108 - ladders[currentPlayerIndex + 1]}`;
+            currentPlayerIndex = ladders[currentPlayerIndex + 1] - 1; // Move the player to the ladder destination
         } else {
             message = `You rolled a ${steps} and moved from ${108 - oldPosition} to ${108 - currentPlayerIndex}`;
         }
@@ -141,3 +141,4 @@
 
 </body>
 </html>
+
