@@ -108,10 +108,10 @@
         // Check if the player landed on a snake or ladder
         let message = '';
         if (snakes[currentPlayerIndex + 1]) {
-            message = `Oh no! You landed on a snake at ${108 - oldPosition} and moved back to ${108 - currentPlayerIndex}`;
+            message = `You rolled a ${steps}. Oh no! You landed on a snake at ${108 - oldPosition} and moved back to ${108 - currentPlayerIndex}`;
             movePlayer(snakes[currentPlayerIndex + 1] - (currentPlayerIndex + 1));
         } else if (ladders[currentPlayerIndex + 1]) {
-            message = `Hooray! You landed on a ladder at ${108 - oldPosition} and moved forward to ${108 - currentPlayerIndex}`;
+            message = `You rolled a ${steps}. Hooray! You landed on a ladder at ${108 - oldPosition} and moved forward to ${108 - currentPlayerIndex}`;
             movePlayer(ladders[currentPlayerIndex + 1] - (currentPlayerIndex + 1));
         } else {
             message = `You rolled a ${steps} and moved from ${108 - oldPosition} to ${108 - currentPlayerIndex}`;
