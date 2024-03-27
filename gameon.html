@@ -114,7 +114,7 @@
             message = `Hooray! You landed on a ladder at ${108 - oldPosition} and moved forward to ${108 - currentPlayerIndex}`;
             movePlayer(ladders[currentPlayerIndex + 1] - (currentPlayerIndex + 1));
         } else {
-            message = `You moved from ${108 - oldPosition} to ${108 - currentPlayerIndex}`;
+            message = `You rolled a ${steps} and moved from ${108 - oldPosition} to ${108 - currentPlayerIndex}`;
         }
         document.getElementById('message').textContent = message;
     }
@@ -141,8 +141,3 @@
 
 </body>
 </html>
-
-
-
-
-
