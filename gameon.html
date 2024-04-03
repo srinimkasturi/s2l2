@@ -102,7 +102,7 @@
         currentPlayerIndex = Math.max(currentPlayerIndex, 0);   // Lower bound
         squares[currentPlayerIndex].appendChild(playerElement);
 
-        // Check if the player landed on a snake or ladder
+        // Check if the player landed on a snake or ladder 
         let message = '';
         if (snakes[currentPlayerIndex + 1]) {
             message = `You rolled a ${steps}. Oh no! You landed on a snake at ${108 - oldPosition} and moved back to ${108 - snakes[currentPlayerIndex + 1]}`;
