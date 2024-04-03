@@ -66,7 +66,7 @@
     for (let i = 0; i < 108; i++) {
         const square = document.createElement('div');
         square.classList.add('square');
-        square.textContent = 108 - i;
+        square.textContent = i + 1;
         square.style.backgroundColor = getRandomColor();
         boardElement.appendChild(square);
         squares.push(square);
@@ -74,21 +74,25 @@
 
     // Define snakes and ladders
     const snakes = {
-        107: 21,
-        84: 64,
-        61: 49,
-        48: 37,
-        37: 26,
+        6: 21,
+        14: 6,
+        16: 33,
         26: 13,
-        13: 6,
+        37: 26,
+        49: 61,
+        64: 84,
+        107: 71,
     };
 
     const ladders = {
-        71: 106,
-        51: 93,
+        21: 6,
         33: 16,
-        21: 107,
-        6: 14,
+        37: 59,
+        51: 93,
+        64: 105,
+        71: 106,
+        84: 64,
+        107: 21,
     };
 
     // Move player
@@ -102,16 +106,16 @@
         currentPlayerIndex = Math.max(currentPlayerIndex, 0);   // Lower bound
         squares[currentPlayerIndex].appendChild(playerElement);
 
-        // Check if the player landed on a snake or ladder 
+        // Check if the player landed on a snake or ladder
         let message = '';
         if (snakes[currentPlayerIndex + 1]) {
-            message = `You rolled a ${steps}. Oh no! You landed on a snake at ${108 - oldPosition} and moved back to ${108 - snakes[currentPlayerIndex + 1]}`;
+            message = `You rolled a ${steps}. Oh no! You landed on a snake at ${oldPosition + 1} and moved back to ${snakes[currentPlayerIndex + 1]}`;
             currentPlayerIndex = snakes[currentPlayerIndex + 1] - 1; // Move to the snake's tail
         } else if (ladders[currentPlayerIndex + 1]) {
-            message = `You rolled a ${steps}. Hooray! You landed on a ladder at ${108 - oldPosition} and moved forward to ${108 - ladders[currentPlayerIndex + 1]}`;
+            message = `You rolled a ${steps}. Hooray! You landed on a ladder at ${oldPosition + 1} and moved forward to ${ladders[currentPlayerIndex + 1]}`;
             currentPlayerIndex = ladders[currentPlayerIndex + 1] - 1; // Move to the ladder's top
         } else {
-            message = `You rolled a ${steps} and moved from ${108 - oldPosition} to ${108 - currentPlayerIndex}`;
+            message = `You rolled a ${steps} and moved from ${oldPosition + 1} to ${currentPlayerIndex + 1}`;
         }
         document.getElementById('message').textContent = message;
     }
