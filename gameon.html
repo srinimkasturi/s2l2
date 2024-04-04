@@ -138,3 +138,150 @@
 
 </body>
 </html>
+<!-- Last modified: 2024-03-26T18:45:00Z -->
+
+
+
+
+<!-----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snakes and Ladders</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .board {
+        display: flex;
+        flex-wrap: wrap;
+        width: 540px;
+        height: 720px;
+        border: 2px solid black;
+        overflow: hidden;
+    }
+
+    .square {
+        width: calc(100% / 9);
+        height: calc(100% / 12);
+        border: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        font-size: 12px;
+    }
+
+    .player {
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        border-radius: 50%;
+    }
+
+    .message {
+        margin-top: 20px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <div class="board" id="board"></div>
+    <div class="message" id="message"></div>
+    <button onclick="rollDice()">Roll Dice</button>
+</div>
+
+<script>
+    // Create the game board
+    const boardElement = document.getElementById('board');
+    let squares = [];
+
+    for (let i = 0; i < 108; i++) {
+        const square = document.createElement('div');
+        square.classList.add('square');
+        square.textContent = 108 - i;
+        square.style.backgroundColor = getRandomColor();
+        boardElement.appendChild(square);
+        squares.push(square);
+    }
+
+    // Define snakes and ladders
+    const snakes = {
+        107: 21,
+        84: 64,
+        61: 49,
+        48: 37,
+        37: 26,
+        26: 13,
+        13: 6,
+    };
+
+    const ladders = {
+        71: 106,
+        51: 93,
+        33: 16,
+        21: 107,
+        6: 14,
+    };
+
+    // Move player
+    let currentPlayerIndex = 0; // Start at cell value 1
+
+    function movePlayer(steps) {
+        const oldPosition = currentPlayerIndex;
+        squares[currentPlayerIndex].removeChild(playerElement);
+        currentPlayerIndex += steps;
+        currentPlayerIndex = Math.min(currentPlayerIndex, 107); // Upper bound
+        currentPlayerIndex = Math.max(currentPlayerIndex, 0);   // Lower bound
+        squares[currentPlayerIndex].appendChild(playerElement);
+
+        // Check if the player landed on a snake or ladder
+        let message = '';
+        if (snakes[currentPlayerIndex + 1]) {
+            message = `You rolled a ${steps}. Oh no! You landed on a snake at ${108 - oldPosition} and moved back to ${108 - snakes[currentPlayerIndex + 1]}`;
+            currentPlayerIndex = snakes[currentPlayerIndex + 1] - 1; // Move to the snake's tail
+        } else if (ladders[currentPlayerIndex + 1]) {
+            message = `You rolled a ${steps}. Hooray! You landed on a ladder at ${108 - oldPosition} and moved forward to ${108 - ladders[currentPlayerIndex + 1]}`;
+            currentPlayerIndex = ladders[currentPlayerIndex + 1] - 1; // Move to the ladder's top
+        } else {
+            message = `You rolled a ${steps} and moved from ${108 - oldPosition} to ${108 - currentPlayerIndex}`;
+        }
+        document.getElementById('message').textContent = message;
+    }
+
+    // Create player element
+    const playerElement = document.createElement('div');
+    playerElement.classList.add('player');
+    squares[currentPlayerIndex].appendChild(playerElement);
+
+    // Roll dice and move player
+    function rollDice() {
+        const diceRoll = Math.floor(Math.random() * 6) + 1;
+        movePlayer(diceRoll);
+    }
+
+    // Get random color
+    function getRandomColor() {
+        const hue = Math.floor(Math.random() * 360);
+        const pastel = 'hsl(' + hue + ', 100%, 80%)';
+        return pastel;
+    }
+
+</script>
+
+</body>
+</html>
+---->
