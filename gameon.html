@@ -30,7 +30,7 @@
     .square {
         width: calc(100% / 9);
         height: calc(100% / 12);
-        border: none;
+        border: 1px solid #888; /* Medium gray border */
         display: flex;
         align-items: center;
         justify-content: center;
@@ -47,6 +47,13 @@
 
     .message {
         margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #888;
+    }
+
+    .timestamp {
+        margin-top: 10px;
+        color: #888;
     }
 </style>
 </head>
@@ -56,6 +63,7 @@
     <div class="board" id="board"></div>
     <div class="message" id="message"></div>
     <button onclick="rollDice()">Roll Dice</button>
+    <div class="timestamp" id="timestamp"></div>
 </div>
 
 <script>
@@ -113,7 +121,11 @@
         } else {
             message = `You rolled a ${steps} and moved from ${108 - oldPosition} to ${108 - currentPlayerIndex}`;
         }
-        document.getElementById('message').textContent = message;
+        message += `<br>Current Player Index: ${currentPlayerIndex}`;
+        message += `<br>Current Square Value: ${squares[currentPlayerIndex].textContent}`;
+        message += `<br>Snakes: ${JSON.stringify(snakes)}`;
+        message += `<br>Ladders: ${JSON.stringify(ladders)}`;
+        document.getElementById('message').innerHTML = message;
     }
 
     // Create player element
@@ -134,10 +146,17 @@
         return pastel;
     }
 
+    // Update timestamp
+    const timestampElement = document.getElementById('timestamp');
+    const currentDate = new Date();
+    const formattedDate = currentDate.toDateString() + ' ' + currentDate.toLocaleTimeString();
+    timestampElement.textContent = 'Last updated: ' + formattedDate;
+
 </script>
 
 </body>
 </html>
+
 <!-- Last modified: 2024-03-26T18:45:00Z -->
 
 
