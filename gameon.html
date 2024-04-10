@@ -105,7 +105,7 @@
     function movePlayer(steps) {
         const oldPosition = currentPlayerIndex;
         squares[currentPlayerIndex].removeChild(playerElement);
-        currentPlayerIndex += steps;
+        currentPlayerIndex -= steps;
         currentPlayerIndex = Math.min(currentPlayerIndex, 107); // Upper bound
         currentPlayerIndex = Math.max(currentPlayerIndex, 0);   // Lower bound
         squares[currentPlayerIndex].appendChild(playerElement);
