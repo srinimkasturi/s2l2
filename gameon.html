@@ -109,7 +109,6 @@
         currentPlayerIndex -= steps;
         currentPlayerIndex = Math.min(currentPlayerIndex, 107); // Upper bound
         currentPlayerIndex = Math.max(currentPlayerIndex, 0);   // Lower bound
-        squares[currentPlayerIndex].appendChild(playerElement);
 
         // Check if the player landed on a snake or ladder
         let message = '';
@@ -124,6 +123,9 @@
         } else {
             message = `You rolled a ${steps} and moved from ${108 - oldPosition} to ${108 - currentPlayerIndex}`;
         }
+
+        squares[currentPlayerIndex].appendChild(playerElement);
+        
         message += `<br>Current Player Index: ${currentPlayerIndex}`;
         message += `<br>Current Square Value: ${squares[currentPlayerIndex].textContent}`;
         message += `<br>Snakes: ${JSON.stringify(snakes)}`;
