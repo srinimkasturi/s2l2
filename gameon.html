@@ -114,11 +114,11 @@
         let message = '';
         if (snakes[currentPlayerIndex + 1]) {
             currentPlayerIndex = 108 - snakes[currentPlayerIndex + 1]; // Move to the snake's tail
-            message = `You rolled a ${steps}. Oh no! You landed on a snake at ${108 - oldPosition} and moved back to ${currentPlayerIndex}`;
+            message = `You rolled a ${steps}. Oh no! You landed on a snake at ${oldPosition} and moved back to ${108 - currentPlayerIndex}`;
             // currentPlayerIndex = snakes[currentPlayerIndex + 1] - 1; // Move to the snake's tail
         } else if (ladders[currentPlayerIndex + 1]) {
             currentPlayerIndex = ladders[currentPlayerIndex + 1] - 1; // Move to the ladder's top
-            message = `You rolled a ${steps}. Hooray! You landed on a ladder at ${108 - oldPosition} and moved forward to ${currentPlayerIndex}`;
+            message = `You rolled a ${steps}. Hooray! You landed on a ladder at ${oldPosition} and moved forward to ${108 - currentPlayerIndex}`;
             // currentPlayerIndex = 108 - ladders[currentPlayerIndex + 1] ; // Move to the ladder's top
         } else {
             message = `You rolled a ${steps} and moved from ${108 - oldPosition} to ${108 - currentPlayerIndex}`;
