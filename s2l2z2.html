@@ -64,11 +64,11 @@
         function updatePlayerPosition() {
             const playerElement = document.querySelector('.player');
             const newPosition = player.position;
-            const row = Math.floor(newPosition / board[0].length);
-            const column = newPosition % board[0].length;
+            const newRow = Math.floor(newPosition / board[0].length);
+            const newColumn = newPosition % board[0].length;
             const cells = document.querySelectorAll('.cell');
             cells.forEach(cell => cell.classList.remove('player'));
-            const playerCell = document.getElementById(`cell-${row}-${column}`);
+            const playerCell = document.getElementById(`cell-${newRow}-${newColumn}`);
             playerCell.classList.add('player');
         }
 
@@ -76,11 +76,16 @@
         function updateDebugInfo(moveResult, diceValue) {
             if (moveResult) {
                 const debugElement = document.getElementById('debug');
+                const { oldPosition, newPosition } = moveResult;
+                const oldRow = Math.floor(oldPosition / board[0].length);
+                const oldColumn = oldPosition % board[0].length;
+                const newRow = Math.floor(newPosition / board[0].length);
+                const newColumn = newPosition % board[0].length;
                 debugElement.style.display = 'block';
                 debugElement.innerHTML = `
-                    <p><strong>Old Position:</strong> ${moveResult.oldPosition}</p>
+                    <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}</p>
                     <p><strong>Dice Value:</strong> ${diceValue}</p>
-                    <p><strong>New Position:</strong> ${moveResult.newPosition}</p>
+                    <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}</p>
                 `;
             }
         }
