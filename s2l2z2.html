@@ -49,9 +49,9 @@
         // Function to move the player on the board
         function movePlayer(board, player, diceValue) {
             // Calculate the new position
-            let newPosition = player.position + diceValue;
+            let newPosition = player.position - diceValue;
             // Check if the new position is within the board bounds
-            if (newPosition < board.length * board[0].length) {
+            if (newPosition >= 0) {
                 // Update the player's position
                 player.position = newPosition;
                 return true; // Player moved successfully
@@ -106,7 +106,7 @@
 
         // Example player object
         const player = {
-            position: 0 // Set initial player position to 0
+            position: 107 // Set initial player position to 107
         };
 
         // Function to handle the roll dice button click event
