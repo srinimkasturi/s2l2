@@ -23,13 +23,22 @@
         .player {
             background-color: red;
         }
+        #debug {
+            display: none; /* Hide debug div by default */
+            margin-top: 20px;
+            border: 1px solid black;
+            padding: 10px;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
     <h1>Dice Game</h1>
     <p>Click the "Roll Dice" button to move the player based on the sum of dice thrown.</p>
     <button id="rollDice">Roll Dice</button>
+    <button id="toggleDebug">Toggle Debug</button>
     <div id="board"></div>
+    <div id="debug"></div>
 
     <script>
         // Function to generate a random dice value (1 to 6)
@@ -39,16 +48,13 @@
 
         // Function to move the player on the board
         function movePlayer(board, player, diceValue) {
-            // Find the cell whose value matches the sum of dice thrown
-            for (let i = 0; i < board.length; i++) {
-                for (let j = 0; j < board[i].length; j++) {
-                    if (board[i][j] === diceValue) {
-                        // Move the player to this cell
-                        player.row = i;
-                        player.column = j;
-                        return true; // Player moved successfully
-                    }
-                }
+            // Calculate the new position
+            let newPosition = player.position + diceValue;
+            // Check if the new position is within the board bounds
+            if (newPosition < board.length * board[0].length) {
+                // Update the player's position
+                player.position = newPosition;
+                return true; // Player moved successfully
             }
             return false; // Player couldn't move to any cell
         }
@@ -56,12 +62,22 @@
         // Function to update the player's position on the board
         function updatePlayerPosition() {
             const playerElement = document.querySelector('.player');
-            const row = player.row;
-            const column = player.column;
+            const newPosition = player.position;
+            const row = Math.floor(newPosition / board[0].length);
+            const column = newPosition % board[0].length;
             const cells = document.querySelectorAll('.cell');
             cells.forEach(cell => cell.classList.remove('player'));
             const playerCell = document.getElementById(`cell-${row}-${column}`);
             playerCell.classList.add('player');
+        }
+
+        // Function to update the debug information
+        function updateDebugInfo(diceValue) {
+            const debugElement = document.getElementById('debug');
+            debugElement.innerHTML = `
+                <p><strong>Dice Value:</strong> ${diceValue}</p>
+                <p><strong>Player Position:</strong> ${player.position}</p>
+            `;
         }
 
         // Create the game board
@@ -90,8 +106,7 @@
 
         // Example player object
         const player = {
-            row: 8, // Set initial player row to 8
-            column: 11 // Set initial player column to 11
+            position: 0 // Set initial player position to 0
         };
 
         // Function to handle the roll dice button click event
@@ -99,6 +114,13 @@
             const diceValue = rollDice();
             movePlayer(board, player, diceValue);
             updatePlayerPosition();
+            updateDebugInfo(diceValue);
+        });
+
+        // Function to handle the toggle debug button click event
+        document.getElementById('toggleDebug').addEventListener('click', function() {
+            const debugElement = document.getElementById('debug');
+            debugElement.style.display = debugElement.style.display === 'none' ? 'block' : 'none';
         });
 
         // Initialize player position
