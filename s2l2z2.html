@@ -64,11 +64,10 @@
         function updatePlayerPosition() {
             const playerElement = document.querySelector('.player');
             const newPosition = player.position;
-            const newRow = Math.floor(newPosition / board[0].length);
-            const newColumn = newPosition % board[0].length;
+            const [row, column] = getPositionFromIndex(newPosition);
             const cells = document.querySelectorAll('.cell');
             cells.forEach(cell => cell.classList.remove('player'));
-            const playerCell = document.getElementById(`cell-${newRow}-${newColumn}`);
+            const playerCell = document.getElementById(`cell-${row}-${column}`);
             playerCell.classList.add('player');
         }
 
@@ -77,10 +76,8 @@
             if (moveResult) {
                 const debugElement = document.getElementById('debug');
                 const { oldPosition, newPosition } = moveResult;
-                const oldRow = Math.floor(oldPosition / board[0].length);
-                const oldColumn = oldPosition % board[0].length;
-                const newRow = Math.floor(newPosition / board[0].length);
-                const newColumn = newPosition % board[0].length;
+                const [oldRow, oldColumn] = getPositionFromIndex(oldPosition);
+                const [newRow, newColumn] = getPositionFromIndex(newPosition);
                 debugElement.style.display = 'block';
                 debugElement.innerHTML = `
                     <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}</p>
@@ -88,6 +85,18 @@
                     <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}</p>
                 `;
             }
+        }
+
+        // Function to calculate row and column from position index
+        function getPositionFromIndex(position) {
+            const row = Math.floor(position / board[0].length);
+            let column;
+            if (row % 2 === 0) {
+                column = position % board[0].length;
+            } else {
+                column = board[0].length - 1 - (position % board[0].length);
+            }
+            return [row, column];
         }
 
         // Create the game board
