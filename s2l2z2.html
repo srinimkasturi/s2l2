@@ -46,6 +46,28 @@
             return Math.floor(Math.random() * 6) + 1;
         }
 
+        // Function to check if a number is prime
+        function isPrime(number) {
+            if (number <= 1) return false;
+            if (number <= 3) return true;
+            if (number % 2 === 0 || number % 3 === 0) return false;
+            let i = 5;
+            while (i * i <= number) {
+                if (number % i === 0 || number % (i + 2) === 0) return false;
+                i += 6;
+            }
+            return true;
+        }
+
+        // Function to find the next prime number
+        function getNextPrime(number) {
+            let next = number + 1;
+            while (!isPrime(next)) {
+                next++;
+            }
+            return next;
+        }
+
         // Function to move the player on the board
         function movePlayer(board, player, diceValue) {
             // Calculate the new position
@@ -55,6 +77,9 @@
             if (newPosition >= 0) {
                 // Update the player's position
                 player.position = newPosition;
+                if (isPrime(newPosition)) {
+                    player.position = getNextPrime(newPosition);
+                }
                 return { oldPosition, newPosition }; // Player moved successfully
             }
             return null; // Player couldn't move to any cell
