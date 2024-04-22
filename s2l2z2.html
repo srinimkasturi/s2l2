@@ -122,10 +122,10 @@
                 debugElement.style.display = 'block';
                 if (message) {
                     debugElement.innerHTML = `
-                        <p><strong>Message:</strong> ${message}</p>
                         <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}, Value ${oldCellValue}</p>
                         <p><strong>Dice Value:</strong> ${diceValue}</p>
                         <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
+                        <p><strong>Message:</strong> ${message}</p>
                     `;
                 } else {
                     debugElement.innerHTML = `
