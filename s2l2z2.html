@@ -79,50 +79,26 @@
 
         // Function to move the player on the board
         function movePlayer(board, player, diceValue) {
-            // Get the original position
-            const oldPosition = player.position;
-            const [oldRow, oldColumn] = getPositionFromIndex(oldPosition);
-
-            // Calculate the intermediate position
-            let intermediatePosition = oldPosition - diceValue;
-
-            // Check if the intermediate position is within the board bounds
-            if (intermediatePosition >= 0) {
-                // Check if the intermediate position is one more than a prime number
-                if (isPrime(intermediatePosition + 1)) {
-                    const prevPrime = getPreviousPrime(intermediatePosition + 1);
-                    intermediatePosition = prevPrime - 1;
-                } 
-                
-                // Check if the intermediate position is a prime number
-                else if (isPrime(intermediatePosition)) {
-                    const nextPrime = getNextPrime(intermediatePosition);
-                    intermediatePosition = nextPrime;
+            // Calculate the new position
+            let oldPosition = player.position;
+            let newPosition = player.position - diceValue;
+            // Check if the new position is within the board bounds
+            if (newPosition >= 0) {
+                // Update the player's position
+                player.position = newPosition;
+                if (isPrime(newPosition + 1)) {
+                    const prevPrime = getPreviousPrime(newPosition + 1);
+                    player.position = prevPrime - 1;
+                    return { oldPosition, newPosition, message: `Player landed on prime number ${newPosition + 1}, moved to previous prime number ${prevPrime}, -1` };
+                } else if (isPrime(newPosition)) {
+                    const nextPrime = getNextPrime(newPosition);
+                    player.position = nextPrime;
+                    return { oldPosition, newPosition, message: `Player landed on prime number ${newPosition}, moved to next prime number ${nextPrime}` };
+                } else {
+                    return { oldPosition, newPosition }; // Player moved successfully
                 }
             }
-
-            // Calculate the new position
-            let newPosition = intermediatePosition;
-
-            // Check if the new position is one more than a prime number
-            if (isPrime(newPosition + 1)) {
-                const prevPrime = getPreviousPrime(newPosition + 1);
-                newPosition = prevPrime - 1;
-                const message = `Player landed on prime number ${newPosition + 1}, moved to previous prime number ${prevPrime}, -1`;
-                return { oldPosition, oldRow, oldColumn, newPosition, message };
-            } 
-            
-            // Check if the new position is a prime number
-            else if (isPrime(newPosition)) {
-                const nextPrime = getNextPrime(newPosition);
-                newPosition = nextPrime;
-                const message = `Player landed on prime number ${newPosition}, moved to next prime number ${nextPrime}`;
-                return { oldPosition, oldRow, oldColumn, newPosition, message };
-            } 
-            
-            else {
-                return { oldPosition, oldRow, oldColumn, newPosition }; // Player moved successfully
-            }
+            return null; // Player couldn't move to any cell
         }
 
         // Function to update the player's position on the board
@@ -140,21 +116,20 @@
         function updateDebugInfo(moveResult, diceValue) {
             if (moveResult) {
                 const debugElement = document.getElementById('debug');
-                const { oldRow, oldColumn, newPosition, message } = moveResult;
+                const { oldPosition, newPosition, message } = moveResult;
+                const [oldRow, oldColumn] = getPositionFromIndex(oldPosition);
                 const [newRow, newColumn] = getPositionFromIndex(newPosition);
                 debugElement.style.display = 'block';
                 if (message) {
                     debugElement.innerHTML = `
                         <p><strong>Message:</strong> ${message}</p>
                         <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}</p>
-                        <p><strong>Intermediate Position:</strong> Row ${oldRow}, Column ${oldColumn}</p>
                         <p><strong>Dice Value:</strong> ${diceValue}</p>
                         <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}</p>
                     `;
                 } else {
                     debugElement.innerHTML = `
                         <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}</p>
-                        <p><strong>Intermediate Position:</strong> Row ${oldRow}, Column ${oldColumn}</p>
                         <p><strong>Dice Value:</strong> ${diceValue}</p>
                         <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}</p>
                     `;
