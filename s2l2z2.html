@@ -93,7 +93,7 @@
                 } else if (isPrime(newPosition)) {
                     const nextPrime = getNextPrime(newPosition);
                     player.position = nextPrime;
-                    return { oldPosition, newPosition, message: `Player landed on snake, moved to next prime number ${nextPrime}` };
+                    return { oldPosition, newPosition, message: `Player landed on snake, moved to next prime number ${108 - nextPrime}` };
                 } else {
                     return { oldPosition, newPosition }; // Player moved successfully
                 }
