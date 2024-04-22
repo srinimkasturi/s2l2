@@ -105,7 +105,7 @@
         function updatePlayerPosition() {
             const playerElement = document.querySelector('.player');
             const newPosition = player.position;
-            const [row, column] = getPositionFromIndex(newPosition);
+            const [row, column, cellValue] = getPositionFromIndex(newPosition);
             const cells = document.querySelectorAll('.cell');
             cells.forEach(cell => cell.classList.remove('player'));
             const playerCell = document.getElementById(`cell-${row}-${column}`);
@@ -117,21 +117,21 @@
             if (moveResult) {
                 const debugElement = document.getElementById('debug');
                 const { oldPosition, newPosition, message } = moveResult;
-                const [oldRow, oldColumn] = getPositionFromIndex(oldPosition);
-                const [newRow, newColumn] = getPositionFromIndex(newPosition);
+                const [oldRow, oldColumn, oldCellValue] = getPositionFromIndex(oldPosition);
+                const [newRow, newColumn, newCellValue] = getPositionFromIndex(newPosition);
                 debugElement.style.display = 'block';
                 if (message) {
                     debugElement.innerHTML = `
                         <p><strong>Message:</strong> ${message}</p>
-                        <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}</p>
+                        <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}, Value ${oldCellValue}</p>
                         <p><strong>Dice Value:</strong> ${diceValue}</p>
-                        <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}</p>
+                        <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
                     `;
                 } else {
                     debugElement.innerHTML = `
-                        <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}</p>
+                        <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}, Value ${oldCellValue}</p>
                         <p><strong>Dice Value:</strong> ${diceValue}</p>
-                        <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}</p>
+                        <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
                     `;
                 }
             }
@@ -146,7 +146,7 @@
             } else {
                 column = board[0].length - 1 - (position % board[0].length);
             }
-            return [row, column];
+            return [row, column, board[row][column]];
         }
 
         // Create the game board
