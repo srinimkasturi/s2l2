@@ -77,14 +77,28 @@
             return prev;
         }
 
-        // Function to move the player forward or backward random number of primes
-        function movePlayerRandomPrimes(board, player, forward) {
-            const numPrimes = Math.floor(Math.random() * 10) + 1; // Generate a random number of primes (1 to 10)
-            let newPosition = player.position;
-            for (let i = 0; i < numPrimes; i++) {
-                newPosition = forward ? getNextPrime(newPosition) : getPreviousPrime(newPosition);
+        // Function to move the player on the board
+        function movePlayer(board, player, diceValue) {
+            // Calculate the new position
+            let oldPosition = player.position;
+            let newPosition = player.position - diceValue;
+            // Check if the new position is within the board bounds
+            if (newPosition >= 0) {
+                // Update the player's position
+                player.position = newPosition;
+                if (isPrime(newPosition + 1)) {
+                    const prevPrime = getPreviousPrime(newPosition + 1);
+                    player.position = prevPrime - 1;
+                    return { oldPosition, newPosition, message: `Player landed on ladder, moved to previous prime number ${prevPrime - 1}` };
+                } else if (isPrime(newPosition)) {
+                    const nextPrime = getNextPrime(newPosition);
+                    player.position = nextPrime;
+                    return { oldPosition, newPosition, message: `Player landed on snake, moved to next prime number ${nextPrime}` };
+                } else {
+                    return { oldPosition, newPosition }; // Player moved successfully
+                }
             }
-            player.position = newPosition;
+            return null; // Player couldn't move to any cell
         }
 
         // Function to update the player's position on the board
@@ -99,14 +113,28 @@
         }
 
         // Function to update the debug information
-        function updateDebugInfo(diceValue, forward) {
-            const debugElement = document.getElementById('debug');
-            debugElement.style.display = 'block';
-            const moveDirection = forward ? 'forward' : 'backward';
-            debugElement.innerHTML = `
-                <p><strong>Dice Value:</strong> ${diceValue}</p>
-                <p><strong>Move Direction:</strong> ${moveDirection}</p>
-            `;
+        function updateDebugInfo(moveResult, diceValue) {
+            if (moveResult) {
+                const debugElement = document.getElementById('debug');
+                const { oldPosition, newPosition, message } = moveResult;
+                const [oldRow, oldColumn, oldCellValue] = getPositionFromIndex(oldPosition);
+                const [newRow, newColumn, newCellValue] = getPositionFromIndex(newPosition);
+                debugElement.style.display = 'block';
+                if (message) {
+                    debugElement.innerHTML = `
+                        <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}, Value ${oldCellValue}</p>
+                        <p><strong>Dice Value:</strong> ${diceValue}</p>
+                        <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
+                        <p><strong>Message:</strong> ${message}</p>
+                    `;
+                } else {
+                    debugElement.innerHTML = `
+                        <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}, Value ${oldCellValue}</p>
+                        <p><strong>Dice Value:</strong> ${diceValue}</p>
+                        <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
+                    `;
+                }
+            }
         }
 
         // Function to calculate row and column from position index
@@ -153,10 +181,9 @@
         // Function to handle the roll dice button click event
         document.getElementById('rollDice').addEventListener('click', function() {
             const diceValue = rollDice();
-            const forward = Math.random() < 0.5; // Randomly determine if the player should move forward or backward
-            movePlayerRandomPrimes(board, player, forward);
+            const moveResult = movePlayer(board, player, diceValue);
             updatePlayerPosition();
-            updateDebugInfo(diceValue, forward);
+            updateDebugInfo(moveResult, diceValue);
         });
 
         // Function to handle the toggle debug button click event
