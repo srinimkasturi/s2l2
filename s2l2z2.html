@@ -89,19 +89,19 @@
                 if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
                     const nextNextPrime = getNextPrime(getNextPrime(newPosition));
                     player.position = nextNextPrime + 1;
-                    return { oldPosition, newPosition, message: `Player landed on snake, moved two primes backward ${108 - nextNextPrime}` };
+                    return { oldPosition, newPosition, message: `Player landed on Snake, moved two primes backward ${108 - nextNextPrime}` };
+                } else if (isPrime(newPosition) && newPosition >= 54) {
+                    const prevPrevPrime = getPreviousPrime(getPreviousPrime(newPosition));
+                    player.position = prevPrevPrime - 2;
+                    return { oldPosition, newPosition, message: `Player landed on Ladder, moved two primes forward ${108 - prevPrevPrime + 2}` };
                 } else if (isPrime(newPosition + 1)) {
                     const nextPrime = getNextPrime(newPosition + 1);
                     player.position = nextPrime - 1;
-                    return { oldPosition, newPosition, message: `Player landed on snake, moved to one prime backward ${108 - nextPrime}` };
-                } else if (isPrime(newPosition) && newPosition >= 54) {
-                    const prevPrevPrime = getPreviousPrice(getPreviousPrime(newPosition));
-                    player.position = prevPrevPrime - 2;
-                    return { oldPosition, newPosition, message: `Player landed on ladder, moved two primes forward ${108 - prevPrevPrime + 2}` };
+                    return { oldPosition, newPosition, message: `Player landed on Snake, moved to one prime backward ${108 - nextPrime}` };
                 } else if (isPrime(newPosition)) {
                     const prevPrime = getPreviousPrime(newPosition);
                     player.position = prevPrime;
-                    return { oldPosition, newPosition, message: `Player landed on ladder, moved to one prime forward ${108 - prevPrime}` };
+                    return { oldPosition, newPosition, message: `Player landed on Ladder, moved to one prime forward ${108 - prevPrime}` };
                 } else {
                     return { oldPosition, newPosition }; // Player moved successfully
                 }
