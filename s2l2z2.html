@@ -89,11 +89,11 @@
                 if (isPrime(newPosition + 1)) {
                     const prevPrime = getPreviousPrime(newPosition + 1);
                     player.position = prevPrime - 1;
-                    return { oldPosition, newPosition, message: `Player landed on ladder, moved to previous prime number ${prevPrime - 1}` };
+                    return { oldPosition, newPosition, message: `Player landed on snake, moved to previous prime number ${prevPrime - 1}` };
                 } else if (isPrime(newPosition)) {
                     const nextPrime = getNextPrime(newPosition);
                     player.position = nextPrime;
-                    return { oldPosition, newPosition, message: `Player landed on snake, moved to next prime number ${nextPrime}` };
+                    return { oldPosition, newPosition, message: `Player landed on ladder, moved to next prime number ${nextPrime}` };
                 } else {
                     return { oldPosition, newPosition }; // Player moved successfully
                 }
@@ -119,6 +119,7 @@
                 const { oldPosition, newPosition, message } = moveResult;
                 const [oldRow, oldColumn, oldCellValue] = getPositionFromIndex(oldPosition);
                 const [newRow, newColumn, newCellValue] = getPositionFromIndex(newPosition);
+                const primeMoveCount = Math.abs(oldPosition - newPosition);
                 debugElement.style.display = 'block';
                 if (message) {
                     debugElement.innerHTML = `
@@ -126,12 +127,14 @@
                         <p><strong>Dice Value:</strong> ${diceValue}</p>
                         <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
                         <p><strong>Message:</strong> ${message}</p>
+                        <p><strong>Prime Move Count:</strong> ${primeMoveCount}</p>
                     `;
                 } else {
                     debugElement.innerHTML = `
                         <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}, Value ${oldCellValue}</p>
                         <p><strong>Dice Value:</strong> ${diceValue}</p>
                         <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
+                        <p><strong>Prime Move Count:</strong> ${primeMoveCount}</p>
                     `;
                 }
             }
