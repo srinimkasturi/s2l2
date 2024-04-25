@@ -8,31 +8,34 @@
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            position: relative; /* Ensure body acts as the containing block for absolutely positioned elements */
+            position: relative;
+            overflow-x: hidden; /* Prevent horizontal scroll */
         }
         #board {
             display: inline-block;
             margin-top: 20px;
-            position: relative; /* Set the position to relative to establish a containing block for absolutely positioned player */
+            position: relative;
+            white-space: nowrap; /* Prevent board from wrapping */
         }
         .cell {
             width: 40px;
             height: 40px;
             border: 1px solid black;
             display: inline-block;
-            background-color: rgba(255, 255, 153, 0.8); /* Pale and color-blind accessible color with some transparency */
+            background-color: rgba(255, 255, 153, 0.8);
+            font-size: 14px; /* Reduce font size to fit numbers within cells */
         }
         .player {
-            background-color: rgba(255, 0, 0, 0.8); /* Bright red color with some transparency */
-            position: absolute; /* Position the player div relative to its containing block */
-            width: 40px; /* Same width as a cell */
-            height: 40px; /* Same height as a cell */
-            border: 2px solid black; /* Add a border for better visibility */
-            box-sizing: border-box; /* Include border in width and height */
-            z-index: 1; /* Set a higher z-index to ensure the player is above the board */
+            background-color: rgba(255, 0, 0, 0.8);
+            position: absolute;
+            width: 30px; /* Make player smaller */
+            height: 30px; /* Make player smaller */
+            border: 2px solid black;
+            box-sizing: border-box;
+            z-index: 1;
         }
         #debug {
-            display: none; /* Hide debug div by default */
+            display: none;
             margin-top: 20px;
             border: 1px solid black;
             padding: 10px;
@@ -87,13 +90,9 @@
 
         // Function to move the player on the board
         function movePlayer(board, player, diceValue) {
-            // Calculate the new position
             let oldPosition = player.position;
             let newPosition = player.position - diceValue;
-            // Check if the new position is within the board bounds
             if (newPosition >= 0) {
-                // Update the player's position
-                // In the beginning go up ladder fast, latter on fall slopes fast
                 player.position = newPosition;
                 if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
                     const nextPrime = getNextPrime(newPosition + 1);
@@ -120,10 +119,10 @@
                     player.position = prevPrime;
                     return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved to one prime forward ${108 - prevPrime}` };
                 } else {
-                    return { oldPosition, newPosition }; // Player moved successfully
+                    return { oldPosition, newPosition };
                 }
             }
-            return null; // Player couldn't move to any cell
+            return null;
         }
 
         // Function to update the player's position on the board
@@ -131,8 +130,8 @@
             const playerElement = document.querySelector('.player');
             const newPosition = player.position;
             const [row, column, cellValue] = getPositionFromIndex(newPosition);
-            playerElement.style.left = `${column * 42}px`; // Adjust left position based on column
-            playerElement.style.top = `${row * 42}px`; // Adjust top position based on row
+            playerElement.style.left = `${column * 42 + 5}px`;
+            playerElement.style.top = `${row * 42 + 5}px`;
         }
 
         // Function to update the debug information
@@ -202,9 +201,8 @@
                 const cell = document.createElement('div');
                 cell.classList.add('cell');
                 cell.textContent = board[i][j];
-                cell.style.backgroundColor = cellColors[colorIndex]; // Apply pale color
-                colorIndex = (colorIndex + 1) % cellColors.length; // Increment color index
-                cell.id = `cell-${i}-${j}`;
+                cell.style.backgroundColor = cellColors[colorIndex];
+                colorIndex = (colorIndex + 1) % cellColors.length;
                 boardElement.appendChild(cell);
             }
             boardElement.appendChild(document.createElement('br'));
