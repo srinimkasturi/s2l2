@@ -24,14 +24,17 @@
             display: inline-block;
             background-color: rgba(255, 255, 153, 0.8);
             font-size: 14px; /* Reduce font size to fit numbers within cells */
+            position: relative; /* Position relative for player positioning */
         }
         .player {
             background-color: rgba(255, 0, 0, 0.8);
-            position: absolute;
             width: 30px; /* Make player smaller */
             height: 30px; /* Make player smaller */
-            border: 2px solid black;
-            box-sizing: border-box;
+            border-radius: 50%; /* Make player a circle */
+            position: absolute; /* Position absolute for precise positioning */
+            top: 50%; /* Move player to the middle of the cell vertically */
+            left: 50%; /* Move player to the middle of the cell horizontally */
+            transform: translate(-50%, -50%); /* Center player in the middle of the cell */
             z-index: 1;
         }
         #debug {
@@ -130,8 +133,10 @@
             const playerElement = document.querySelector('.player');
             const newPosition = player.position;
             const [row, column, cellValue] = getPositionFromIndex(newPosition);
-            playerElement.style.left = `${column * 42 + 5}px`;
-            playerElement.style.top = `${row * 42 + 5}px`;
+            const cell = document.getElementById(`cell-${row}-${column}`);
+            const cellRect = cell.getBoundingClientRect();
+            playerElement.style.left = `${cellRect.left + cellRect.width / 2}px`;
+            playerElement.style.top = `${cellRect.top + cellRect.height / 2}px`;
         }
 
         // Function to update the debug information
