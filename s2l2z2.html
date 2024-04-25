@@ -208,6 +208,7 @@
                 cell.textContent = board[i][j];
                 cell.style.backgroundColor = cellColors[colorIndex];
                 colorIndex = (colorIndex + 1) % cellColors.length;
+                cell.id = `cell-${i}-${j}`;
                 boardElement.appendChild(cell);
             }
             boardElement.appendChild(document.createElement('br'));
@@ -220,7 +221,7 @@
 
         // Example player object
         const player = {
-            position: 107 // Set initial player position to 107
+            position: 107
         };
 
         // Function to handle the roll dice button click event
