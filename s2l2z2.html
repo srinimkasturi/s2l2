@@ -18,7 +18,7 @@
             height: 40px;
             border: 1px solid black;
             display: inline-block;
-            background-color: #ECECEC; /* Default background color */
+            background-color: rgba(236, 236, 236, 0.8); /* Default background color with transparency */
         }
         .player {
             background-color: #FF5733; /* Bright orange color for player */
@@ -190,28 +190,28 @@
                 cell.classList.add('cell');
                 cell.textContent = board[i][j];
                 cell.id = `cell-${i}-${j}`;
-                // Assigning different colors to cells
+                // Assigning different colors to cells with transparency
                 switch (board[i][j] % 6) {
                     case 0:
-                        cell.style.backgroundColor = '#EAD5DC'; // Light Pink
+                        cell.style.backgroundColor = 'rgba(236, 213, 220, 0.8)'; // Light Pink
                         break;
                     case 1:
-                        cell.style.backgroundColor = '#D5E8D4'; // Light Green
+                        cell.style.backgroundColor = 'rgba(213, 232, 212, 0.8)'; // Light Green
                         break;
                     case 2:
-                        cell.style.backgroundColor = '#D5D4EA'; // Light Purple
+                        cell.style.backgroundColor = 'rgba(213, 212, 234, 0.8)'; // Light Purple
                         break;
                     case 3:
-                        cell.style.backgroundColor = '#EAD5C6'; // Light Orange
+                        cell.style.backgroundColor = 'rgba(236, 213, 198, 0.8)'; // Light Orange
                         break;
                     case 4:
-                        cell.style.backgroundColor = '#D9E8F4'; // Light Blue
+                        cell.style.backgroundColor = 'rgba(217, 232, 244, 0.8)'; // Light Blue
                         break;
                     case 5:
-                        cell.style.backgroundColor = '#F4F1D9'; // Light Yellow
+                        cell.style.backgroundColor = 'rgba(244, 241, 217, 0.8)'; // Light Yellow
                         break;
                     default:
-                        cell.style.backgroundColor = '#ECECEC'; // Default Gray
+                        cell.style.backgroundColor = 'rgba(236, 236, 236, 0.8)'; // Default Gray
                 }
                 boardElement.appendChild(cell);
             }
