@@ -131,8 +131,8 @@
             const playerElement = document.querySelector('.player');
             const newPosition = player.position;
             const [row, column, cellValue] = getPositionFromIndex(newPosition);
-            playerElement.style.left = `${column * 42 + 20}px`; // Adjust left position based on column
-            playerElement.style.top = `${row * 42 - 20}px`; // Adjust top position based on row
+            playerElement.style.left = `${(column * 42) + 5}px`; // Adjust left position based on column
+            playerElement.style.top = `${(row * 42) - 5}px`; // Adjust top position based on row
         }
 
         // Function to update the debug information
