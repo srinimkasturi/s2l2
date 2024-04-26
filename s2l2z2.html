@@ -25,10 +25,6 @@
         .player {
             background-color: rgba(255, 0, 0, 0.8); /* Bright red color with some transparency */
             position: absolute; /* Position the player div relative to its containing block */
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            bottom: 20px;
             width: 20px; /* Half width as a cell */
             height: 20px; /* Half height as a cell */
             border: 2px solid black; /* Add a border for better visibility */
@@ -135,8 +131,8 @@
             const playerElement = document.querySelector('.player');
             const newPosition = player.position;
             const [row, column, cellValue] = getPositionFromIndex(newPosition);
-            playerElement.style.left = `${column * 42}px`; // Adjust left position based on column
-            playerElement.style.top = `${row * 42}px`; // Adjust top position based on row
+            playerElement.style.left = `${column * 42 + 20}px`; // Adjust left position based on column
+            playerElement.style.top = `${row * 42 - 20}px`; // Adjust top position based on row
         }
 
         // Function to update the debug information
