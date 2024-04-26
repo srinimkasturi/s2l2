@@ -23,13 +23,19 @@
             background-color: rgba(255, 255, 153, 0.8); /* Pale and color-blind accessible color with some transparency */
         }
         .player {
-            background-color: rgba(255, 0, 0, 0.8); /* Bright red color with some transparency */
             position: absolute; /* Position the player div relative to its containing block */
             width: 20px; /* Half width as a cell */
             height: 20px; /* Half height as a cell */
             border: 2px solid black; /* Add a border for better visibility */
             box-sizing: border-box; /* Include border in width and height */
             z-index: 1; /* Set a higher z-index to ensure the player is above the board */
+            border-radius: 50%; /* Make the player a circle */
+        }
+        #player1 {
+            background-color: rgba(255, 0, 0, 0.8); /* Red color with some transparency */
+        }
+        #player2 {
+            background-color: rgba(0, 0, 255, 0.8); /* Blue color with some transparency */
         }
         #debug {
             display: none; /* Hide debug div by default */
@@ -86,14 +92,14 @@
         }
 
         // Function to move the player on the board
-        function movePlayer(board, player, diceValue) {
+        function movePlayer(player, diceValue) {
             // Calculate the new position
             let oldPosition = player.position;
             let newPosition = player.position - diceValue;
             // Check if the new position is within the board bounds
             if (newPosition >= 0) {
                 // Update the player's position
-                // In the beginning go up ladder fast, latter on fall slopes fast
+                // In the beginning go up ladder fast, later on fall slopes fast
                 player.position = newPosition;
                 if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
                     const nextPrime = getNextPrime(newPosition + 1);
@@ -127,8 +133,8 @@
         }
 
         // Function to update the player's position on the board
-        function updatePlayerPosition() {
-            const playerElement = document.querySelector('.player');
+        function updatePlayerPosition(player) {
+            const playerElement = document.getElementById(`player${player.id}`);
             const newPosition = player.position;
             const [row, column, cellValue] = getPositionFromIndex(newPosition);
             playerElement.style.left = `${(column * 42) + 20}px`; // Adjust left position based on column
@@ -210,22 +216,30 @@
             boardElement.appendChild(document.createElement('br'));
         }
 
-        // Create the player div
-        const playerElement = document.createElement('div');
-        playerElement.classList.add('player');
-        boardElement.appendChild(playerElement);
+        // Create the players
+        const players = [
+            { id: 1, position: 107 },
+            { id: 2, position: 107 }
+        ];
 
-        // Example player object
-        const player = {
-            position: 107 // Set initial player position to 107
-        };
+        // Create player elements
+        players.forEach(player => {
+            const playerElement = document.createElement('div');
+            playerElement.classList.add('player');
+            playerElement.id = `player${player.id}`;
+            boardElement.appendChild(playerElement);
+        });
+
+        let currentPlayerIndex = 0;
 
         // Function to handle the roll dice button click event
         document.getElementById('rollDice').addEventListener('click', function() {
+            const currentPlayer = players[currentPlayerIndex];
             const diceValue = rollDice();
-            const moveResult = movePlayer(board, player, diceValue);
-            updatePlayerPosition();
+            const moveResult = movePlayer(currentPlayer, diceValue);
+            updatePlayerPosition(currentPlayer);
             updateDebugInfo(moveResult, diceValue);
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length; // Move to the next player
         });
 
         // Function to handle the toggle debug button click event
@@ -234,8 +248,8 @@
             debugElement.style.display = debugElement.style.display === 'none' ? 'block' : 'none';
         });
 
-        // Initialize player position
-        updatePlayerPosition();
+        // Initialize players' positions
+        players.forEach(player => updatePlayerPosition(player));
     </script>
 </body>
 </html>
