@@ -23,13 +23,19 @@
             background-color: rgba(255, 255, 153, 0.8); /* Pale and color-blind accessible color with some transparency */
         }
         .player {
-            background-color: rgba(255, 0, 0, 0.8); /* Bright red color with some transparency */
             position: absolute; /* Position the player div relative to its containing block */
             width: 20px; /* Half width as a cell */
             height: 20px; /* Half height as a cell */
             border: 2px solid black; /* Add a border for better visibility */
             box-sizing: border-box; /* Include border in width and height */
             z-index: 1; /* Set a higher z-index to ensure the player is above the board */
+            border-radius: 50%; /* Make the player a circle */
+        }
+        #player1 {
+            background-color: rgba(255, 0, 0, 0.8); /* Red color with some transparency */
+        }
+        #player2 {
+            background-color: rgba(0, 0, 255, 0.8); /* Blue color with some transparency */
         }
         #debug {
             display: none; /* Hide debug div by default */
@@ -43,9 +49,6 @@
 <body>
     <h1>Dice Game</h1>
     <p>Portrait mode is easier to play. To play, click the "Roll Dice" button. Happy climbing! watch out for slopes!!</p>
-    <label for="numPlayers">Select number of players (up to 6):</label>
-    <input type="number" id="numPlayers" name="numPlayers" min="1" max="6" value="1">
-    <button id="startGame">Start Game</button>
     <button id="rollDice">Roll Dice</button>
     <button id="toggleDebug">Toggle Debug</button>
     <div id="board"></div>
@@ -96,32 +99,32 @@
             // Check if the new position is within the board bounds
             if (newPosition >= 0) {
                 // Update the player's position
-                // In the beginning go up ladder fast, latter on fall slopes fast
+                // In the beginning go up ladder fast, later on fall slopes fast
                 player.position = newPosition;
                 if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
                     const nextPrime = getNextPrime(newPosition + 1);
                     player.position = nextPrime - 1;
-                    return { oldPosition, newPosition, message: `Player ${player.id} landed on Slippery Slope, moved to one prime backward ${108 - nextPrime}` };
+                    return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved to one prime backward ${108 - nextPrime}` };
                 } else if (isPrime(newPosition) && newPosition >= 54) {
                     const prevPrevPrevPrime = getPreviousPrime(getPreviousPrime(getPreviousPrime(newPosition)));
                     player.position = prevPrevPrevPrime - 3;
-                    return { oldPosition, newPosition, message: `Player ${player.id} landed on Leader Ladder, moved three primes forward ${108 - prevPrevPrevPrime + 3}` };
+                    return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved three primes forward ${108 - prevPrevPrevPrime + 3}` };
                 } else if (isPrime(newPosition + 1) && newPosition + 1 >= 27 && newPosition + 1 < 54) {
                     const nextNextPrime = getNextPrime(getNextPrime(newPosition));
                     player.position = nextNextPrime + 1;
-                    return { oldPosition, newPosition, message: `Player ${player.id} landed on Slippery Slope, moved two primes backward ${108 - nextNextPrime}` };
+                    return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved two primes backward ${108 - nextNextPrime}` };
                 } else if (isPrime(newPosition) && newPosition >= 27 && newPosition < 54) {
                     const prevPrevPrime = getPreviousPrime(getPreviousPrime(newPosition));
                     player.position = prevPrevPrime - 2;
-                    return { oldPosition, newPosition, message: `Player ${player.id} landed on Leader Ladder, moved two primes forward ${108 - prevPrevPrime + 2}` };
+                    return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved two primes forward ${108 - prevPrevPrime + 2}` };
                 } else if (isPrime(newPosition + 1)) {
                     const nextNextNextPrime = getNextPrime(getNextPrime(getNextPrime(newPosition)));
                     player.position = nextNextNextPrime + 1;
-                    return { oldPosition, newPosition, message: `Player ${player.id} landed on Slippery Slope, moved three primes backward ${108 - nextNextNextPrime}` };
+                    return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved three primes backward ${108 - nextNextNextPrime}` };
                 } else if (isPrime(newPosition)) {
                     const prevPrime = getPreviousPrime(newPosition);
                     player.position = prevPrime;
-                    return { oldPosition, newPosition, message: `Player ${player.id} landed on Leader Ladder, moved to one prime forward ${108 - prevPrime}` };
+                    return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved to one prime forward ${108 - prevPrime}` };
                 } else {
                     return { oldPosition, newPosition }; // Player moved successfully
                 }
@@ -213,40 +216,30 @@
             boardElement.appendChild(document.createElement('br'));
         }
 
-        // Function to handle the start game button click event
-        document.getElementById('startGame').addEventListener('click', function() {
-            const numPlayers = parseInt(document.getElementById('numPlayers').value);
-            createPlayers(numPlayers);
-            document.getElementById('startGame').disabled = true;
+        // Create the players
+        const players = [
+            { id: 1, position: 107 },
+            { id: 2, position: 107 }
+        ];
+
+        // Create player elements
+        players.forEach(player => {
+            const playerElement = document.createElement('div');
+            playerElement.classList.add('player');
+            playerElement.id = `player${player.id}`;
+            boardElement.appendChild(playerElement);
         });
 
-        // Function to create player objects
-        function createPlayers(numPlayers) {
-            for (let i = 1; i <= numPlayers; i++) {
-                const playerElement = document.createElement('div');
-                playerElement.classList.add('player');
-                playerElement.id = `player${i}`;
-                boardElement.appendChild(playerElement);
-            }
-        }
-
-        // Initialize player positions
-        const players = [];
-        function initializePlayerPositions() {
-            for (let i = 1; i <= players.length; i++) {
-                players[i - 1].position = 107; // Set initial player position to 107
-                updatePlayerPosition(players[i - 1]);
-            }
-        }
+        let currentPlayerIndex = 0;
 
         // Function to handle the roll dice button click event
         document.getElementById('rollDice').addEventListener('click', function() {
+            const currentPlayer = players[currentPlayerIndex];
             const diceValue = rollDice();
-            for (let i = 0; i < players.length; i++) {
-                const moveResult = movePlayer(players[i], diceValue);
-                updatePlayerPosition(players[i]);
-                updateDebugInfo(moveResult, diceValue);
-            }
+            const moveResult = movePlayer(currentPlayer, diceValue);
+            updatePlayerPosition(currentPlayer);
+            updateDebugInfo(moveResult, diceValue);
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length; // Move to the next player
         });
 
         // Function to handle the toggle debug button click event
@@ -255,8 +248,8 @@
             debugElement.style.display = debugElement.style.display === 'none' ? 'block' : 'none';
         });
 
-        // Initialize player positions after creating players
-        initializePlayerPositions();
+        // Initialize players' positions
+        players.forEach(player => updatePlayerPosition(player));
     </script>
 </body>
 </html>
