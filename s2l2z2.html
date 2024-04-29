@@ -60,8 +60,17 @@
 </head>
 <body>
     <h1>Dice Game</h1>
+    <p>Select the number of players:</p>
+    <select id="playerCount">
+        <option value="2">2 Players</option>
+        <option value="3">3 Players</option>
+        <option value="4">4 Players</option>
+        <option value="5">5 Players</option>
+        <option value="6">6 Players</option>
+    </select>
+    <button id="startGame">Start Game</button>
     <p>Portrait mode is easier to play. To play, click the "Roll Dice" button. Happy climbing! Watch out for slopes!!</p>
-    <button id="rollDice">Roll Dice</button>
+    <button id="rollDice" disabled>Roll Dice</button>
     <button id="toggleDebug">Toggle Debug</button>
     <div id="board"></div>
     <div id="debug"></div>
@@ -229,21 +238,29 @@
         }
 
         // Create the players
-        const players = [
-            { id: 1, position: 107 },
-            { id: 2, position: 107 },
-            { id: 3, position: 107 },
-            { id: 4, position: 107 },
-            { id: 5, position: 107 },
-            { id: 6, position: 107 } // Add the new player here
-        ];
+        let players = [];
 
-        // Create player elements
-        players.forEach(player => {
-            const playerElement = document.createElement('div');
-            playerElement.classList.add('player');
-            playerElement.id = `player${player.id}`;
-            boardElement.appendChild(playerElement);
+        // Function to create players based on selected count
+        function createPlayers(count) {
+            players = [];
+            for (let i = 1; i <= count; i++) {
+                players.push({ id: i, position: 107 });
+            }
+            // Create player elements
+            players.forEach(player => {
+                const playerElement = document.createElement('div');
+                playerElement.classList.add('player');
+                playerElement.id = `player${player.id}`;
+                boardElement.appendChild(playerElement);
+            });
+        }
+
+        // Function to handle the start game button click event
+        document.getElementById('startGame').addEventListener('click', function() {
+            const playerCount = parseInt(document.getElementById('playerCount').value);
+            createPlayers(playerCount);
+            document.getElementById('rollDice').disabled = false; // Enable roll dice button
+            document.getElementById('startGame').disabled = true; // Disable start game button
         });
 
         let currentPlayerIndex = 0;
