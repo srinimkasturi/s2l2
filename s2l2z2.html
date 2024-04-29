@@ -37,6 +37,18 @@
         #player2 {
             background-color: rgba(0, 0, 255, 0.8); /* Blue color with some transparency */
         }
+        #player3 {
+            background-color: rgba(0, 255, 0, 0.8); /* Green color with some transparency */
+        }
+        #player4 {
+            background-color: rgba(255, 255, 0, 0.8); /* Yellow color with some transparency */
+        }
+        #player5 {
+            background-color: rgba(255, 0, 255, 0.8); /* Magenta color with some transparency */
+        }
+        #player6 {
+            background-color: rgba(0, 255, 255, 0.8); /* Cyan color with some transparency */
+        }
         #debug {
             display: none; /* Hide debug div by default */
             margin-top: 20px;
@@ -48,7 +60,7 @@
 </head>
 <body>
     <h1>Dice Game</h1>
-    <p>Portrait mode is easier to play. To play, click the "Roll Dice" button. Happy climbing! watch out for slopes!!</p>
+    <p>Portrait mode is easier to play. To play, click the "Roll Dice" button. Happy climbing! Watch out for slopes!!</p>
     <button id="rollDice">Roll Dice</button>
     <button id="toggleDebug">Toggle Debug</button>
     <div id="board"></div>
@@ -219,7 +231,11 @@
         // Create the players
         const players = [
             { id: 1, position: 107 },
-            { id: 2, position: 107 }
+            { id: 2, position: 107 },
+            { id: 3, position: 107 },
+            { id: 4, position: 107 },
+            { id: 5, position: 107 },
+            { id: 6, position: 107 } // Add the new player here
         ];
 
         // Create player elements
