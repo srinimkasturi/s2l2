@@ -37,6 +37,18 @@
         #player2 {
             background-color: rgba(0, 0, 255, 0.8); /* Blue color with some transparency */
         }
+        #player3 {
+            background-color: rgba(0, 255, 0, 0.8); /* Green color with some transparency */
+        }
+        #player4 {
+            background-color: rgba(255, 255, 0, 0.8); /* Yellow color with some transparency */
+        }
+        #player5 {
+            background-color: rgba(255, 0, 255, 0.8); /* Magenta color with some transparency */
+        }
+        #player6 {
+            background-color: rgba(0, 255, 255, 0.8); /* Cyan color with some transparency */
+        }
         #debug {
             display: none; /* Hide debug div by default */
             margin-top: 20px;
@@ -48,15 +60,20 @@
 </head>
 <body>
     <h1>Dice Game</h1>
-    <p>Portrait mode is easier to play. To play, click the "Roll Dice" button. Happy climbing! watch out for slopes!!</p>
-    <button id="rollDice">Roll Dice</button>
+    <p>Select the number of players:</p>
+    <select id="playerCount">
+        <option value="2">2 Players</option>
+        <option value="3">3 Players</option>
+        <option value="4">4 Players</option>
+        <option value="5">5 Players</option>
+        <option value="6">6 Players</option>
+    </select>
+    <button id="startGame">Start Game</button>
+    <p>Portrait mode is easier to play. To play, click the "Roll Dice" button. Happy climbing! Watch out for slopes!!</p>
+    <button id="rollDice" disabled>Roll Dice</button>
     <button id="toggleDebug">Toggle Debug</button>
     <div id="board"></div>
     <div id="debug"></div>
-
-    <!-- Audio elements -->
-    <audio id="ladderAudio" src="https://github.com/srinimkasturi/s2l2/blob/main/AudioFiles/S2L2welcome.m4a" preload="auto"></audio>
-    <audio id="slopeAudio" src="https://github.com/srinimkasturi/s2l2/blob/main/AudioFiles/S2L2welcome.m4a" preload="auto"></audio>
 
     <script>
         // Function to generate a random dice value (1 to 6)
@@ -108,32 +125,26 @@
                 if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
                     const nextPrime = getNextPrime(newPosition + 1);
                     player.position = nextPrime - 1;
-                    playAudio('slopeAudio');
                     return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved to one prime backward ${108 - nextPrime}` };
                 } else if (isPrime(newPosition) && newPosition >= 54) {
                     const prevPrevPrevPrime = getPreviousPrime(getPreviousPrime(getPreviousPrime(newPosition)));
                     player.position = prevPrevPrevPrime - 3;
-                    playAudio('ladderAudio');
                     return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved three primes forward ${108 - prevPrevPrevPrime + 3}` };
                 } else if (isPrime(newPosition + 1) && newPosition + 1 >= 27 && newPosition + 1 < 54) {
                     const nextNextPrime = getNextPrime(getNextPrime(newPosition));
                     player.position = nextNextPrime + 1;
-                    playAudio('slopeAudio');
                     return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved two primes backward ${108 - nextNextPrime}` };
                 } else if (isPrime(newPosition) && newPosition >= 27 && newPosition < 54) {
                     const prevPrevPrime = getPreviousPrime(getPreviousPrime(newPosition));
                     player.position = prevPrevPrime - 2;
-                    playAudio('ladderAudio');
                     return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved two primes forward ${108 - prevPrevPrime + 2}` };
                 } else if (isPrime(newPosition + 1)) {
                     const nextNextNextPrime = getNextPrime(getNextPrime(getNextPrime(newPosition)));
                     player.position = nextNextNextPrime + 1;
-                    playAudio('slopeAudio');
                     return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved three primes backward ${108 - nextNextNextPrime}` };
                 } else if (isPrime(newPosition)) {
                     const prevPrime = getPreviousPrime(newPosition);
                     player.position = prevPrime;
-                    playAudio('ladderAudio');
                     return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved to one prime forward ${108 - prevPrime}` };
                 } else {
                     return { oldPosition, newPosition }; // Player moved successfully
@@ -191,12 +202,6 @@
             return [row, column, board[row][column]];
         }
 
-        // Function to play audio
-        function playAudio(audioId) {
-            const audio = document.getElementById(audioId);
-            audio.play();
-        }
-
         // Create the game board
         const boardElement = document.getElementById('board');
         const board = [
@@ -233,18 +238,29 @@
         }
 
         // Create the players
-        const numPlayers = 6; // Set the number of players
-        const players = [];
-        for (let i = 1; i <= numPlayers; i++) {
-            players.push({ id: i, position: 107 }); // Initial position is 107 for all players
+        let players = [];
+
+        // Function to create players based on selected count
+        function createPlayers(count) {
+            players = [];
+            for (let i = 1; i <= count; i++) {
+                players.push({ id: i, position: 107 });
+            }
+            // Create player elements
+            players.forEach(player => {
+                const playerElement = document.createElement('div');
+                playerElement.classList.add('player');
+                playerElement.id = `player${player.id}`;
+                boardElement.appendChild(playerElement);
+            });
         }
 
-        // Create player elements
-        players.forEach(player => {
-            const playerElement = document.createElement('div');
-            playerElement.classList.add('player');
-            playerElement.id = `player${player.id}`;
-            boardElement.appendChild(playerElement);
+        // Function to handle the start game button click event
+        document.getElementById('startGame').addEventListener('click', function() {
+            const playerCount = parseInt(document.getElementById('playerCount').value);
+            createPlayers(playerCount);
+            document.getElementById('rollDice').disabled = false; // Enable roll dice button
+            document.getElementById('startGame').disabled = true; // Disable start game button
         });
 
         let currentPlayerIndex = 0;
@@ -270,12 +286,6 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
 
 
 
