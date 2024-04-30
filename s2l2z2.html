@@ -59,7 +59,6 @@
     </style>
 </head>
 <body>
-    <audio id="introAudio" src="https://github.com/srinimkasturi/s2l2/blob/main/AudioFiles/S2L2welcome.m4a" preload="auto"></audio>
     <h1>Dice Game</h1>
     <p>Select the number of players:</p>
     <select id="playerCount">
@@ -126,27 +125,27 @@
                 if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
                     const nextPrime = getNextPrime(newPosition + 1);
                     player.position = nextPrime - 1;
-                    return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved to one prime backward ${108 - nextPrime}` };
+                    return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved to one prime backward ${108 - nextPrime}`, popUpContent: "You landed on a slippery slope. Move one prime backward!" };
                 } else if (isPrime(newPosition) && newPosition >= 54) {
                     const prevPrevPrevPrime = getPreviousPrime(getPreviousPrime(getPreviousPrime(newPosition)));
                     player.position = prevPrevPrevPrime - 3;
-                    return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved three primes forward ${108 - prevPrevPrevPrime + 3}` };
+                    return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved three primes forward ${108 - prevPrevPrevPrime + 3}`, popUpContent: "You landed on a leader ladder. Move three primes forward!" };
                 } else if (isPrime(newPosition + 1) && newPosition + 1 >= 27 && newPosition + 1 < 54) {
                     const nextNextPrime = getNextPrime(getNextPrime(newPosition));
                     player.position = nextNextPrime + 1;
-                    return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved two primes backward ${108 - nextNextPrime}` };
+                    return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved two primes backward ${108 - nextNextPrime}`, popUpContent: "You landed on a slippery slope. Move two primes backward!" };
                 } else if (isPrime(newPosition) && newPosition >= 27 && newPosition < 54) {
                     const prevPrevPrime = getPreviousPrime(getPreviousPrime(newPosition));
                     player.position = prevPrevPrime - 2;
-                    return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved two primes forward ${108 - prevPrevPrime + 2}` };
+                    return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved two primes forward ${108 - prevPrevPrime + 2}`, popUpContent: "You landed on a leader ladder. Move two primes forward!" };
                 } else if (isPrime(newPosition + 1)) {
                     const nextNextNextPrime = getNextPrime(getNextPrime(getNextPrime(newPosition)));
                     player.position = nextNextNextPrime + 1;
-                    return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved three primes backward ${108 - nextNextNextPrime}` };
+                    return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved three primes backward ${108 - nextNextNextPrime}`, popUpContent: "You landed on a slippery slope. Move three primes backward!" };
                 } else if (isPrime(newPosition)) {
                     const prevPrime = getPreviousPrime(newPosition);
                     player.position = prevPrime;
-                    return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved to one prime forward ${108 - prevPrime}` };
+                    return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved to one prime forward ${108 - prevPrime}`, popUpContent: "You landed on a leader ladder. Move one prime forward!" };
                 } else {
                     return { oldPosition, newPosition }; // Player moved successfully
                 }
@@ -262,6 +261,9 @@
             createPlayers(playerCount);
             document.getElementById('rollDice').disabled = false; // Enable roll dice button
             document.getElementById('startGame').disabled = true; // Disable start game button
+            // Play intro audio
+            const introAudio = new Audio('https://srinimkasturi.github.io/s2l2/AudioFiles/S2L2welcome.m4a');
+            introAudio.play();
         });
 
         let currentPlayerIndex = 0;
@@ -274,6 +276,10 @@
             updatePlayerPosition(currentPlayer);
             updateDebugInfo(moveResult, diceValue);
             currentPlayerIndex = (currentPlayerIndex + 1) % players.length; // Move to the next player
+            // Show pop-up if player landed on a ladder or slope
+            if (moveResult && moveResult.popUpContent) {
+                alert(moveResult.popUpContent);
+            }
         });
 
         // Function to handle the toggle debug button click event
@@ -284,12 +290,6 @@
 
         // Initialize players' positions
         players.forEach(player => updatePlayerPosition(player));
-
-        // Play intro audio once the full app loads
-        window.onload = function() {
-            const introAudio = document.getElementById('introAudio');
-            introAudio.play();
-        };
     </script>
 </body>
 </html>
