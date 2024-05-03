@@ -282,7 +282,7 @@ function movePlayer(player, diceValue) {
             // Show pop-up if player landed on a ladder or slope
             if (moveResult && moveResult.popUpContent) {
                // Check if the player landed on the 7th prime position
-                 if (moveResult === 108 - 7) {
+                 if (moveResult > 108 - 7) {
                     alert("You landed on the Leaders Ladder of Satyavrata");
                  }
                  alert(moveResult.popUpContent);
