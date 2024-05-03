@@ -124,15 +124,7 @@ function movePlayer(player, diceValue) {
         // In the beginning go up ladder fast, later on fall slopes fast
         player.position = newPosition;
 
-        // Check if the player landed on the 7th prime position
-        if (isPrime(newPosition) && newPosition === 7) {
-            return { 
-                oldPosition, 
-                newPosition, 
-                message: "You landed on the Leaders Ladder of Satyavrata", 
-                popUpContent: "You landed on the Leaders Ladder of Satyavrata" 
-            };
-        } else if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
+        if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
             const nextPrime = getNextPrime(newPosition + 1);
             player.position = nextPrime - 1;
             return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved to one prime backward ${108 - nextPrime}`, popUpContent: "You landed on a slippery slope. Move one prime backward!" };
@@ -274,7 +266,7 @@ function movePlayer(player, diceValue) {
             document.getElementById('startGame').disabled = true; // Disable start game button
             // Play intro audio
             const introAudio = new Audio('https://srinimkasturi.github.io/s2l2/AudioFiles/S2L2welcome.m4a');
-            introAudio.play();
+            // introAudio.play();
         });
 
         let currentPlayerIndex = 0;
@@ -289,7 +281,11 @@ function movePlayer(player, diceValue) {
             currentPlayerIndex = (currentPlayerIndex + 1) % players.length; // Move to the next player
             // Show pop-up if player landed on a ladder or slope
             if (moveResult && moveResult.popUpContent) {
-                alert(moveResult.popUpContent);
+               // Check if the player landed on the 7th prime position
+                 if (moveResult === 108 - 7) {
+                    alert("You landed on the Leaders Ladder of Satyavrata");
+                 }
+                 alert(moveResult.popUpContent);
             }
         });
 
