@@ -127,7 +127,7 @@ function movePlayer(player, diceValue) {
         if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
             const nextPrime = getNextPrime(newPosition + 1);
             player.position = nextPrime - 1;
-            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved to one prime backward ${108 - nextPrime}`, popUpContent: "You landed on a slippery slope. Move one prime backward!" "Here is a story"};
+            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved to one prime backward ${108 - nextPrime}`, popUpContent: "You landed on a slippery slope. Move one prime backward!" + "Here is a story"};
         } else if (isPrime(newPosition) && newPosition >= 54) {
             const prevPrevPrevPrime = getPreviousPrime(getPreviousPrime(getPreviousPrime(newPosition)));
             player.position = prevPrevPrevPrime - 3;
