@@ -81,6 +81,14 @@
         function rollDice() {
             return Math.floor(Math.random() * 6) + 1;
         }
+        // Function to generate a random dice value (1 to 6)
+        function rollDiceForLadderRead() {
+            return Math.floor(Math.random() * 3) + 1;
+        }
+        // Function to generate a random dice value (1 to 6)
+        function rollDiceForSlopeRead() {
+            return Math.floor(Math.random() * 2) + 1;
+        }
 
         // Function to check if a number is prime
         function isPrime(number) {
@@ -131,7 +139,7 @@ function movePlayer(player, diceValue) {
         } else if (isPrime(newPosition) && newPosition >= 54) {
             const prevPrevPrevPrime = getPreviousPrime(getPreviousPrime(getPreviousPrime(newPosition)));
             player.position = prevPrevPrevPrime - 3;
-            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved three primes forward ${108 - prevPrevPrevPrime + 3}`, popUpContent: "You landed on a leader ladder. Move three primes forward!" + " "  + ladderText[0] };
+            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved three primes forward ${108 - prevPrevPrevPrime + 3}`, popUpContent: "You landed on a leader ladder. Move three primes forward!" + " "  + rollDiceForLadderRead() };
         } else if (isPrime(newPosition + 1) && newPosition + 1 >= 27 && newPosition + 1 < 54) {
             const nextNextPrime = getNextPrime(getNextPrime(newPosition));
             player.position = nextNextPrime + 1;
@@ -139,7 +147,7 @@ function movePlayer(player, diceValue) {
         } else if (isPrime(newPosition) && newPosition >= 27 && newPosition < 54) {
             const prevPrevPrime = getPreviousPrime(getPreviousPrime(newPosition));
             player.position = prevPrevPrime - 2;
-            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved two primes forward ${108 - prevPrevPrime + 2}`, popUpContent: "You landed on a leader ladder. Move two primes forward!"  + " " + ladderText[1] };
+            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved two primes forward ${108 - prevPrevPrime + 2}`, popUpContent: "You landed on a leader ladder. Move two primes forward!"  + " " + rollDiceForLadderRead() };
         } else if (isPrime(newPosition + 1)) {
             const nextNextNextPrime = getNextPrime(getNextPrime(getNextPrime(newPosition)));
             player.position = nextNextNextPrime + 1;
@@ -227,8 +235,13 @@ function movePlayer(player, diceValue) {
             'rgba(204, 153, 255, 0.8)' // Pale purple
         ];
         const ladderText = [
-            "Matsya Avtaar: When the universe was going to be submerged in the biggest of all rains, Lord Vishnu appeared as a humongous fish, Matsya. Matsya rescued all forms of life that would listen to his plan and once the rains were gone, he gave them a brand new world. To do this Matsya asked Satyavrata to join his team. Satyavrata built a huge ship and got all the living things on to the ship and the ship was rescued by Matsya. While Satyavrata was busy building the ship, Hayagrivah was busy stealing all the knowledge. Vishnu saw that and asked him to give the knowledge back to the world, when he refused, Vishnu Matsya vanquished him.",
-            "Bhoo Devi",
+            "Matsya Avtaar: When the universe was going to be submerged in the biggest of all rains, Lord Vishnu appeared as a humongous fish, Matsya.",
+            "Matsya rescued all forms of life that would listen to his plan and once the rains were gone, he gave them a brand new world.",
+            "To do this Matsya asked Satyavrata to join his team. Satyavrata built a huge ship and got all the living things onto the ship and the ship was rescued by Matsya.",
+        ];
+        const slopeText = [
+            "While Satyavrata was busy building the ship, Hayagrivah was busy stealing all the knowledge.",
+            "Vishnu saw Satyavrata stealing knowledge and asked him repeatedly to give the knowledge back to the world, when he refused, Vishnu Matsya vanquished him.",
         ];
         
         let colorIndex = 0;
