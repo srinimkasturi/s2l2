@@ -16,21 +16,26 @@
             position: relative; /* Set the position to relative to establish a containing block for absolutely positioned player */
         }
         .cell {
-            width: 40px;
-            height: 40px;
+            width: 6vw; /* Adjust width relative to viewport width */
+            height: 6vw; /* Adjust height relative to viewport width */
             border: 1px solid black;
             display: inline-block;
-            background-color: rgba(255, 255, 153, 0.8); /* Pale and color-blind accessible color with some transparency */
+            background-color: rgba(255, 255, 255, 0.8); /* Lighter color for cells */
+            border-radius: 10px; /* Smoother edges */
+            margin: 1px; /* Add some space between cells */
         }
+
         .player {
-            position: absolute; /* Position the player div relative to its containing block */
-            width: 20px; /* Half width as a cell */
-            height: 20px; /* Half height as a cell */
-            border: 2px solid black; /* Add a border for better visibility */
-            box-sizing: border-box; /* Include border in width and height */
-            z-index: 1; /* Set a higher z-index to ensure the player is above the board */
-            border-radius: 50%; /* Make the player a circle */
+            position: absolute;
+            width: 3vw; /* Adjust player size relative to viewport width */
+            height: 3vw; /* Adjust player size relative to viewport width */
+            border: 2px solid black;
+            box-sizing: border-box;
+            z-index: 1;
+            border-radius: 50%; /* Make player a circle */
         }
+
+
         #player1 {
             background-color: rgba(255, 0, 0, 0.8); /* Red color with some transparency */
         }
@@ -73,7 +78,7 @@
     </p>
     <button id="toggleDebug">Toggle Debug</button>
     <p></p>
-    <div id="board"></div>
+    <div id="board" style="font-size: 0;">
     <div id="debug"></div>
 
     <script>
@@ -121,47 +126,47 @@
             return prev;
         }
 
-// Function to move the player on the board
-function movePlayer(player, diceValue) {
-    // Calculate the new position
-    let oldPosition = player.position;
-    let newPosition = player.position - diceValue;
-    // Check if the new position is within the board bounds
-    if (newPosition >= 0) {
-        // Update the player's position
-        // In the beginning go up ladder fast, later on fall slopes fast
-        player.position = newPosition;
+        // Function to move the player on the board
+        function movePlayer(player, diceValue) {
+            // Calculate the new position
+            let oldPosition = player.position;
+            let newPosition = player.position - diceValue;
+            // Check if the new position is within the board bounds
+            if (newPosition >= 0) {
+                // Update the player's position
+                // In the beginning go up ladder fast, later on fall slopes fast
+                player.position = newPosition;
 
-        if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
-            const nextPrime = getNextPrime(newPosition + 1);
-            player.position = nextPrime - 1;
-            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved to one prime backward ${108 - nextPrime}`, popUpContent: "You landed on a slippery slope. Move one prime backward!" + "\n\n"  + ladderText[rollDiceForLadderRead()] };
-        } else if (isPrime(newPosition) && newPosition >= 54) {
-            const prevPrevPrevPrime = getPreviousPrime(getPreviousPrime(getPreviousPrime(newPosition)));
-            player.position = prevPrevPrevPrime - 3;
-            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved three primes forward ${108 - prevPrevPrevPrime + 3}`, popUpContent: "You landed on a leader ladder. Move three primes forward!" + "\n\n"  + ladderText[rollDiceForLadderRead()] };
-        } else if (isPrime(newPosition + 1) && newPosition + 1 >= 27 && newPosition + 1 < 54) {
-            const nextNextPrime = getNextPrime(getNextPrime(newPosition));
-            player.position = nextNextPrime + 1;
-            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved two primes backward ${108 - nextNextPrime}`, popUpContent: "You landed on a slippery slope. Move two primes backward!"  + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
-        } else if (isPrime(newPosition) && newPosition >= 27 && newPosition < 54) {
-            const prevPrevPrime = getPreviousPrime(getPreviousPrime(newPosition));
-            player.position = prevPrevPrime - 2;
-            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved two primes forward ${108 - prevPrevPrime + 2}`, popUpContent: "You landed on a leader ladder. Move two primes forward!"  + "\n\n" + ladderText[rollDiceForLadderRead()] };
-        } else if (isPrime(newPosition + 1)) {
-            const nextNextNextPrime = getNextPrime(getNextPrime(getNextPrime(newPosition)));
-            player.position = nextNextNextPrime + 1;
-            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved three primes backward ${108 - nextNextNextPrime}`, popUpContent: "You landed on a slippery slope. Move three primes backward!"  + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
-        } else if (isPrime(newPosition)) {
-            const prevPrime = getPreviousPrime(newPosition);
-            player.position = prevPrime;
-            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved to one prime forward ${108 - prevPrime}`, popUpContent: "You landed on a leader ladder. Move one prime forward!"  + "\n\n"  + ladderText[rollDiceForLadderRead()] };
-        } else {
-            return { oldPosition, newPosition }; // Player moved successfully
+                if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
+                    const nextPrime = getNextPrime(newPosition + 1);
+                    player.position = nextPrime - 1;
+                    return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved to one prime backward ${108 - nextPrime}`, popUpContent: "You landed on a slippery slope. Move one prime backward!" + "\n\n"  + ladderText[rollDiceForLadderRead()] };
+                } else if (isPrime(newPosition) && newPosition >= 54) {
+                    const prevPrevPrevPrime = getPreviousPrime(getPreviousPrime(getPreviousPrime(newPosition)));
+                    player.position = prevPrevPrevPrime - 3;
+                    return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved three primes forward ${108 - prevPrevPrevPrime + 3}`, popUpContent: "You landed on a leader ladder. Move three primes forward!" + "\n\n"  + ladderText[rollDiceForLadderRead()] };
+                } else if (isPrime(newPosition + 1) && newPosition + 1 >= 27 && newPosition + 1 < 54) {
+                    const nextNextPrime = getNextPrime(getNextPrime(newPosition));
+                    player.position = nextNextPrime + 1;
+                    return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved two primes backward ${108 - nextNextPrime}`, popUpContent: "You landed on a slippery slope. Move two primes backward!"  + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
+                } else if (isPrime(newPosition) && newPosition >= 27 && newPosition < 54) {
+                    const prevPrevPrime = getPreviousPrime(getPreviousPrime(newPosition));
+                    player.position = prevPrevPrime - 2;
+                    return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved two primes forward ${108 - prevPrevPrime + 2}`, popUpContent: "You landed on a leader ladder. Move two primes forward!"  + "\n\n" + ladderText[rollDiceForLadderRead()] };
+                } else if (isPrime(newPosition + 1)) {
+                    const nextNextNextPrime = getNextPrime(getNextPrime(getNextPrime(newPosition)));
+                    player.position = nextNextNextPrime + 1;
+                    return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved three primes backward ${108 - nextNextNextPrime}`, popUpContent: "You landed on a slippery slope. Move three primes backward!"  + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
+                } else if (isPrime(newPosition)) {
+                    const prevPrime = getPreviousPrime(newPosition);
+                    player.position = prevPrime;
+                    return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved to one prime forward ${108 - prevPrime}`, popUpContent: "You landed on a leader ladder. Move one prime forward!"  + "\n\n"  + ladderText[rollDiceForLadderRead()] };
+                } else {
+                    return { oldPosition, newPosition }; // Player moved successfully
+                }
+            }
+            return null; // Player couldn't move to any cell
         }
-    }
-    return null; // Player couldn't move to any cell
-}
 
 
         // Function to update the player's position on the board
