@@ -135,27 +135,27 @@ function movePlayer(player, diceValue) {
         if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
             const nextPrime = getNextPrime(newPosition + 1);
             player.position = nextPrime - 1;
-            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved to one prime backward ${108 - nextPrime}`, popUpContent: "You landed on a slippery slope. Move one prime backward!"};
+            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved to one prime backward ${108 - nextPrime}`, popUpContent: "You landed on a slippery slope. Move one prime backward!" + "\n\n"  + ladderText[rollDiceForLadderRead()] };
         } else if (isPrime(newPosition) && newPosition >= 54) {
             const prevPrevPrevPrime = getPreviousPrime(getPreviousPrime(getPreviousPrime(newPosition)));
             player.position = prevPrevPrevPrime - 3;
-            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved three primes forward ${108 - prevPrevPrevPrime + 3}`, popUpContent: "You landed on a leader ladder. Move three primes forward!" + "\n"  + ladderText[rollDiceForLadderRead()] };
+            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved three primes forward ${108 - prevPrevPrevPrime + 3}`, popUpContent: "You landed on a leader ladder. Move three primes forward!" + "\n\n"  + ladderText[rollDiceForLadderRead()] };
         } else if (isPrime(newPosition + 1) && newPosition + 1 >= 27 && newPosition + 1 < 54) {
             const nextNextPrime = getNextPrime(getNextPrime(newPosition));
             player.position = nextNextPrime + 1;
-            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved two primes backward ${108 - nextNextPrime}`, popUpContent: "You landed on a slippery slope. Move two primes backward!"  + "\n"  + slopeText[rollDiceForSlopeRead()] };
+            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved two primes backward ${108 - nextNextPrime}`, popUpContent: "You landed on a slippery slope. Move two primes backward!"  + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
         } else if (isPrime(newPosition) && newPosition >= 27 && newPosition < 54) {
             const prevPrevPrime = getPreviousPrime(getPreviousPrime(newPosition));
             player.position = prevPrevPrime - 2;
-            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved two primes forward ${108 - prevPrevPrime + 2}`, popUpContent: "You landed on a leader ladder. Move two primes forward!"  + "\n" + ladderText[rollDiceForLadderRead()] };
+            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved two primes forward ${108 - prevPrevPrime + 2}`, popUpContent: "You landed on a leader ladder. Move two primes forward!"  + "\n\n" + ladderText[rollDiceForLadderRead()] };
         } else if (isPrime(newPosition + 1)) {
             const nextNextNextPrime = getNextPrime(getNextPrime(getNextPrime(newPosition)));
             player.position = nextNextNextPrime + 1;
-            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved three primes backward ${108 - nextNextNextPrime}`, popUpContent: "You landed on a slippery slope. Move three primes backward!"  + "\n"  + slopeText[rollDiceForSlopeRead()] };
+            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved three primes backward ${108 - nextNextNextPrime}`, popUpContent: "You landed on a slippery slope. Move three primes backward!"  + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
         } else if (isPrime(newPosition)) {
             const prevPrime = getPreviousPrime(newPosition);
             player.position = prevPrime;
-            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved to one prime forward ${108 - prevPrime}`, popUpContent: "You landed on a leader ladder. Move one prime forward!" };
+            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved to one prime forward ${108 - prevPrime}`, popUpContent: "You landed on a leader ladder. Move one prime forward!"  + "\n\n"  + ladderText[rollDiceForLadderRead()] };
         } else {
             return { oldPosition, newPosition }; // Player moved successfully
         }
