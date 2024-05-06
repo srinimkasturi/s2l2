@@ -54,12 +54,17 @@
         #player6 {
             background-color: rgba(0, 255, 255, 0.8); /* Cyan color with some transparency */
         }
+        #board-container {
+            position: relative; /* Ensure the container is relative for absolute positioning */
+        }
+
         #debug {
             display: none; /* Hide debug div by default */
+            position: absolute;
             margin-top: 20px;
-            border: 1px solid black;
-            padding: 10px;
-            text-align: left;
+            bottom: 10px; /* Position debug div below the board */
+            left: 50%; /* Center the debug div horizontally */
+            transform: translateX(-50%);
         }
     </style>
 </head>
@@ -78,8 +83,14 @@
     </p>
     <button id="toggleDebug">Toggle Debug</button>
     <p></p>
-    <div id="board" style="font-size: 0;">
-    <div id="debug"></div>
+
+    <div id="board-container">
+        <div id="board" style="font-size: 0;>
+        <!-- Rest of the board generation code remains the same -->
+        </div>
+        <div id="debug"></div> <!-- Move debug div below the board -->
+    </div>
+
 
     <script>
         // Function to generate a random dice value (1 to 6)
@@ -180,7 +191,7 @@
             const leftPosition = (column * cellWidth) + (cellWidth / 2) - (playerElement.offsetWidth / 2);
             const topPosition = (row * cellWidth) + (cellWidth / 2) - (playerElement.offsetHeight / 2);
 
-            // Set the position of the player marker
+            // Set the position of the player marker within the cell
             playerElement.style.left = `${leftPosition}px`;
             playerElement.style.top = `${topPosition}px`;
         }
