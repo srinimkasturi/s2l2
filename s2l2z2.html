@@ -173,8 +173,16 @@ function movePlayer(player, diceValue) {
             const playerElement = document.getElementById(`player${player.id}`);
             const newPosition = player.position;
             const [row, column, cellValue] = getPositionFromIndex(newPosition);
-            playerElement.style.left = `${ (column - 0.5) * 36 }px`; // `${ (35/2) + ((column - 1) * 0) + ((column + 1) * 35 ) + 0}px`; // Adjust left position based on column
-            playerElement.style.top  = `${ (row    + 1.0) * 36 }px`;  // `${ (35/2) + ((row    + 1) * 0) + ((row    + 1) * 35 ) + 0}px`; // Adjust top position based on row
+	    if (isEven(column)) {
+                playerElement.style.left = `${ (column + 0.5) * 36 }px`; // `${ (35/2) + ((column - 1) * 0) + ((column + 1) * 35 ) + 0}px`; // Adjust left position based on column
+	    } else {
+                playerElement.style.left = `${ (column - 0.5) * 36 }px`; // `${ (35/2) + ((column - 1) * 0) + ((column + 1) * 35 ) + 0}px`; // Adjust left position based on column
+	    }
+            if(isEven(row)) {
+		playerElement.style.top  = `${ (row    + 1.0) * 36 }px`;  // `${ (35/2) + ((row    + 1) * 0) + ((row    + 1) * 35 ) + 0}px`; // Adjust top position based on row
+	    } else {
+		playerElement.style.top  = `${ (row    + 1.0) * 36 }px`;  // `${ (35/2) + ((row    + 1) * 0) + ((row    + 1) * 35 ) + 0}px`; // Adjust top position based on row
+	    }
         }
 
         // Function to update the debug information
