@@ -202,7 +202,10 @@ function movePlayer(player, diceValue) {
                         <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
                         <p><strong>Message:</strong> ${message}</p>
                         <p><strong>Prime Move Count:</strong> ${primeMoveCount}</p>
-			<p><strong>Player pos:</strong>document.getElementById(`player${player.id}`)</p>
+			<p><strong>Even: ${ ((newColumn + 0.5)  + (newColumn % 3 * 0.25)) * 37 }</p>
+   			<p><strong>Odd:  ${ ((newColumn - 0.5)  + (newColumn % 3 * 0.25)) * 37 }</p>
+      			<p><strong>Even: ${ ((newRow    + 0.5)  + (newRow    % 3 * 0.25)) * 37 }</p>
+	 		<p><strong>Odd:  ${ ((newRow    + 0.5)  + (newRow    % 3 * 0.25)) * 37 }</p>
                     `;
                 } else {
                     debugElement.innerHTML = `
@@ -210,10 +213,10 @@ function movePlayer(player, diceValue) {
                         <p><strong>Dice Value:</strong> ${diceValue}</p>
                         <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
                         <p><strong>Prime Move Count:</strong> ${primeMoveCount}</p>
-			<p><strong>Player pos:</strong>${ ((column + 0.5)  + (column % 3 * 0.25)) * 37 }</p>
-   			<p><strong>Player pos:</strong>${ ((column - 0.5)  + (column % 3 * 0.25)) * 37 }</p>
-			<p><strong>Player pos:</strong>${ ((row    + 0.5)  + (row    % 3 * 0.25)) * 37 }</p>
-   			<p><strong>Player pos:</strong>${ ((row    - 0.5)  + (row    % 3 * 0.25)) * 37 }</p>
+			<p><strong>Even: ${ ((newColumn + 0.5)  + (newColumn % 3 * 0.25)) * 37 }</p>
+   			<p><strong>Odd:  ${ ((newColumn - 0.5)  + (newColumn % 3 * 0.25)) * 37 }</p>
+      			<p><strong>Even: ${ ((newRow    + 0.5)  + (newRow    % 3 * 0.25)) * 37 }</p>
+	 		<p><strong>Odd:  ${ ((newRow    + 0.5)  + (newRow    % 3 * 0.25)) * 37 }</p>
                     `;
                 }
             }
