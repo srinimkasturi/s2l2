@@ -174,15 +174,15 @@ function movePlayer(player, diceValue) {
             const newPosition = player.position;
             const [row, column, cellValue] = getPositionFromIndex(newPosition);
 	    if (column % 2 == 0) {
-                playerElement.style.left = `${ ((column + 0.5) ) + (column % 3)) * 37 }px`; // `${ (35/2) + ((column - 1) * 0) + ((column + 1) * 35 ) + 0}px`; // Adjust left position based on column
+                playerElement.style.left = `${ ((column + 0.5)  + (column % 3)) * 37 }px`; // `${ (35/2) + ((column - 1) * 0) + ((column + 1) * 35 ) + 0}px`; // Adjust left position based on column
 	    } else {
-                playerElement.style.left = `${ ((column - 0.5) ) + (column % 3)) * 37}px`; // `${ (35/2) + ((column - 1) * 0) + ((column + 1) * 35 ) + 0}px`; // Adjust left position based on column
+                playerElement.style.left = `${ ((column - 0.5)  + (column % 3)) * 37}px`; // `${ (35/2) + ((column - 1) * 0) + ((column + 1) * 35 ) + 0}px`; // Adjust left position based on column
 	    }
 		
             if(row % 2 == 0) {
-		playerElement.style.top  = `${ ((row    + 1.0) ) + (row % 3)) * 37}px`;  // `${ (35/2) + ((row    + 1) * 0) + ((row    + 1) * 35 ) + 0}px`; // Adjust top position based on row
+		playerElement.style.top  = `${ ((row    + 1.0)  + (row % 3)) * 37}px`;  // `${ (35/2) + ((row    + 1) * 0) + ((row    + 1) * 35 ) + 0}px`; // Adjust top position based on row
 	    } else {
-		playerElement.style.top  = `${ ((row    + 1.0) ) + (row % 3)) * 37}px`;  // `${ (35/2) + ((row    + 1) * 0) + ((row    + 1) * 35 ) + 0}px`; // Adjust top position based on row
+		playerElement.style.top  = `${ ((row    + 1.0)  + (row % 3)) * 37}px`;  // `${ (35/2) + ((row    + 1) * 0) + ((row    + 1) * 35 ) + 0}px`; // Adjust top position based on row
 	    }
         }
 
