@@ -202,6 +202,7 @@ function movePlayer(player, diceValue) {
                         <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
                         <p><strong>Message:</strong> ${message}</p>
                         <p><strong>Prime Move Count:</strong> ${primeMoveCount}</p>
+			<p><strong>Player pos:</strong>${playerElement.style.left}, ${playerElement.style.top}</p>
                     `;
                 } else {
                     debugElement.innerHTML = `
@@ -209,6 +210,7 @@ function movePlayer(player, diceValue) {
                         <p><strong>Dice Value:</strong> ${diceValue}</p>
                         <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
                         <p><strong>Prime Move Count:</strong> ${primeMoveCount}</p>
+			<p><strong>Player pos:</strong>${playerElement.style.left}, ${playerElement.style.top}</p>
                     `;
                 }
             }
