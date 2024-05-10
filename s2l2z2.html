@@ -210,7 +210,10 @@ function movePlayer(player, diceValue) {
                         <p><strong>Dice Value:</strong> ${diceValue}</p>
                         <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
                         <p><strong>Prime Move Count:</strong> ${primeMoveCount}</p>
-			<p><strong>Player pos:</strong>document.getElementById(`player${player.id}`)</p>
+			<p><strong>Player pos:</strong>${ ((column + 0.5)  + (column % 3 * 0.25)) * 37 }</p>
+   			<p><strong>Player pos:</strong>${ ((column - 0.5)  + (column % 3 * 0.25)) * 37 }</p>
+			<p><strong>Player pos:</strong>${ ((row    + 0.5)  + (row    % 3 * 0.25)) * 37 }</p>
+   			<p><strong>Player pos:</strong>${ ((row    - 0.5)  + (row    % 3 * 0.25)) * 37 }</p>
                     `;
                 }
             }
