@@ -202,10 +202,10 @@ function movePlayer(player, diceValue) {
                         <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
                         <p><strong>Message:</strong> ${message}</p>
                         <p><strong>Prime Move Count:</strong> ${primeMoveCount}</p>
-			<p><strong>Even: ${ ((newColumn + 0.5)  + (newColumn % 3 * 0.25)) * 37 }</p>
-   			<p><strong>Odd:  ${ ((newColumn - 0.5)  + (newColumn % 3 * 0.25)) * 37 }</p>
-      			<p><strong>Even: ${ ((newRow    + 0.5)  + (newRow    % 3 * 0.25)) * 37 }</p>
-	 		<p><strong>Odd:  ${ ((newRow    + 0.5)  + (newRow    % 3 * 0.25)) * 37 }</p>
+      			<p><strong>RowEven: ${ ((newRow    + 0.5)  + (newRow    % 3 * 0.25)) * 37 }</p>
+	 		<p><strong>RowOdd:  ${ ((newRow    + 0.5)  + (newRow    % 3 * 0.25)) * 37 }</p>
+			<p><strong>ColEven: ${ ((newColumn + 0.5)  + (newColumn % 3 * 0.25)) * 37 }</p>
+   			<p><strong>ColOdd:  ${ ((newColumn - 0.5)  + (newColumn % 3 * 0.25)) * 37 }</p>
                     `;
                 } else {
                     debugElement.innerHTML = `
@@ -213,10 +213,10 @@ function movePlayer(player, diceValue) {
                         <p><strong>Dice Value:</strong> ${diceValue}</p>
                         <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
                         <p><strong>Prime Move Count:</strong> ${primeMoveCount}</p>
-			<p><strong>Even: ${ ((newColumn + 0.5)  + (newColumn % 3 * 0.25)) * 37 }</p>
-   			<p><strong>Odd:  ${ ((newColumn - 0.5)  + (newColumn % 3 * 0.25)) * 37 }</p>
-      			<p><strong>Even: ${ ((newRow    + 0.5)  + (newRow    % 3 * 0.25)) * 37 }</p>
-	 		<p><strong>Odd:  ${ ((newRow    + 0.5)  + (newRow    % 3 * 0.25)) * 37 }</p>
+      			<p><strong>RowEven: ${ ((newRow    + 0.5)  + (newRow    % 3 * 0.25)) * 37 }</p>
+	 		<p><strong>RowOdd:  ${ ((newRow    + 0.5)  + (newRow    % 3 * 0.25)) * 37 }</p>
+			<p><strong>ColEven: ${ ((newColumn + 0.5)  + (newColumn % 3 * 0.25)) * 37 }</p>
+   			<p><strong>ColOdd:  ${ ((newColumn - 0.5)  + (newColumn % 3 * 0.25)) * 37 }</p>
                     `;
                 }
             }
