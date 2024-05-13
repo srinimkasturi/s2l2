@@ -169,17 +169,33 @@ function movePlayer(player, diceValue) {
 
 
         // Function to update the player's position on the board
+        //function updatePlayerPosition(player) {
+        //    const playerElement = document.getElementById(`player${player.id}`);
+        //    const newPosition = player.position;
+        //    const [row, column, cellValue] = getPositionFromIndex(newPosition);
+            // playerElement.style.left = `column * 37 px` ;
+        //    playerElement.style.left = `playerTopLeft[[row][column]][0] px` ;		
+	//    playerElement.style.top  = `playerTopLeft[[row][column]][1] px` ;
+	//    alert( playerElement.style.left ) ;
+	    // , " ", "column: ", column, " ", "playerElement.style.left: ", playerElement.style.left);
+        //}
+
         function updatePlayerPosition(player) {
             const playerElement = document.getElementById(`player${player.id}`);
-            const newPosition = player.position;
-            const [row, column, cellValue] = getPositionFromIndex(newPosition);
-            // playerElement.style.left = `column * 37 px` ;
-            playerElement.style.left = `playerTopLeft[[row][column]][0] px` ;		
-	    playerElement.style.top  = `playerTopLeft[[row][column]][1] px` ;
-	    alert( playerElement.style.left ) ;
-	    // , " ", "column: ", column, " ", "playerElement.style.left: ", playerElement.style.left);
+            const [row, column] = getPositionFromIndex(player.position);
+            const boardWidth = document.getElementById('board').offsetWidth; // Get the width of the board
+            const cellWidth = boardWidth / board[0].length; // Calculate width of each cell
+
+            // Calculate position of player relative to board size
+            const leftPosition = (column * cellWidth) + (cellWidth / 2) - (playerElement.offsetWidth / 2);
+            const topPosition = (row * cellWidth) + (cellWidth / 2) - (playerElement.offsetHeight / 2);
+
+            // Set the position of the player marker within the cell
+            playerElement.style.left = `${leftPosition}px`;
+            playerElement.style.top = `${topPosition}px`;
         }
 
+	    
         // Function to update the debug information
         function updateDebugInfo(moveResult, diceValue) {
             if (moveResult) {
