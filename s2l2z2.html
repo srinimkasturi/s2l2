@@ -173,8 +173,9 @@ function movePlayer(player, diceValue) {
             const playerElement = document.getElementById(`player${player.id}`);
             const newPosition = player.position;
             const [row, column, cellValue] = getPositionFromIndex(newPosition);
-            playerElement.style.left = `column * 37 px`
-	    playerElement.style.top  = `row * 37 px`
+            // playerElement.style.left = `column * 37 px` ;
+            playerElement.style.left = `playerTopLeft[[row][column]][0] px` ;		
+	    playerElement.style.top  = `row * 37 px` ;
         }
 
         // Function to update the debug information
