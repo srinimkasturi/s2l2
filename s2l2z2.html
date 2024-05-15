@@ -75,15 +75,12 @@
     </p>
     <div id="board"></div>
     <p></p>
-
+    <p>
+	<button id="toggleDebug">Toggle Debug</button>
+        <div id="debug"></div>
+    </p>
 	
     <script>
-	// Below 4 lines removed from body above, as debug is not needed right now
-	//<p>
-	// <button id="toggleDebug">Toggle Debug</button>
-        // <div id="debug"></div>
-        // </p>
-	    
         // Function to generate a random dice value (1 to 6)
         function rollDice() {
             return Math.floor(Math.random() * 6) + 1;
@@ -329,7 +326,7 @@ function movePlayer(player, diceValue) {
             document.getElementById('startGame').disabled = true; // Disable start game button
             // Play intro audio
             const introAudio = new Audio('https://srinimkasturi.github.io/s2l2/AudioFiles/S2L2welcome.m4a');
-            introAudio.play();
+            // introAudio.play();
         });
 
         let currentPlayerIndex = 0;
