@@ -60,14 +60,6 @@
         }
     </style>
 </head>
-<!-- 
-	Code workpad
-	   Snippet 1
-	     <p>
-	         <button id="toggleDebug">Toggle Debug</button>
-                 <div id="debug"></div>
-             </p>
---->
 <body>
     <h3>Welcome to Slippers Slopes and Leaders Ladder game!</h3>
     <p>1. Landscape mode is better      2. Select: 
@@ -83,20 +75,23 @@
     </p>
     <div id="board"></div>
     <p></p>
-
+    <p>
+	<button id="toggleDebug">Toggle Debug</button>
+        <div id="debug"></div>
+    </p>
 	
     <script>
         // Function to generate a random dice value (1 to 6)
         function rollDice() {
             return Math.floor(Math.random() * 6) + 1;
         }
-        // Function to generate a random dice value (1 to 3)
+        // Function to generate a random dice value (1 to 6)
         function rollDiceForLadderRead() {
-            return Math.floor(Math.random() * 3) ;
+            return Math.floor(Math.random() * 3) + 1;
         }
-        // Function to generate a random dice value (1 to 2)
+        // Function to generate a random dice value (1 to 6)
         function rollDiceForSlopeRead() {
-            return Math.floor(Math.random() * 2) ;
+            return Math.floor(Math.random() * 2) + 1;
         }
 
         // Function to check if a number is prime
@@ -331,7 +326,7 @@ function movePlayer(player, diceValue) {
             document.getElementById('startGame').disabled = true; // Disable start game button
             // Play intro audio
             const introAudio = new Audio('https://srinimkasturi.github.io/s2l2/AudioFiles/S2L2welcome.m4a');
-            // introAudio.play();
+            introAudio.play();
         });
 
         let currentPlayerIndex = 0;
