@@ -9,22 +9,6 @@
             font-family: Arial, sans-serif;
             text-align: center;
             position: relative; /* Ensure body acts as the containing block for absolutely positioned elements */
-            background-image: url('https://vedicsidhaanta.blogspot.com/2018/02/the-dashavatara-part-1-birth-of-krishna.html');
-            background-size: cover;
-            background-attachment: fixed;
-            background-position: center;
-            color: #333; /* Ensure text is readable */
-        }
-        #background-url {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: rgba(255, 255, 255, 0.7);
-            color: #333;
-            padding: 10px;
-            text-align: center;
-            font-size: 12px;
         }
         #board {
             display: inline-block;
@@ -95,7 +79,6 @@
 	<button id="toggleDebug">Toggle Debug</button>
         <div id="debug"></div>
     </p>
-    <div id="background-url">Background image source: <a href="https://vedicsidhaanta.blogspot.com/2018/02/the-dashavatara-part-1-birth-of-krishna.html" target="_blank">The Dashavatara - Part 1: Birth of Krishna</a></div>
 	
     <script>
         // Function to generate a random dice value (1 to 6)
@@ -175,131 +158,205 @@ function movePlayer(player, diceValue) {
             return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved three primes backward ${108 - nextNextNextPrime - 1}`, popUpContent: "You landed on a slippery slope. You slid way back!"  + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
         } else if (isPrime(newPosition)) {
             const prevPrime = getPreviousPrime(newPosition);
-            player.position = prevPrime - 1;
-            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved one prime forward ${108 - prevPrime + 1}`, popUpContent: "You landed on a leader ladder. You jumped a bit forward!" + "\n\n"  + ladderText[rollDiceForLadderRead()] };
+            player.position = prevPrime;
+            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved to one prime forward ${108 - prevPrime}`, popUpContent: "You landed on a leader ladder. You jumped forward!"  + "\n\n"  + ladderText[rollDiceForLadderRead()] };
         } else {
-            // No special condition, just move the player
-            player.position = newPosition;
-            return { oldPosition, newPosition, message: `Player moved from ${108 - oldPosition} to ${108 - newPosition}`, popUpContent: "" };
+            return { oldPosition, newPosition }; // Player moved successfully
         }
-    } else {
-        return { oldPosition, newPosition: oldPosition, message: `Player cannot move, stays at ${108 - oldPosition}`, popUpContent: "" };
     }
+    return null; // Player couldn't move to any cell
 }
 
-        // Function to render the board
-        function renderBoard(players) {
-            const boardElement = document.getElementById('board');
-            boardElement.innerHTML = ''; // Clear the board
 
-            // Create cells for the board
-            for (let i = 107; i >= 0; i--) {
+        // Function to update the player's position on the board
+        //function updatePlayerPosition(player) {
+        //    const playerElement = document.getElementById(`player${player.id}`);
+        //    const newPosition = player.position;
+        //    const [row, column, cellValue] = getPositionFromIndex(newPosition);
+            // playerElement.style.left = `column * 37 px` ;
+        //    playerElement.style.left = `playerTopLeft[[row][column]][0] px` ;		
+	//    playerElement.style.top  = `playerTopLeft[[row][column]][1] px` ;
+	//    alert( playerElement.style.left ) ;
+	    // , " ", "column: ", column, " ", "playerElement.style.left: ", playerElement.style.left);
+        //}
+
+        function updatePlayerPosition(player) {
+            const playerElement = document.getElementById(`player${player.id}`);
+            const [row, column] = getPositionFromIndex(player.position);
+            const boardWidth = document.getElementById('board').offsetWidth; // Get the width of the board
+            const cellWidth = boardWidth / board[0].length; // Calculate width of each cell
+
+            // Calculate position of player relative to board size
+            const leftPosition = (column * cellWidth) + (cellWidth / 2) - (playerElement.offsetWidth / 2);
+            const topPosition = (row * cellWidth) + (cellWidth / 2) - (playerElement.offsetHeight / 2);
+
+            // Set the position of the player marker within the cell
+            playerElement.style.left = `${leftPosition}px`;
+            playerElement.style.top = `${topPosition}px`;
+        }
+
+	    
+        // Function to update the debug information
+        function updateDebugInfo(moveResult, diceValue) {
+            if (moveResult) {
+                const debugElement = document.getElementById('debug');
+                const { oldPosition, newPosition, message } = moveResult;
+                const [oldRow, oldColumn, oldCellValue] = getPositionFromIndex(oldPosition);
+                const [newRow, newColumn, newCellValue] = getPositionFromIndex(newPosition);
+                const primeMoveCount = Math.abs(oldPosition - newPosition);
+                debugElement.style.display = 'block';
+                if (message) {
+                    debugElement.innerHTML = `
+                        <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}, Value ${oldCellValue}</p>
+                        <p><strong>Dice Value:</strong> ${diceValue}</p>
+                        <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
+                        <p><strong>Message:</strong> ${message}</p>
+                        <p><strong>Prime Move Count:</strong> ${primeMoveCount}</p>
+                    `;
+                } else {
+                    debugElement.innerHTML = `
+                        <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}, Value ${oldCellValue}</p>
+                        <p><strong>Dice Value:</strong> ${diceValue}</p>
+                        <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
+                        <p><strong>Prime Move Count:</strong> ${primeMoveCount}</p>
+			`;
+               }
+            }
+        }
+
+        // Function to calculate row and column from position index
+        function getPositionFromIndex(position) {
+            const row = Math.floor(position / board[0].length);
+            let column;
+            if (row % 2 === 0) {
+                column = position % board[0].length;
+            } else {
+                column = board[0].length - 1 - (position % board[0].length);
+            }
+            return [row, column, board[row][column]];
+        }
+
+        // Create the game board
+        const boardElement = document.getElementById('board');
+	const		board		=		[											
+		[	108,	107,	106,	105,	104,	103,	102,	101,	100	],
+		[	91,	92,	93,	94,	95,	96,	97,	98,	99	],
+		[	90,	89,	88,	87,	86,	85,	84,	83,	82	],
+		[	73,	74,	75,	76,	77,	78,	79,	80,	81	],
+		[	72,	71,	70,	69,	68,	67,	66,	65,	64	],
+		[	55,	56,	57,	58,	59,	60,	61,	62,	63	],
+		[	54,	53,	52,	51,	50,	49,	48,	47,	46	],
+		[	37,	38,	39,	40,	41,	42,	43,	44,	45	],
+		[	36,	35,	34,	33,	32,	31,	30,	29,	28	],
+		[	19,	20,	21,	22,	23,	24,	25,	26,	27	],
+		[	18,	17,	16,	15,	14,	13,	12,	11,	10	],
+		[	1,	2,	3,	4,	5,	6,	7,	8,	9	],
+	];	
+
+	const playerTopLeft = [												
+		[		[17,17],	[17,54],	[17,91],	[17,128],	[17,165],	[17,202],	[17,239],	[17,276],	[17,313],	],
+		[		[54,17],	[54,54],	[54,91],	[54,128],	[54,165],	[54,202],	[54,239],	[54,276],	[54,313],	],
+		[		[91,17],	[91,54],	[91,91],	[91,128],	[91,165],	[91,202],	[91,239],	[91,276],	[91,313],	],
+		[		[128,17],	[128,54],	[128,91],	[128,128],	[128,165],	[128,202],	[128,239],	[128,276],	[128,313],	],
+		[		[165,17],	[165,54],	[165,91],	[165,128],	[165,165],	[165,202],	[165,239],	[165,276],	[165,313],	],
+		[		[202,17],	[202,54],	[202,91],	[202,128],	[202,165],	[202,202],	[202,239],	[202,276],	[202,313],	],
+		[		[239,17],	[239,54],	[239,91],	[239,128],	[239,165],	[239,202],	[239,239],	[239,276],	[239,313],	],
+		[		[276,17],	[276,54],	[276,91],	[276,128],	[276,165],	[276,202],	[276,239],	[276,276],	[276,313],	],
+		[		[313,17],	[313,54],	[313,91],	[313,128],	[313,165],	[313,202],	[313,239],	[313,276],	[313,313],	],
+		[		[350,17],	[350,54],	[350,91],	[350,128],	[350,165],	[350,202],	[350,239],	[350,276],	[350,313],	],
+		[		[387,17],	[387,54],	[387,91],	[387,128],	[387,165],	[387,202],	[387,239],	[387,276],	[387,313],	],
+		[		[424,17],	[424,54],	[424,91],	[424,128],	[424,165],	[424,202],	[424,239],	[424,276],	[424,313],	],
+	];												
+
+        const cellColors = [
+            'rgba(255, 255, 153, 0.8)', // Pale yellow
+            'rgba(153, 255, 153, 0.8)', // Pale green
+            'rgba(153, 204, 255, 0.8)', // Pale blue
+            'rgba(255, 153, 255, 0.8)', // Pale magenta
+            'rgba(255, 204, 153, 0.8)', // Pale orange
+            'rgba(204, 153, 255, 0.8)' // Pale purple
+        ];
+        const ladderText = [
+            "Matsya Avtaar, 1 of 5: When the universe was going to be submerged in the biggest of all rains, Lord Vishnu appeared as a humongous fish, Matsya.",
+            "Matsya Avtaar, 2 of 5: During the greate universal deluge, Matsya rescued all forms of life that would listen to his plan and once the rains were gone, he gave them a brand new world.",
+            "Matsya Avtaar, 3 of 5: To safe the world, Matsya asked Satyavrata to join his team. Satyavrata built a huge ship and got all the living things onto the ship and the ship was rescued by Matsya during the universal deluge.",
+        ];
+        const slopeText = [
+            "Matsya Avtaar, 4 of 5: While Satyavrata and Matsya were plaing to save life during the great univeral deluge, Hayagrivah was busy stealing all the knowledge.",
+            "Matsya Avtaar, 5 of 5: While the universal life resuce opetion was under way, Vishnu saw Satyavrata stealing knowledge and asked him repeatedly to give the knowledge back to the world, when he refused, Vishnu Matsya vanquished him, and gave the knowledge back to the world full of new life.",
+        ];
+        
+        let colorIndex = 0;
+        for (let i = 0; i < board.length; i++) {
+            for (let j = 0; j < board[i].length; j++) {
                 const cell = document.createElement('div');
                 cell.classList.add('cell');
-                cell.dataset.cellIndex = i;
+                cell.textContent = board[i][j];
+                cell.style.backgroundColor = cellColors[colorIndex]; // Apply pale color
+                colorIndex = (colorIndex + 1) % cellColors.length; // Increment color index
+                cell.id = `cell-${i}-${j}`;
                 boardElement.appendChild(cell);
             }
+            boardElement.appendChild(document.createElement('br'));
+        }
 
+        // Create the players
+        let players = [];
+
+        // Function to create players based on selected count
+        function createPlayers(count) {
+            players = [];
+            for (let i = 1; i <= count; i++) {
+                players.push({ id: i, position: 107 });
+            }
             // Create player elements
             players.forEach(player => {
                 const playerElement = document.createElement('div');
                 playerElement.classList.add('player');
                 playerElement.id = `player${player.id}`;
                 boardElement.appendChild(playerElement);
-                updatePlayerPosition(player);
             });
         }
 
-        // Function to update player position on the board
-        function updatePlayerPosition(player) {
-            const playerElement = document.getElementById(`player${player.id}`);
-            const cellSize = 37; // Size of the cell (including borders and margin)
-            const rowLength = 9; // Number of cells in a row
-            const xOffset = 12; // Offset for the player position within the cell
-            const yOffset = 12; // Offset for the player position within the cell
-
-            // Calculate row and column based on the player's position
-            const row = Math.floor(player.position / rowLength);
-            const col = player.position % rowLength;
-
-            // Calculate the x and y position for the player
-            const xPos = col * cellSize + xOffset;
-            const yPos = row * cellSize + yOffset;
-
-            // Update the player element's style to move it to the new position
-            playerElement.style.transform = `translate(${xPos}px, ${yPos}px)`;
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const startGameButton = document.getElementById('startGame');
-            const rollDiceButton = document.getElementById('rollDice');
-            const debugDiv = document.getElementById('debug');
-            const toggleDebugButton = document.getElementById('toggleDebug');
-            let players = [];
-            let currentPlayerIndex = 0;
-
-            // Text for pop-ups
-            const ladderText = [
-                "Success usually comes to those who are too busy to be looking for it.",
-                "Don't be afraid to give up the good to go for the great.",
-                "I find that the harder I work, the more luck I seem to have."
-            ];
-
-            const slopeText = [
-                "Success is not final; failure is not fatal: It is the courage to continue that counts.",
-                "It is better to fail in originality than to succeed in imitation.",
-                "The road to success and the road to failure are almost exactly the same."
-            ];
-
-            // Start game event listener
-            startGameButton.addEventListener('click', () => {
-                const playerCount = parseInt(document.getElementById('playerCount').value);
-                players = [];
-
-                // Initialize players
-                for (let i = 1; i <= playerCount; i++) {
-                    players.push({ id: i, position: 107 }); // Starting position at cell 108 (index 107)
-                }
-
-                renderBoard(players);
-                currentPlayerIndex = 0;
-                rollDiceButton.disabled = false; // Enable the Roll Dice button
-            });
-
-            // Roll dice event listener
-            rollDiceButton.addEventListener('click', () => {
-                const diceValue = rollDice();
-                const currentPlayer = players[currentPlayerIndex];
-                const { oldPosition, newPosition, message, popUpContent } = movePlayer(currentPlayer, diceValue);
-
-                // Log the move in the debug div
-                const moveLog = document.createElement('div');
-                moveLog.textContent = `Player ${currentPlayer.id} rolled a ${diceValue}: ${message}`;
-                debugDiv.appendChild(moveLog);
-
-                // Update the player's position on the board
-                updatePlayerPosition(currentPlayer);
-
-                // Show an alert with the pop-up content if any
-                if (popUpContent) {
-                    alert(popUpContent);
-                }
-
-                // Check for the end of the game
-                if (currentPlayer.position === 0) {
-                    alert(`Player ${currentPlayer.id} wins!`);
-                    rollDiceButton.disabled = true; // Disable the Roll Dice button
-                } else {
-                    // Move to the next player
-                    currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-                }
-            });
-
-            // Toggle debug information visibility
-            toggleDebugButton.addEventListener('click', () => {
-                debugDiv.style.display = debugDiv.style.display === 'none' ? 'block' : 'none';
-            });
+        // Function to handle the start game button click event
+        document.getElementById('startGame').addEventListener('click', function() {
+            const playerCount = parseInt(document.getElementById('playerCount').value);
+            createPlayers(playerCount);
+            document.getElementById('rollDice').disabled = false; // Enable roll dice button
+            document.getElementById('startGame').disabled = true; // Disable start game button
+            // Play intro audio
+            const introAudio = new Audio('https://srinimkasturi.github.io/s2l2/AudioFiles/S2L2welcome.m4a');
+            introAudio.play();
         });
+
+        let currentPlayerIndex = 0;
+
+        // Function to handle the roll dice button click event
+        document.getElementById('rollDice').addEventListener('click', function() {
+            const currentPlayer = players[currentPlayerIndex];
+            const diceValue = rollDice();
+            const moveResult = movePlayer(currentPlayer, diceValue);
+            updatePlayerPosition(currentPlayer);
+            updateDebugInfo(moveResult, diceValue);
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length; // Move to the next player
+            // Show pop-up if player landed on a ladder or slope
+            if (moveResult && moveResult.popUpContent) {
+               // Check if the player landed on the 7th prime position
+                 if (moveResult > 54) {
+                    alert("You landed on the Leaders Ladder of Satyavrata");
+                 }
+                 alert(moveResult.popUpContent);
+            }
+        });
+
+        // Function to handle the toggle debug button click event
+        document.getElementById('toggleDebug').addEventListener('click', function() {
+            const debugElement = document.getElementById('debug');
+            debugElement.style.display = debugElement.style.display === 'none' ? 'block' : 'none';
+        });
+
+        // Initialize players' positions
+        players.forEach(player => updatePlayerPosition(player));
     </script>
 </body>
 </html>
