@@ -51,6 +51,23 @@
         #player6 {
             background-color: rgba(0, 255, 255, 0.8); /* Cyan color with some transparency */
         }
+        #notification {
+            display: none; /* Hide notification div by default */
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid black;
+            padding: 10px;
+            z-index: 1000; /* Ensure the notification div is above other elements */
+        }
+        #notification p {
+            margin: 0;
+        }
+        #pauseButton {
+            margin-left: 20px;
+        }
         #debug {
             display: none; /* Hide debug div by default */
             margin-top: 20px;
@@ -76,10 +93,13 @@
     <div id="board"></div>
     <p></p>
     <p>
-	<button id="toggleDebug">Toggle Debug</button>
+        <button id="toggleDebug">Toggle Debug</button>
         <div id="debug"></div>
     </p>
-	
+    <div id="notification">
+        <p id="notificationText"></p>
+        <button id="pauseButton">Pause</button>
+    </div>
     <script>
         // Function to generate a random dice value (1 to 6)
         function rollDice() {
@@ -87,11 +107,11 @@
         }
         // Function to generate a random dice value (1 to 3)
         function rollDiceForLadderRead() {
-            return Math.floor(Math.random() * 3) ;
+            return Math.floor(Math.random() * 3);
         }
         // Function to generate a random dice value (1 to 2)
         function rollDiceForSlopeRead() {
-            return Math.floor(Math.random() * 2) ;
+            return Math.floor(Math.random() * 2);
         }
 
         // Function to check if a number is prime
@@ -125,238 +145,183 @@
             return prev;
         }
 
-// Function to move the player on the board
-function movePlayer(player, diceValue) {
-    // Calculate the new position
-    let oldPosition = player.position;
-    let newPosition = player.position - diceValue;
-    // Check if the new position is within the board bounds
-    if (newPosition >= 0) {
-        // Update the player's position
-        // In the beginning go up ladder fast, later on fall slopes fast
-        player.position = newPosition;
+        // Function to move the player on the board
+        function movePlayer(player, diceValue) {
+            // Calculate the new position
+            let oldPosition = player.position;
+            let newPosition = player.position - diceValue;
+            // Check if the new position is within the board bounds
+            if (newPosition >= 0) {
+                // Update the player's position
+                // In the beginning go up ladder fast, later on fall slopes fast
+                player.position = newPosition;
 
-        if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
-            const nextPrime = getNextPrime(newPosition + 1);
-            player.position = nextPrime - 1;
-            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved to one prime backward ${108 - nextPrime + 1}`, popUpContent: "You landed on a slippery slope. You slid a bit backward!" + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
-        } else if (isPrime(newPosition) && newPosition >= 54) {
-            const prevPrevPrevPrime = getPreviousPrime(getPreviousPrime(getPreviousPrime(newPosition)));
-            player.position = prevPrevPrevPrime - 3;
-            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved three primes forward ${108 - prevPrevPrevPrime + 3}`, popUpContent: "You landed on a leader ladder. You jumped way forward!" + "\n\n"  + ladderText[rollDiceForLadderRead()] };
-        } else if (isPrime(newPosition + 1) && newPosition + 1 >= 27 && newPosition + 1 < 54) {
-            const nextNextPrime = getNextPrime(getNextPrime(newPosition));
-            player.position = nextNextPrime + 1;
-            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved two primes backward ${108 - nextNextPrime - 1}`, popUpContent: "You landed on a slippery slope. You slid backward!"  + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
-        } else if (isPrime(newPosition) && newPosition >= 27 && newPosition < 54) {
-            const prevPrevPrime = getPreviousPrime(getPreviousPrime(newPosition));
-            player.position = prevPrevPrime - 2;
-            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved two primes forward ${108 - prevPrevPrime + 2}`, popUpContent: "You landed on a leader ladder. You jumped quite a bit forward!"  + "\n\n" + ladderText[rollDiceForLadderRead()] };
-        } else if (isPrime(newPosition + 1)) {
-            const nextNextNextPrime = getNextPrime(getNextPrime(getNextPrime(newPosition)));
-            player.position = nextNextNextPrime + 1;
-            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved three primes backward ${108 - nextNextNextPrime - 1}`, popUpContent: "You landed on a slippery slope. You slid way back!"  + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
-        } else if (isPrime(newPosition)) {
-            const prevPrime = getPreviousPrime(newPosition);
-            player.position = prevPrime;
-            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved to one prime forward ${108 - prevPrime}`, popUpContent: "You landed on a leader ladder. You jumped forward!"  + "\n\n"  + ladderText[rollDiceForLadderRead()] };
-        } else {
-            return { oldPosition, newPosition }; // Player moved successfully
+                if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
+                    const nextPrime = getNextPrime(newPosition + 1);
+                    player.position = nextPrime - 1;
+                    return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved to one prime backward ${108 - nextPrime + 1}`, popUpContent: "You landed on a slippery slope. Move one prime backward!" + "\n\n"  + ladderText[rollDiceForLadderRead()] };
+                } else if (isPrime(newPosition) && newPosition >= 54) {
+                    const prevPrevPrevPrime = getPreviousPrime(getPreviousPrime(getPreviousPrime(newPosition)));
+                    player.position = prevPrevPrevPrime - 3;
+                    return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved three primes forward ${108 - prevPrevPrevPrime + 3}`, popUpContent: "You landed on a leader ladder. Move three primes forward!" + "\n\n"  + ladderText[rollDiceForLadderRead()] };
+                } else if (isPrime(newPosition + 1) && newPosition + 1 >= 27 && newPosition + 1 < 54) {
+                    const nextNextPrime = getNextPrime(getNextPrime(newPosition));
+                    player.position = nextNextPrime + 1;
+                    return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved two primes backward ${108 - nextNextPrime - 1}`, popUpContent: "You landed on a slippery slope. Move two primes backward!"  + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
+                } else if (isPrime(newPosition) && newPosition >= 27 && newPosition < 54) {
+                    const prevPrevPrime = getPreviousPrime(getPreviousPrime(newPosition));
+                    player.position = prevPrevPrime - 2;
+                    return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved two primes forward ${108 - prevPrevPrime + 2}`, popUpContent: "You landed on a leader ladder. Move two primes forward!"  + "\n\n" + ladderText[rollDiceForLadderRead()] };
+                } else if (isPrime(newPosition + 1)) {
+                    const nextNextNextPrime = getNextPrime(getNextPrime(getNextPrime(newPosition)));
+                    player.position = nextNextNextPrime + 1;
+                    return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved three primes backward ${108 - nextNextNextPrime - 1}`, popUpContent: "You landed on a slippery slope. Move three primes backward!" + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
+                } else if (isPrime(newPosition)) {
+                    const prevPrime = getPreviousPrime(newPosition);
+                    player.position = prevPrime;
+                    return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved to one prime forward ${108 - prevPrime}`, popUpContent: "You landed on a leader ladder. Move one prime forward!" + "\n\n"  + ladderText[rollDiceForLadderRead()] };
+                } else {
+                    return { oldPosition, newPosition }; // Player moved successfully
+                }
+            }
+            return null; // Player couldn't move to any cell
         }
-    }
-    return null; // Player couldn't move to any cell
-}
-
 
         // Function to update the player's position on the board
-        //function updatePlayerPosition(player) {
-        //    const playerElement = document.getElementById(`player${player.id}`);
-        //    const newPosition = player.position;
-        //    const [row, column, cellValue] = getPositionFromIndex(newPosition);
-            // playerElement.style.left = `column * 37 px` ;
-        //    playerElement.style.left = `playerTopLeft[[row][column]][0] px` ;		
-	//    playerElement.style.top  = `playerTopLeft[[row][column]][1] px` ;
-	//    alert( playerElement.style.left ) ;
-	    // , " ", "column: ", column, " ", "playerElement.style.left: ", playerElement.style.left);
-        //}
-
         function updatePlayerPosition(player) {
             const playerElement = document.getElementById(`player${player.id}`);
             const [row, column] = getPositionFromIndex(player.position);
             const boardWidth = document.getElementById('board').offsetWidth; // Get the width of the board
             const cellWidth = boardWidth / board[0].length; // Calculate width of each cell
 
-            // Calculate position of player relative to board size
-            const leftPosition = (column * cellWidth) + (cellWidth / 2) - (playerElement.offsetWidth / 2);
-            const topPosition = (row * cellWidth) + (cellWidth / 2) - (playerElement.offsetHeight / 2);
+            // Calculate the player's position in pixels
+            const left = column * cellWidth + (cellWidth / 2) - (playerElement.offsetWidth / 2);
+            const top = row * cellWidth + (cellWidth / 2) - (playerElement.offsetHeight / 2);
 
-            // Set the position of the player marker within the cell
-            playerElement.style.left = `${leftPosition}px`;
-            playerElement.style.top = `${topPosition}px`;
+            // Update the player's position
+            playerElement.style.left = `${left}px`;
+            playerElement.style.top = `${top}px`;
         }
 
-	    
-        // Function to update the debug information
-        function updateDebugInfo(moveResult, diceValue) {
-            if (moveResult) {
-                const debugElement = document.getElementById('debug');
-                const { oldPosition, newPosition, message } = moveResult;
-                const [oldRow, oldColumn, oldCellValue] = getPositionFromIndex(oldPosition);
-                const [newRow, newColumn, newCellValue] = getPositionFromIndex(newPosition);
-                const primeMoveCount = Math.abs(oldPosition - newPosition);
-                debugElement.style.display = 'block';
-                if (message) {
-                    debugElement.innerHTML = `
-                        <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}, Value ${oldCellValue}</p>
-                        <p><strong>Dice Value:</strong> ${diceValue}</p>
-                        <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
-                        <p><strong>Message:</strong> ${message}</p>
-                        <p><strong>Prime Move Count:</strong> ${primeMoveCount}</p>
-                    `;
-                } else {
-                    debugElement.innerHTML = `
-                        <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}, Value ${oldCellValue}</p>
-                        <p><strong>Dice Value:</strong> ${diceValue}</p>
-                        <p><strong>New Position:</strong> Row ${newRow}, Column ${newColumn}, Value ${newCellValue}</p>
-                        <p><strong>Prime Move Count:</strong> ${primeMoveCount}</p>
-			`;
-               }
-            }
+        // Function to convert a 1D array index to a 2D array position
+        function getPositionFromIndex(index) {
+            const columns = 6; // Number of columns on the board
+            const row = Math.floor(index / columns);
+            const column = index % columns;
+            return [row, column];
         }
 
-        // Function to calculate row and column from position index
-        function getPositionFromIndex(position) {
-            const row = Math.floor(position / board[0].length);
-            let column;
-            if (row % 2 === 0) {
-                column = position % board[0].length;
-            } else {
-                column = board[0].length - 1 - (position % board[0].length);
-            }
-            return [row, column, board[row][column]];
+        // Function to show notification
+        function showNotification(message) {
+            const notificationDiv = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            notificationText.textContent = message;
+            notificationDiv.style.display = 'block';
+
+            // Set a timeout to hide the notification after 15 seconds
+            notificationTimeout = setTimeout(() => {
+                notificationDiv.style.display = 'none';
+            }, 15000);
         }
 
-        // Create the game board
-        const boardElement = document.getElementById('board');
-	const		board		=		[											
-		[	108,	107,	106,	105,	104,	103,	102,	101,	100	],
-		[	91,	92,	93,	94,	95,	96,	97,	98,	99	],
-		[	90,	89,	88,	87,	86,	85,	84,	83,	82	],
-		[	73,	74,	75,	76,	77,	78,	79,	80,	81	],
-		[	72,	71,	70,	69,	68,	67,	66,	65,	64	],
-		[	55,	56,	57,	58,	59,	60,	61,	62,	63	],
-		[	54,	53,	52,	51,	50,	49,	48,	47,	46	],
-		[	37,	38,	39,	40,	41,	42,	43,	44,	45	],
-		[	36,	35,	34,	33,	32,	31,	30,	29,	28	],
-		[	19,	20,	21,	22,	23,	24,	25,	26,	27	],
-		[	18,	17,	16,	15,	14,	13,	12,	11,	10	],
-		[	1,	2,	3,	4,	5,	6,	7,	8,	9	],
-	];	
+        // Event listener for pause button
+        document.getElementById('pauseButton').addEventListener('click', () => {
+            clearTimeout(notificationTimeout);
+        });
 
-	const playerTopLeft = [												
-		[		[17,17],	[17,54],	[17,91],	[17,128],	[17,165],	[17,202],	[17,239],	[17,276],	[17,313],	],
-		[		[54,17],	[54,54],	[54,91],	[54,128],	[54,165],	[54,202],	[54,239],	[54,276],	[54,313],	],
-		[		[91,17],	[91,54],	[91,91],	[91,128],	[91,165],	[91,202],	[91,239],	[91,276],	[91,313],	],
-		[		[128,17],	[128,54],	[128,91],	[128,128],	[128,165],	[128,202],	[128,239],	[128,276],	[128,313],	],
-		[		[165,17],	[165,54],	[165,91],	[165,128],	[165,165],	[165,202],	[165,239],	[165,276],	[165,313],	],
-		[		[202,17],	[202,54],	[202,91],	[202,128],	[202,165],	[202,202],	[202,239],	[202,276],	[202,313],	],
-		[		[239,17],	[239,54],	[239,91],	[239,128],	[239,165],	[239,202],	[239,239],	[239,276],	[239,313],	],
-		[		[276,17],	[276,54],	[276,91],	[276,128],	[276,165],	[276,202],	[276,239],	[276,276],	[276,313],	],
-		[		[313,17],	[313,54],	[313,91],	[313,128],	[313,165],	[313,202],	[313,239],	[313,276],	[313,313],	],
-		[		[350,17],	[350,54],	[350,91],	[350,128],	[350,165],	[350,202],	[350,239],	[350,276],	[350,313],	],
-		[		[387,17],	[387,54],	[387,91],	[387,128],	[387,165],	[387,202],	[387,239],	[387,276],	[387,313],	],
-		[		[424,17],	[424,54],	[424,91],	[424,128],	[424,165],	[424,202],	[424,239],	[424,276],	[424,313],	],
-	];												
-
-        const cellColors = [
-            'rgba(255, 255, 153, 0.8)', // Pale yellow
-            'rgba(153, 255, 153, 0.8)', // Pale green
-            'rgba(153, 204, 255, 0.8)', // Pale blue
-            'rgba(255, 153, 255, 0.8)', // Pale magenta
-            'rgba(255, 204, 153, 0.8)', // Pale orange
-            'rgba(204, 153, 255, 0.8)' // Pale purple
-        ];
-        const ladderText = [
-            "Matsya Avtaar, 1 of 5: When the universe was going to be submerged in the biggest of all rains, Lord Vishnu appeared as a humongous fish, Matsya.",
-            "Matsya Avtaar, 2 of 5: During the greate universal deluge, Matsya rescued all forms of life that would listen to his plan and once the rains were gone, he gave them a brand new world.",
-            "Matsya Avtaar, 3 of 5: To safe the world, Matsya asked Satyavrata to join his team. Satyavrata built a huge ship and got all the living things onto the ship and the ship was rescued by Matsya during the universal deluge.",
-        ];
-        const slopeText = [
-            "Matsya Avtaar, 4 of 5: While Satyavrata and Matsya were plaing to save life during the great univeral deluge, Hayagrivah was busy stealing all the knowledge.",
-            "Matsya Avtaar, 5 of 5: While the universal life resuce opetion was under way, Vishnu saw Satyavrata stealing knowledge and asked him repeatedly to give the knowledge back to the world, when he refused, Vishnu Matsya vanquished him, and gave the knowledge back to the world full of new life.",
-        ];
-        
-        let colorIndex = 0;
-        for (let i = 0; i < board.length; i++) {
-            for (let j = 0; j < board[i].length; j++) {
-                const cell = document.createElement('div');
-                cell.classList.add('cell');
-                cell.textContent = board[i][j];
-                cell.style.backgroundColor = cellColors[colorIndex]; // Apply pale color
-                colorIndex = (colorIndex + 1) % cellColors.length; // Increment color index
-                cell.id = `cell-${i}-${j}`;
-                boardElement.appendChild(cell);
-            }
-            boardElement.appendChild(document.createElement('br'));
-        }
-
-        // Create the players
         let players = [];
+        let currentPlayerIndex = 0;
+        let notificationTimeout;
 
-        // Function to create players based on selected count
-        function createPlayers(count) {
-            players = [];
-            for (let i = 1; i <= count; i++) {
-                players.push({ id: i, position: 107 });
+        // Board array to store the positions
+        const board = [];
+        for (let i = 0; i < 18; i++) {
+            const row = [];
+            for (let j = 0; j < 6; j++) {
+                row.push('');
             }
-            // Create player elements
-            players.forEach(player => {
-                const playerElement = document.createElement('div');
-                playerElement.classList.add('player');
-                playerElement.id = `player${player.id}`;
-                boardElement.appendChild(playerElement);
-            });
+            board.push(row);
         }
 
-        // Function to handle the start game button click event
-        document.getElementById('startGame').addEventListener('click', function() {
+        // Initialize the board
+        function initializeBoard() {
+            const boardDiv = document.getElementById('board');
+            boardDiv.innerHTML = ''; // Clear the board
+            for (let i = 0; i < 18; i++) {
+                for (let j = 0; j < 6; j++) {
+                    const cellDiv = document.createElement('div');
+                    cellDiv.className = 'cell';
+                    boardDiv.appendChild(cellDiv);
+                }
+                const br = document.createElement('br');
+                boardDiv.appendChild(br);
+            }
+        }
+
+        // Initialize the game
+        document.getElementById('startGame').addEventListener('click', () => {
             const playerCount = parseInt(document.getElementById('playerCount').value);
-            createPlayers(playerCount);
-            document.getElementById('rollDice').disabled = false; // Enable roll dice button
-            document.getElementById('startGame').disabled = true; // Disable start game button
-            // Play intro audio
-            const introAudio = new Audio('https://srinimkasturi.github.io/s2l2/AudioFiles/S2L2welcome.m4a');
-            introAudio.play();
+            players = [];
+            for (let i = 1; i <= playerCount; i++) {
+                players.push({
+                    id: i,
+                    position: 107 // Starting position
+                });
+            }
+            currentPlayerIndex = 0;
+            initializeBoard();
+            updateAllPlayerPositions();
+            document.getElementById('rollDice').disabled = false;
         });
 
-        let currentPlayerIndex = 0;
-
-        // Function to handle the roll dice button click event
-        document.getElementById('rollDice').addEventListener('click', function() {
-            const currentPlayer = players[currentPlayerIndex];
+        // Roll the dice and move the current player
+        document.getElementById('rollDice').addEventListener('click', () => {
             const diceValue = rollDice();
-            const moveResult = movePlayer(currentPlayer, diceValue);
-            updatePlayerPosition(currentPlayer);
-            updateDebugInfo(moveResult, diceValue);
-            currentPlayerIndex = (currentPlayerIndex + 1) % players.length; // Move to the next player
-            // Show pop-up if player landed on a ladder or slope
-            if (moveResult && moveResult.popUpContent) {
-               // Check if the player landed on the 7th prime position
-                 if (moveResult > 54) {
-                    alert("You landed on the Leaders Ladder of Satyavrata");
-                 }
-                 alert(moveResult.popUpContent);
+            const player = players[currentPlayerIndex];
+            const result = movePlayer(player, diceValue);
+
+            if (result) {
+                updatePlayerPosition(player);
+                if (result.popUpContent) {
+                    showNotification(result.popUpContent);
+                }
+            }
+
+            currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
+        });
+
+        // Toggle debug information
+        document.getElementById('toggleDebug').addEventListener('click', () => {
+            const debugDiv = document.getElementById('debug');
+            if (debugDiv.style.display === 'none') {
+                debugDiv.style.display = 'block';
+            } else {
+                debugDiv.style.display = 'none';
             }
         });
 
-        // Function to handle the toggle debug button click event
-        document.getElementById('toggleDebug').addEventListener('click', function() {
-            const debugElement = document.getElementById('debug');
-            debugElement.style.display = debugElement.style.display === 'none' ? 'block' : 'none';
-        });
+        // Function to update all players' positions on the board
+        function updateAllPlayerPositions() {
+            for (const player of players) {
+                const playerElement = document.getElementById(`player${player.id}`);
+                if (!playerElement) {
+                    const newPlayerElement = document.createElement('div');
+                    newPlayerElement.id = `player${player.id}`;
+                    newPlayerElement.className = 'player';
+                    newPlayerElement.style.backgroundColor = player.color;
+                    document.getElementById('board').appendChild(newPlayerElement);
+                }
+                updatePlayerPosition(player);
+            }
+        }
 
-        // Initialize players' positions
-        players.forEach(player => updatePlayerPosition(player));
+        // Add player elements to the board
+        for (let i = 1; i <= 6; i++) {
+            const playerElement = document.createElement('div');
+            playerElement.id = `player${i}`;
+            playerElement.className = 'player';
+            document.getElementById('board').appendChild(playerElement);
+        }
     </script>
 </body>
 </html>
