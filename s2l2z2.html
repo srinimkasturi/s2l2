@@ -84,14 +84,14 @@
 	
     <script>
        // Function to set a random background image
-      function setRandomBackgroundImage() {
+      function setRandomBackgroundImages() {
          const randomIndex = Math.floor(Math.random() * boardBackgroundImages.length);
          const selectedImage = boardBackgroundImages[randomIndex];
          document.body.style.backgroundImage = `url(${selectedImage})`;
        }
 	    
 	// Set the background image when the page loads
-        window.onload = setRandomBackgroundImage();
+        window.onload = setRandomBackgroundImages;
 	    
         // Function to generate a random dice value (1 to 6)
         function rollDice() {
