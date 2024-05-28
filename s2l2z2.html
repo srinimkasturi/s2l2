@@ -85,8 +85,8 @@
     <script>
        // Function to set a random background image
       function setRandomBackgroundImage() {
-         const randomIndex = Math.floor(Math.random() * images.length);
-         const selectedImage = images[randomIndex];
+         const randomIndex = Math.floor(Math.random() * boardBackgroundImages.length);
+         const selectedImage = boardBackgroundImages[randomIndex];
          document.body.style.backgroundImage = `url(${selectedImage})`;
        }
 	    
@@ -250,7 +250,7 @@
 		[	1,	2,	3,	4,	5,	6,	7,	8,	9	],
 	];	
 
-	const images = [
+	const boardBackgroundImages = [
                'https://upload.wikimedia.org/wikipedia/commons/e/ef/Deogarh%2C_Dasavatara-Tempel_Vishnu_%281999%29_%28cropped%29.JPG',
                'https://upload.wikimedia.org/wikipedia/commons/1/10/1st_to_5th_of_10_Vishnu_avatars_on_Udupi_Hindu_temple_gopuram.jpg'
         ];							
