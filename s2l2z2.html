@@ -16,6 +16,18 @@
 	    background-image: url("https://srinimkasturi.github.io/ui4io/Images/LaunchPad.jpg")
 	    opacity: 0.5
         }
+	#backgroundLayer {
+           position: fixed;
+           top: 0;
+           left: 0;
+           width: 100%;
+           height: 100%;
+           background-size: cover; /* Cover the entire viewport */
+           background-position: center; /* Center the background image */
+           background-attachment: fixed; /* Ensure the background image remains fixed while scrolling */
+	   background-image: url("https://srinimkasturi.github.io/ui4io/Images/EyeOnPeace.png")
+           z-index: -1; /* Ensure the background layer is behind other content */
+        }
         #board {
             display: inline-block;
             margin-top: 20px;
