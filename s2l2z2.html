@@ -64,7 +64,7 @@
         }
     </style>
 </head>
-<body>
+<body onload="setRandomBackgroundImages()">
     <h3>Slippers Slopes and Leaders Ladder!</h3>
     <p>1. Select: 
     <select id="playerCount">
@@ -92,9 +92,6 @@
          const selectedImage = boardBackgroundImages[randomIndex];
          document.body.style.backgroundImage = `url(${selectedImage})`;
        }
-	    
-	// Set the background image when the page loads
-        window.onload = setRandomBackgroundImages;
 	    
         // Function to generate a random dice value (1 to 6)
         function rollDice() {
