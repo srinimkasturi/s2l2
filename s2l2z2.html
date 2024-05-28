@@ -10,9 +10,6 @@
             font-family: Arial, sans-serif;
             text-align: center;
             position: relative; /* Ensure body acts as the containing block for absolutely positioned elements */
-	    background-size: cover; /* Cover the entire viewport */
-            background-position: center; /* Center the background image */
-            background-attachment: fixed; /* Ensure the background image remains fixed while scrolling */
         }
         #board {
             display: inline-block;
@@ -64,7 +61,7 @@
         }
     </style>
 </head>
-<body onload="setRandomBackgroundImages()">
+<body>
     <h3>Slippers Slopes and Leaders Ladder!</h3>
     <p>1. Select: 
     <select id="playerCount">
@@ -86,13 +83,6 @@
     </p>
 	
     <script>
-       // Function to set a random background image
-      function setRandomBackgroundImages() {
-         const randomIndex = Math.floor(Math.random() * boardBackgroundImages.length);
-         const selectedImage = boardBackgroundImages[randomIndex];
-         document.body.style.backgroundImage = `url(${selectedImage})`;
-       }
-	    
         // Function to generate a random dice value (1 to 6)
         function rollDice() {
             return Math.floor(Math.random() * 6) + 1;
@@ -137,47 +127,49 @@
             return prev;
         }
 
-        // Function to move the player on the board
-       function movePlayer(player, diceValue) {
-           // Calculate the new position
-           let oldPosition = player.position;
-           let newPosition = player.position - diceValue;
-           // Check if the new position is within the board bounds
-           if (newPosition >= 0) {
-               // Update the player's position
-               // In the beginning go up ladder fast, later on fall slopes fast
-               player.position = newPosition;
+// Function to move the player on the board
+function movePlayer(player, diceValue) {
+    // Calculate the new position
+    let oldPosition = player.position;
+    let newPosition = player.position - diceValue;
+    // Check if the new position is within the board bounds
+    if (newPosition >= 0) {
+        // Update the player's position
+        // In the beginning go up ladder fast, later on fall slopes fast
+        player.position = newPosition;
 
-              if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
-                 const nextPrime = getNextPrime(newPosition + 1);
-                 player.position = nextPrime - 1;
-                 return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved to one prime backward ${108 - nextPrime + 1}`, popUpContent: "You landed on a slippery slope. You slid a bit backward!" + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
-              } else if (isPrime(newPosition) && newPosition >= 54) {
-                 const prevPrevPrevPrime = getPreviousPrime(getPreviousPrime(getPreviousPrime(newPosition)));
-                 player.position = prevPrevPrevPrime - 3;
-                 return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved three primes forward ${108 - prevPrevPrevPrime + 3}`, popUpContent: "You landed on a leader ladder. You jumped way forward!" + "\n\n"  + ladderText[rollDiceForLadderRead()] };
-              } else if (isPrime(newPosition + 1) && newPosition + 1 >= 27 && newPosition + 1 < 54) {
-                 const nextNextPrime = getNextPrime(getNextPrime(newPosition));
-                 player.position = nextNextPrime + 1;
-                 return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved two primes backward ${108 - nextNextPrime - 1}`, popUpContent: "You landed on a slippery slope. You slid backward!"  + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
-              } else if (isPrime(newPosition) && newPosition >= 27 && newPosition < 54) {
-                 const prevPrevPrime = getPreviousPrime(getPreviousPrime(newPosition));
-                 player.position = prevPrevPrime - 2;
-                 return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved two primes forward ${108 - prevPrevPrime + 2}`, popUpContent: "You landed on a leader ladder. You jumped quite a bit forward!"  + "\n\n" + ladderText[rollDiceForLadderRead()] };
-              } else if (isPrime(newPosition + 1)) {
-                 const nextNextNextPrime = getNextPrime(getNextPrime(getNextPrime(newPosition)));
-                 player.position = nextNextNextPrime + 1;
-                 return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved three primes backward ${108 - nextNextNextPrime - 1}`, popUpContent: "You landed on a slippery slope. You slid way back!"  + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
-              } else if (isPrime(newPosition)) {
-                 const prevPrime = getPreviousPrime(newPosition);
-                 player.position = prevPrime;
-                 return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved to one prime forward ${108 - prevPrime}`, popUpContent: "You landed on a leader ladder. You jumped forward!"  + "\n\n"  + ladderText[rollDiceForLadderRead()] };
-              } else {
-                 return { oldPosition, newPosition }; // Player moved successfully
-              }
-          }
-         return null; // Player couldn't move to any cell
+        if (isPrime(newPosition + 1) && newPosition + 1 >= 54) {
+            const nextPrime = getNextPrime(newPosition + 1);
+            player.position = nextPrime - 1;
+            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved to one prime backward ${108 - nextPrime + 1}`, popUpContent: "You landed on a slippery slope. You slid a bit backward!" + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
+        } else if (isPrime(newPosition) && newPosition >= 54) {
+            const prevPrevPrevPrime = getPreviousPrime(getPreviousPrime(getPreviousPrime(newPosition)));
+            player.position = prevPrevPrevPrime - 3;
+            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved three primes forward ${108 - prevPrevPrevPrime + 3}`, popUpContent: "You landed on a leader ladder. You jumped way forward!" + "\n\n"  + ladderText[rollDiceForLadderRead()] };
+        } else if (isPrime(newPosition + 1) && newPosition + 1 >= 27 && newPosition + 1 < 54) {
+            const nextNextPrime = getNextPrime(getNextPrime(newPosition));
+            player.position = nextNextPrime + 1;
+            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved two primes backward ${108 - nextNextPrime - 1}`, popUpContent: "You landed on a slippery slope. You slid backward!"  + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
+        } else if (isPrime(newPosition) && newPosition >= 27 && newPosition < 54) {
+            const prevPrevPrime = getPreviousPrime(getPreviousPrime(newPosition));
+            player.position = prevPrevPrime - 2;
+            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved two primes forward ${108 - prevPrevPrime + 2}`, popUpContent: "You landed on a leader ladder. You jumped quite a bit forward!"  + "\n\n" + ladderText[rollDiceForLadderRead()] };
+        } else if (isPrime(newPosition + 1)) {
+            const nextNextNextPrime = getNextPrime(getNextPrime(getNextPrime(newPosition)));
+            player.position = nextNextNextPrime + 1;
+            return { oldPosition, newPosition, message: `Player landed on Slippery Slope, moved three primes backward ${108 - nextNextNextPrime - 1}`, popUpContent: "You landed on a slippery slope. You slid way back!"  + "\n\n"  + slopeText[rollDiceForSlopeRead()] };
+        } else if (isPrime(newPosition)) {
+            const prevPrime = getPreviousPrime(newPosition);
+            player.position = prevPrime;
+            return { oldPosition, newPosition, message: `Player landed on Leader Ladder, moved to one prime forward ${108 - prevPrime}`, popUpContent: "You landed on a leader ladder. You jumped forward!"  + "\n\n"  + ladderText[rollDiceForLadderRead()] };
+        } else {
+            return { oldPosition, newPosition }; // Player moved successfully
         }
+    }
+    return null; // Player couldn't move to any cell
+}
+
+
 
 
         function updatePlayerPosition(player) {
@@ -253,10 +245,7 @@
 		[	1,	2,	3,	4,	5,	6,	7,	8,	9	],
 	];	
 
-	const boardBackgroundImages = 
-		"https://srinimkasturi.github.io/ui4io/Images/LaunchPad.jpg",
-		"https://srinimkasturi.github.io/ui4io/Images/LaunchPad.jpg",
-        ];							
+											
 
         const cellColors = [
             'rgba(255, 255, 153, 0.8)', // Pale yellow
@@ -347,8 +336,6 @@
 
         // Initialize players' positions
         players.forEach(player => updatePlayerPosition(player));
-
-
     </script>
 </body>
 </html>
