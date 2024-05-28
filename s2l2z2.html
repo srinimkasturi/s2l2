@@ -78,6 +78,9 @@
     </style>
 </head>
 <body onload="pleasantS2L2backgroundThemes()">
+    <p>
+        <div id="background"></div>
+    </p>
     <h3>Slippers Slopes and Leaders Ladder!</h3>
     <p>1. Select: 
     <select id="playerCount">
@@ -101,9 +104,23 @@
     <script>
 	//pleasantS2L2backgroundThemes    
 	function pleasantS2L2backgroundThemes() {
-            // backgroundLayer.background-image = "https://srinimkasturi.github.io/ui4io/Images/EyeOnPeace.png"
+	    const backgroundElement = document.getElementById('background');
+	    backgroundElement.innerHTML = "https://srinimkasturi.github.io/ui4io/Images/EyeOnPeace.png"
 	}
 
+	//            function updateDebugInfo(moveResult, diceValue) {
+        //    if (moveResult) {
+        //        const debugElement = document.getElementById('debug');
+        //        const { oldPosition, newPosition, message } = moveResult;
+        //        const [oldRow, oldColumn, oldCellValue] = getPositionFromIndex(oldPosition);
+        //        const [newRow, newColumn, newCellValue] = getPositionFromIndex(newPosition);
+        //        const primeMoveCount = Math.abs(oldPosition - newPosition);
+        //        debugElement.style.display = 'block';
+        //        if (message) {
+        //            debugElement.innerHTML = `
+        //               <p><strong>Old Position:</strong> Row ${oldRow}, Column ${oldColumn}, Value ${oldCellValue}</p>
+        //                <p><strong>Dice Value:</strong> ${diceValue}</p>
+	    
 	// Function to create players based on selected count
         // function createPlayers(count) {
         //    players = [];
