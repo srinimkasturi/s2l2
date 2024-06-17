@@ -11,7 +11,7 @@
             text-align: center;
             position: relative; /* Ensure body acts as the containing block for absolutely positioned elements */
         }
-	#backgroundLayer:hover {
+	#backgroundLayer {
            position: fixed;
            top: 0;
            left: 0;
@@ -21,7 +21,14 @@
            background-position: center; /* Center the background image */
            background-attachment: fixed; /* Ensure the background image remains fixed while scrolling */
 	   background-image: url("https://srinimkasturi.github.io/ui4io/Images/EyeOnPeace.png")
-           z-index: 1; /* Ensure the background layer is behind other content */
+        }
+	#backgroundLayer:hover {
+        z-index: -1;
+        opacity: 0.5;
+        font-size: 30px;
+        text-align: center;
+        transform-style: all;
+        transition-duration: 2s;
         }
         #board {
             display: inline-block;
@@ -79,7 +86,9 @@
 </head>
 <body onload="pleasantS2L2backgroundThemes()">
     <p>
-        <div id="background"></div>
+        <div id="background">
+		       <img src="https://srinimkasturi.github.io/ui4io/Images/EyeOnPeace.png" height="100px"></img>
+	</div>
     </p>
     <h3>Slippers Slopes and Leaders Ladder!</h3>
     <p>1. Select: 
