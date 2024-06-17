@@ -11,6 +11,12 @@
             text-align: center;
             position: relative; /* Ensure body acts as the containing block for absolutely positioned elements */
         }
+	.container {
+        position: absolute;
+        height: 250px;
+        width: 400px;
+        background-color: #7d807e;
+      }
 	.backgroundLayer {
         color: #fff;
         padding-top: 60px;
@@ -81,6 +87,7 @@
     </style>
 </head>
 <body onload="pleasantS2L2backgroundThemes()">
+<div class="container">
     <p>
         <div class="backgroundLayer">
 		       <img src="https://srinimkasturi.github.io/ui4io/Images/EyeOnPeace.png" height="100px"></img>
@@ -105,7 +112,7 @@
 	<button id="toggleDebug">Toggle Debug</button>
         <div id="debug"></div>
     </p>
-	
+</div>
     <script>
 	//pleasantS2L2backgroundThemes    
 	function pleasantS2L2backgroundThemes() {
