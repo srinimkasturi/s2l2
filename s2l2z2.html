@@ -88,44 +88,60 @@
     </style>
 </head>
 <body onload="pleasantS2L2backgroundThemes()">
-<div class="container">
-    <p>
-        <div id = "backgroundLayerDiv" class="backgroundLayer">
-		       <img src="https://srinimkasturi.github.io/ui4io/Images/EyeOnPeace.png" height="100px"></img>
+	<div class="container">
+		<p>
+			<div id = "backgroundLayerDiv" class="backgroundLayer">
+				<img src="https://srinimkasturi.github.io/ui4io/Images/EyeOnPeace.png" height="100px"></img>
+			</div>
+    		</p>
+    		<h3>Slippers Slopes and Leaders Ladder!</h3>
+    		<p>1. Select: 
+	    		<select id="playerCount">
+		        	<option value="2">2 Players</option>
+        			<option value="3">3 Players</option>
+        			<option value="4">4 Players</option>
+        			<option value="5">5 Players</option>
+        			<option value="6">6 Players</option>
+    			</select>
+    			<button id="startGame">2. Start</button> 
+    			<button id="rollDice" disabled>3. Roll Dice</button>
+    		</p>
+    		<p>
+	        	<div id="board"></div>
+    		</p>
+		<p>
+	        	<div id = "storyLayerDiv" class="storyLayer">
+		       		<img src="https://srinimkasturi.github.io/ui4io/Images/PuppyGuru.png" height="100px"></img>
+			</div>
+		</p>
+  		<p>
+			<button id="toggleDebug">Toggle Debug</button>
+        		<div id="debug"></div>
+    		</p>
 	</div>
-    </p>
-    <h3>Slippers Slopes and Leaders Ladder!</h3>
-    <p>1. Select: 
-    <select id="playerCount">
-        <option value="2">2 Players</option>
-        <option value="3">3 Players</option>
-        <option value="4">4 Players</option>
-        <option value="5">5 Players</option>
-        <option value="6">6 Players</option>
-    </select>
-    <button id="startGame">2. Start</button> 
-    <button id="rollDice" disabled>3. Roll Dice</button>
-    </p>
-    <p>
-        <div id="board"></div>
-    </p>
-    <p>
-	<button id="toggleDebug">Toggle Debug</button>
-        <div id="debug"></div>
-    </p>
-</div>
     <script>
 	//pleasantS2L2backgroundThemes    
-	function pleasantS2L2backgroundThemes() {
-	    const backgroundElement = document.getElementById('background');
-	    backgroundElement.style.backgroundImage = "https://srinimkasturi.github.io/ui4io/Images/EyeOnPeace.png";
+	//function pleasantS2L2backgroundThemes() {
+	//    const backgroundElement = document.getElementById('background');
+	//    backgroundElement.style.backgroundImage = "https://srinimkasturi.github.io/ui4io/Images/EyeOnPeace.png";
+	//}
 
-	}
 	// Dissolve background layer after 10 seconds
 	setTimeout(function() {
             document.getElementById('backgroundLayerDiv').style.display = 'none';
         }, 10000);
 
+	//function storyLayer() {
+	//    const backgroundElement = document.getElementById('background');
+	//    backgroundElement.style.backgroundImage = "https://srinimkasturi.github.io/ui4io/Images/PuppyGuru.png";
+	//}
+	    
+	// Dissolve background layer after 20 seconds
+	setTimeout(function() {
+            document.getElementById('storyLayerDiv').style.display = 'none';
+        }, 20000);
+
+	    
 	//            function updateDebugInfo(moveResult, diceValue) {
         //    if (moveResult) {
         //        const debugElement = document.getElementById('debug');
