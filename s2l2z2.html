@@ -24,7 +24,15 @@
         opacity: 0.7;
         z-index: -1
         }
-
+	.storyLayer {
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0.7;
+        z-index: 9
+        }
         #board {
             display: inline-block;
             margin-top: 20px;
@@ -82,7 +90,7 @@
 <body onload="pleasantS2L2backgroundThemes()">
 <div class="container">
     <p>
-        <div class="backgroundLayer">
+        <div id = "backgroundLayerDiv" class="backgroundLayer">
 		       <img src="https://srinimkasturi.github.io/ui4io/Images/EyeOnPeace.png" height="100px"></img>
 	</div>
     </p>
@@ -113,6 +121,10 @@
 	    backgroundElement.style.backgroundImage = "https://srinimkasturi.github.io/ui4io/Images/EyeOnPeace.png";
 
 	}
+	// Dissolve background layer after 10 seconds
+	setTimeout(function() {
+            document.getElementById('backgroundLayerDiv').style.display = 'none';
+        }, 10000);
 
 	//            function updateDebugInfo(moveResult, diceValue) {
         //    if (moveResult) {
@@ -396,6 +408,8 @@
 
         // Initialize players' positions
         players.forEach(player => updatePlayerPosition(player));
+
+
     </script>
 </body>
 </html>
