@@ -11,7 +11,7 @@
             text-align: center;
             position: relative; /* Ensure body acts as the containing block for absolutely positioned elements */
         }
-	#backgroundLayer {
+	#backgroundLayer:hover {
            position: fixed;
            top: 0;
            left: 0;
@@ -78,7 +78,9 @@
     </style>
 </head>
 <body onload="pleasantS2L2backgroundThemes()">
-
+    <p>
+        <div id="background"></div>
+    </p>
     <h3>Slippers Slopes and Leaders Ladder!</h3>
     <p>1. Select: 
     <select id="playerCount">
