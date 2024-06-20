@@ -137,9 +137,9 @@
 	}
 	    
 	// Dissolve background layer after 20 seconds
-	setTimeout(function() {
-            document.getElementById('storyLayerDiv').style.display = 'none';
-        }, 20000);
+	// setTimeout(function() {
+        //     document.getElementById('storyLayerDiv').style.display = 'none';
+        // }, 20000);
 
 	    
 	//            function updateDebugInfo(moveResult, diceValue) {
@@ -414,6 +414,24 @@
                //  }
                  alert(moveResult.popUpContent);
 		 updateStoryLayer();
+		 // Step 1: Create the DIV element
+            	var newDiv = document.createElement('div');
+
+            	// Step 2: Set attributes and content
+            	newDiv.className = 'dynamic-div';
+            	newDiv.innerHTML = 'This is a dynamically created DIV!';
+
+            	// Step 3: Append the DIV to the DOM
+            	document.getElementById('container').appendChild(newDiv);
+
+            	// Step 4: Dissolve the DIV after 20 seconds
+            	setTimeout(function() {
+                	newDiv.classList.add('hidden');
+                	// Optionally, remove the element from the DOM after the transition ends
+                	setTimeout(function() {
+                    		newDiv.remove();
+                	}, 2000); // Match the duration of the CSS transition
+            	}, 20000);
             }
         });
 
