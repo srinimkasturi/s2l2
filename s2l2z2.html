@@ -131,10 +131,10 @@
             document.getElementById('backgroundLayerDiv').style.display = 'none';
         }, 10000);
 
-	//function storyLayer() {
-	//    const backgroundElement = document.getElementById('background');
-	//    backgroundElement.style.backgroundImage = "https://srinimkasturi.github.io/ui4io/Images/PuppyGuru.png";
-	//}
+	function updateStoryLayer() {
+	    const storyLayerElement = document.getElementById('storyLayerDiv');
+	    storyLayerElement.innerHTML = "https://srinimkasturi.github.io/ui4io/Images/PuppyGuru.png";
+	}
 	    
 	// Dissolve background layer after 20 seconds
 	setTimeout(function() {
@@ -413,6 +413,7 @@
                //     alert("You landed on the Leaders Ladder of Satyavrata");
                //  }
                  alert(moveResult.popUpContent);
+		 updateStoryLayer();
             }
         });
 
