@@ -33,6 +33,20 @@
         opacity: 0.7;
         z-index: 9
         }
+	.dynamic-div {
+            background-color: lightblue;
+            padding: 20px;
+            margin: 10px;
+            border: 1px solid blue;
+            transition: opacity 2s; /* Smooth transition for opacity */
+            position: absolute; /* Position it absolutely */
+            top: 10px; /* Position it towards the top */
+            left: 10px; /* Position it towards the left */
+            z-index: 9999; /* Ensure it's on the topmost layer */
+        }
+        .hidden {
+            opacity: 0;
+        }
         #board {
             display: inline-block;
             margin-top: 20px;
@@ -142,6 +156,27 @@
 	setTimeout(function() {
             document.getElementById('storyLayerDiv').style.display = 'none';
 	}, 20000);
+
+	function createAndDissolveDiv() {
+	    // Step 1: Create the DIV element
+	    var newDiv = document.createElement('div');
+	
+	    // Step 2: Set attributes and content
+	    newDiv.className = 'dynamic-div';
+	    newDiv.innerHTML = 'This is a dynamically created DIV!';
+	
+	    // Step 3: Append the DIV to the DOM
+	    document.body.appendChild(newDiv);
+	
+	    // Step 4: Dissolve the DIV after 20 seconds
+	    setTimeout(function() {
+		newDiv.classList.add('hidden');
+		// Optionally, remove the element from the DOM after the transition ends
+		setTimeout(function() {
+		    newDiv.remove();
+		}, 2000); // Match the duration of the CSS transition
+	    }, 20000);
+	}
 
 	    
 	//            function updateDebugInfo(moveResult, diceValue) {
@@ -414,28 +449,12 @@
                //  if (moveResult > 54) {
                //     alert("You landed on the Leaders Ladder of Satyavrata");
                //  }
-                 alert(moveResult.popUpContent);
-		 updateStoryLayer();
-		 // Step 1: Create the DIV element
-            	var newDiv = document.createElement('div');
+        	alert(moveResult.popUpContent);
+		updateStoryLayer();
+	        createAndDissolveDiv();
+	    }
+	}
 
-            	// Step 2: Set attributes and content
-            	newDiv.className = 'dynamic-div';
-            	newDiv.innerHTML = 'This is a dynamically created DIV!';
-
-            	// Step 3: Append the DIV to the DOM
-            	document.getElementById('container').appendChild(newDiv);
-
-            	// Step 4: Dissolve the DIV after 20 seconds
-            	setTimeout(function() {
-                	newDiv.classList.add('hidden');
-                	// Optionally, remove the element from the DOM after the transition ends
-                	setTimeout(function() {
-                    		newDiv.remove();
-                	}, 2000); // Match the duration of the CSS transition
-            	}, 20000);
-            }
-        });
 
         // Function to handle the toggle debug button click event
         document.getElementById('toggleDebug').addEventListener('click', function() {
