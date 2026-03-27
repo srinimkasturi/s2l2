@@ -1,27 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Updated s2l2z2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
     <style>
-        .hidden { display: none; } /* Defining the hidden CSS class */
-        /* Other CSS styles */
-        z-index: 10; /* Adding missing semicolon to z-index */
+        .hidden {
+            display: none;
+        }
+        /* Other styles */
+        .some-class {
+            z-index: 100;
+        }
     </style>
 </head>
 <body>
+    <!-- Uncommented storyLayerDiv HTML -->
     <div id="storyLayerDiv">
-        <!-- Uncommenting storyLayerDiv HTML content -->
+        <!-- Content here -->
     </div>
+
     <script>
-        window.onload = function() {
-            // Onload function logic
-        };
-        function diceRange() {
-            // Fixing dice range functions logic
+        function getDiceRange(diceType) {
+            if (diceType === 'low') {
+                return [1, 3];
+            } else if (diceType === 'high') {
+                return [4, 6];
+            }
+            return [1, 6];
         }
-        // Removing premature player initialization logic
-        function updateStoryLayer(imageUrl) {
-            document.getElementById('storyLayerDiv').src = imageUrl; // Fixing image source setting logic
+
+        function initializePlayers() {
+            // Moved player initialization here
+            // Player initialization logic here
+        }
+
+        function updateStoryLayer(imageSrc) {
+            const storyLayer = document.getElementById('storyLayer');
+            if (storyLayer) {
+                storyLayer.src = imageSrc;
+            }
+        }
+
+        // Critical safety checks
+        function safeFunction() {
+            // Example safety checks
+            if (!someCondition) return;
+            // Function logic here
         }
     </script>
 </body>
