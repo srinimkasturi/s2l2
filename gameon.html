@@ -81,7 +81,8 @@
     }
 
     // Define snakes and ladders
-    // Values are modulo 108
+    // Keys and values represent (index + 1) into the squares array
+    // Ladders move the player forward (lower index = higher cell value)
     const ladders = {
         107: 21,
         84: 64,
@@ -92,6 +93,7 @@
         13: 6,
     };
 
+    // Snakes move the player backward (higher index = lower cell value)
     const snakes = {
         71: 106,
         51: 93,
@@ -105,31 +107,34 @@
 
     function movePlayer(steps) {
         const oldPosition = currentPlayerIndex;
+        const oldCellValue = 108 - oldPosition;
         squares[currentPlayerIndex].removeChild(playerElement);
         currentPlayerIndex -= steps;
         currentPlayerIndex = Math.min(currentPlayerIndex, 107); // Upper bound
         currentPlayerIndex = Math.max(currentPlayerIndex, 0);   // Lower bound
 
+        const landedCellValue = 108 - currentPlayerIndex;
+
         // Check if the player landed on a snake or ladder
         let message = '';
         if (snakes[currentPlayerIndex + 1]) {
-            currentPlayerIndex = 108 - snakes[currentPlayerIndex + 1]; // Move to the snake's tail
-            message = `You rolled a ${steps}. Oh no! You landed on a snake at ${oldPosition} and moved back to ${108 - currentPlayerIndex}`;
-            // currentPlayerIndex = snakes[currentPlayerIndex + 1] - 1; // Move to the snake's tail
+            currentPlayerIndex = snakes[currentPlayerIndex + 1] - 1; // Move to the snake's tail
+            message = `You rolled a ${steps}. Oh no! You landed on a snake at cell ${landedCellValue} and slid back to cell ${108 - currentPlayerIndex}!`;
         } else if (ladders[currentPlayerIndex + 1]) {
             currentPlayerIndex = ladders[currentPlayerIndex + 1] - 1; // Move to the ladder's top
-            message = `You rolled a ${steps}. Hooray! You landed on a ladder at ${oldPosition} and moved forward to ${108 - currentPlayerIndex}`;
-            // currentPlayerIndex = 108 - ladders[currentPlayerIndex + 1] ; // Move to the ladder's top
+            message = `You rolled a ${steps}. Hooray! You climbed a ladder at cell ${landedCellValue} and moved up to cell ${108 - currentPlayerIndex}!`;
         } else {
-            message = `You rolled a ${steps} and moved from ${108 - oldPosition} to ${108 - currentPlayerIndex}`;
+            message = `You rolled a ${steps} and moved from cell ${oldCellValue} to cell ${landedCellValue}.`;
         }
 
         squares[currentPlayerIndex].appendChild(playerElement);
-        
-        message += `<br>Current Player Index: ${currentPlayerIndex}`;
-        message += `<br>Current Square Value: ${squares[currentPlayerIndex].textContent}`;
-        message += `<br>Snakes: ${JSON.stringify(snakes)}`;
-        message += `<br>Ladders: ${JSON.stringify(ladders)}`;
+
+        // Check for win condition
+        if (currentPlayerIndex === 0) {
+            message = `Congratulations! You rolled a ${steps} and reached cell 108! You WIN!`;
+            document.querySelector('button').disabled = true;
+        }
+
         document.getElementById('message').innerHTML = message;
     }
 
