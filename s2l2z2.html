@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Slippery Slopes and Leaders Ladders</title>
+    <title>Slipper Slopes and Leaders Ladders</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -113,7 +113,7 @@
         <div id="backgroundLayerDiv" class="backgroundLayer">
             <img src="https://srinimkasturi.github.io/ui4io/Images/EyeOnPeace.png" height="100px" alt="Background">
         </div>
-        <h3>Slippery Slopes and Leaders Ladders!</h3>
+        <h3>Slipper Slopes and Leaders Ladders!</h3>
         <p>
             1. Select:
             <select id="playerCount">
@@ -209,7 +209,7 @@
 
             var cellValue = newPosition + 1;
 
-            // Slippery Slopes and Leader Ladders based on prime numbers
+            // Slipper Slopes and Leaders Ladders based on prime numbers
             // Near top (cells 54-108): small slope back, big ladder forward
             // Middle (cells 27-53): medium slope back, medium ladder forward
             // Near bottom (cells 1-26): big slope back, small ladder forward
@@ -218,7 +218,7 @@
                 if (nextPrime - 1 <= 107) {
                     player.position = nextPrime - 1;
                 }
-                return { oldPosition: oldPosition, newPosition: newPosition, message: "Slippery Slope! Slid back from cell " + cellValue + " to cell " + (108 - player.position), popUpContent: "You landed on a Slippery Slope. You slid a bit backward!<br><br>" + slopeText[rollDiceForSlopeRead()] };
+                return { oldPosition: oldPosition, newPosition: newPosition, message: "Slipper Slope! Slid back from cell " + cellValue + " to cell " + (108 - player.position), popUpContent: "You landed on a Slipper Slope. You slid a bit backward!<br><br>" + slopeText[rollDiceForSlopeRead()] };
             } else if (isPrime(newPosition) && newPosition >= 54) {
                 var p1 = getPreviousPrime(newPosition);
                 var p2 = (p1 > 2) ? getPreviousPrime(p1) : p1;
@@ -232,7 +232,7 @@
                 if (np2 - 1 <= 107) {
                     player.position = np2 - 1;
                 }
-                return { oldPosition: oldPosition, newPosition: newPosition, message: "Slippery Slope! Slid back from cell " + cellValue + " to cell " + (108 - player.position), popUpContent: "You landed on a Slippery Slope. You slid backward!<br><br>" + slopeText[rollDiceForSlopeRead()] };
+                return { oldPosition: oldPosition, newPosition: newPosition, message: "Slipper Slope! Slid back from cell " + cellValue + " to cell " + (108 - player.position), popUpContent: "You landed on a Slipper Slope. You slid backward!<br><br>" + slopeText[rollDiceForSlopeRead()] };
             } else if (isPrime(newPosition) && newPosition >= 27 && newPosition < 54) {
                 var pp1 = getPreviousPrime(newPosition);
                 var pp2 = (pp1 > 2) ? getPreviousPrime(pp1) : pp1;
@@ -246,7 +246,7 @@
                 if (nnp3 - 1 <= 107) {
                     player.position = nnp3 - 1;
                 }
-                return { oldPosition: oldPosition, newPosition: newPosition, message: "Slippery Slope! Slid back from cell " + cellValue + " to cell " + (108 - player.position), popUpContent: "You landed on a Slippery Slope. You slid way back!<br><br>" + slopeText[rollDiceForSlopeRead()] };
+                return { oldPosition: oldPosition, newPosition: newPosition, message: "Slipper Slope! Slid back from cell " + cellValue + " to cell " + (108 - player.position), popUpContent: "You landed on a Slipper Slope. You slid way back!<br><br>" + slopeText[rollDiceForSlopeRead()] };
             } else if (isPrime(newPosition)) {
                 var prevPrime = getPreviousPrime(newPosition);
                 player.position = Math.max(0, prevPrime);
