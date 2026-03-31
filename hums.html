@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+//(c)srinivasa m kasturi srini.m.kasturi@gmail.com
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HUMS · 27 Signals Explorer</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sun: #F5A623;
+    --cosmos: #0D1B2A;
+    --deep: #162032;
+    --mid: #1E2E42;
+    --card: #243349;
+    --border: #2E3F57;
+    --text: #E8EDF3;
+    --muted: #7A90AA;
+  }
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+background: var(–cosmos);
+color: var(–text);
+font-family: ‘DM Sans’, sans-serif;
+min-height: 100vh;
+overflow-x: hidden;
+}
+
+body::before {
+content: ‘’;
+position: fixed; inset: 0;
+background-image:
+radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.45) 0%, transparent 100%),
+radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.25) 0%, transparent 100%),
+radial-gradient(1.5px 1.5px at 45% 10%, rgba(255,255,255,0.35) 0%, transparent 100%),
+radial-gradient(1px 1px at 60% 60%, rgba(255,255,255,0.25) 0%, transparent 100%),
+radial-gradient(1px 1px at 75% 25%, rgba(255,255,255,0.4) 0%, transparent 100%),
+radial-gradient(1.5px 1.5px at 85% 70%, rgba(255,255,255,0.25) 0%, transparent 100%),
+radial-gradient(1px 1px at 92% 45%, rgba(255,255,255,0.35) 0%, transparent 100%),
+radial-gradient(1px 1px at 35% 80%, rgba(255,255,255,0.25) 0%, transparent 100%),
+radial-gradient(1px 1px at 55% 90%, rgba(255,255,255,0.3) 0%, transparent 100%),
+radial-gradient(1.5px 1.5px at 15% 65%, rgba(255,255,255,0.25) 0%, transparent 100%);
+pointer-events: none; z-index: 0;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; position: relative; z-index: 1; }
+
+/* ── Header ── */
+header { padding: 44px 0 26px; text-align: center; border-bottom: 1px solid var(–border); }
+
+.logo-row { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 10px; }
+
+.sun-icon {
+width: 44px; height: 44px;
+background: radial-gradient(circle, #FFD96B 0%, var(–sun) 60%, transparent 100%);
+border-radius: 50%;
+box-shadow: 0 0 28px rgba(245,166,35,0.55), 0 0 70px rgba(245,166,35,0.15);
+animation: pulse 3s ease-in-out infinite; flex-shrink: 0;
+}
+
+@keyframes pulse {
+0%,100% { box-shadow: 0 0 28px rgba(245,166,35,0.55), 0 0 70px rgba(245,166,35,0.15); }
+50%      { box-shadow: 0 0 42px rgba(245,166,35,0.75), 0 0 90px rgba(245,166,35,0.25); }
+}
+
+h1 { font-family: ‘Playfair Display’, serif; font-size: clamp(1.8rem,5vw,3rem); letter-spacing:-0.02em; line-height:1.1; }
+h1 span { color: var(–sun); font-style: italic; }
+
+.tagline { margin-top: 8px; color: var(–muted); font-size: 0.91rem; font-weight: 300; letter-spacing: 0.03em; }
+
+/* ── Config Panel ── */
+.config-panel { padding: 32px 0 16px; }
+
+.section-label {
+font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase;
+color: var(–muted); font-weight: 600; margin-bottom: 12px;
+}
+
+/* AI tabs */
+.ai-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+
+.ai-tab {
+display: flex; align-items: center; gap: 8px;
+padding: 10px 18px; border-radius: 10px;
+border: 1.5px solid var(–border); background: var(–deep);
+cursor: pointer; transition: all 0.2s;
+font-size: 0.87rem; font-weight: 500; color: var(–muted);
+user-select: none;
+}
+.ai-tab:hover { border-color: var(–muted); color: var(–text); }
+.ai-tab.active { border-color: var(–sun); background: rgba(245,166,35,0.07); color: var(–sun); }
+
+.ai-logo {
+width: 20px; height: 20px; border-radius: 4px;
+display: flex; align-items: center; justify-content: center;
+font-size: 11px; font-weight: 800; font-family: ‘DM Mono’, monospace; flex-shrink: 0;
+}
+
+/* Key fields */
+.key-field { display: none; gap: 10px; align-items: center; margin-bottom: 4px; }
+.key-field.visible { display: flex; }
+
+.key-field input {
+flex: 1; max-width: 500px;
+background: var(–card); border: 1px solid var(–border); border-radius: 10px;
+padding: 11px 16px; color: var(–text);
+font-family: ‘DM Mono’, monospace; font-size: 0.82rem; outline: none;
+transition: border-color 0.2s;
+}
+.key-field input:focus { border-color: var(–sun); }
+.key-field input::placeholder { color: var(–muted); font-family: ‘DM Sans’, sans-serif; }
+
+.key-link { font-size: 0.74rem; color: var(–muted); white-space: nowrap; }
+.key-link a { color: var(–sun); text-decoration: none; }
+.key-link a:hover { text-decoration: underline; }
+
+.divider { height: 1px; background: var(–border); margin: 26px 0; }
+
+/* Bucket selector */
+.bucket-selector {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+gap: 9px; margin-bottom: 10px;
+}
+
+.bucket-toggle {
+display: flex; align-items: center; gap: 10px;
+padding: 11px 15px; border-radius: 10px;
+border: 1.5px solid var(–border); background: var(–deep);
+cursor: pointer; transition: all 0.2s; user-select: none;
+}
+.bucket-toggle:hover { background: var(–mid); }
+.bucket-toggle.selected { border-color: currentColor; background: var(–mid); }
+
+.bucket-dot-toggle {
+width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+opacity: 0.35; transition: opacity 0.2s;
+}
+.bucket-toggle.selected .bucket-dot-toggle { opacity: 1; }
+
+.bucket-toggle-label {
+font-size: 0.83rem; font-weight: 500; color: var(–muted); transition: color 0.2s;
+}
+.bucket-toggle.selected .bucket-toggle-label { color: var(–text); }
+
+.bucket-signals-count { margin-left: auto; font-size: 0.68rem; color: var(–muted); font-family: ‘DM Mono’, monospace; }
+
+.sel-actions { display: flex; gap: 14px; }
+.sel-btn {
+background: none; border: none; color: var(–sun);
+font-size: 0.77rem; cursor: pointer; padding: 0;
+font-family: ‘DM Sans’, sans-serif; text-decoration: underline; opacity: 0.8;
+}
+.sel-btn:hover { opacity: 1; }
+
+/* Topic row */
+.topic-row { display: flex; gap: 12px; }
+
+input[type=“text”] {
+flex: 1; background: var(–card); border: 1px solid var(–border);
+border-radius: 10px; padding: 14px 20px; color: var(–text);
+font-family: ‘DM Sans’, sans-serif; font-size: 1rem; outline: none;
+transition: border-color 0.2s, box-shadow 0.2s;
+}
+input[type=“text”]:focus { border-color: var(–sun); box-shadow: 0 0 0 3px rgba(245,166,35,0.1); }
+input[type=“text”]::placeholder { color: var(–muted); }
+
+.btn {
+background: var(–sun); color: var(–cosmos);
+border: none; border-radius: 10px; padding: 14px 30px;
+font-family: ‘DM Sans’, sans-serif; font-weight: 700; font-size: 0.95rem;
+cursor: pointer; transition: background 0.2s, transform 0.15s, box-shadow 0.2s;
+white-space: nowrap; letter-spacing: 0.02em;
+}
+.btn:hover:not(:disabled) { background: #FFD06A; transform: translateY(-1px); box-shadow: 0 4px 20px rgba(245,166,35,0.35); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* Status */
+#status { text-align: center; padding: 10px 0; font-size: 0.88rem; color: var(–muted); min-height: 32px; }
+.status-loading { color: var(–sun) !important; }
+.status-error   { color: #E87060 !important; }
+
+.progress-bar {
+height: 3px; background: var(–border); border-radius: 99px;
+overflow: hidden; opacity: 0; transition: opacity 0.3s; margin-bottom: 6px;
+}
+.progress-bar.visible { opacity: 1; }
+.progress-fill {
+height: 100%; background: linear-gradient(90deg, var(–sun), #FFD96B);
+border-radius: 99px; transition: width 0.4s ease; width: 0%;
+}
+
+/* Results */
+#results { padding: 8px 0 60px; }
+
+.bucket {
+margin-bottom: 26px; border: 1px solid var(–border);
+border-radius: 16px; overflow: hidden; background: var(–deep);
+animation: fadeUp 0.45s ease both;
+}
+@keyframes fadeUp { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+
+.bucket-header {
+display: flex; align-items: center; gap: 12px;
+padding: 17px 22px; background: var(–mid); border-bottom: 1px solid var(–border);
+}
+.bucket-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.bucket-title { font-family: ‘Playfair Display’, serif; font-size: 1.08rem; font-weight: 700; }
+.bucket-sub { font-size: 0.72rem; color: var(–muted); font-weight: 300; text-transform: uppercase; letter-spacing: 0.07em; }
+
+.ai-badge {
+display: inline-flex; align-items: center; gap: 5px;
+font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+text-transform: uppercase; padding: 3px 9px;
+border-radius: 6px; margin-left: auto; white-space: nowrap;
+}
+
+.signals-grid {
+display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+gap: 1px; background: var(–border);
+}
+
+.signal-card { background: var(–deep); padding: 17px 19px; transition: background 0.2s; }
+.signal-card:hover { background: var(–card); }
+
+.signal-name {
+font-size: 0.69rem; font-weight: 600; letter-spacing: 0.1em;
+text-transform: uppercase; margin-bottom: 9px;
+display: flex; align-items: center; gap: 7px;
+}
+.signal-badge { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+.signal-content { font-size: 0.87rem; line-height: 1.65; color: var(–text); font-weight: 300; }
+.signal-content.loading { color: var(–muted); font-style: italic; }
+.signal-content.empty   { color: var(–muted); font-style: italic; font-size: 0.8rem; }
+
+/* Footer */
+footer {
+text-align: center; padding: 22px 0; border-top: 1px solid var(–border);
+color: var(–muted); font-size: 0.75rem; letter-spacing: 0.04em;
+}
+footer em { color: var(–sun); font-style: normal; }
+
+@media (max-width: 640px) {
+.topic-row { flex-direction: column; }
+.signals-grid { grid-template-columns: 1fr; }
+.bucket-selector { grid-template-columns: 1fr 1fr; }
+.bucket-sub, .ai-badge { display: none; }
+}
+</style>
+
+</head>
+<body>
+<div class="container">
+
+  <header>
+    <div class="logo-row">
+      <div class="sun-icon"></div>
+      <h1>HUMS · <span>27 Signals</span></h1>
+    </div>
+    <p class="tagline">Human as Universal Modelling System — explore any topic through 6 buckets &amp; 27 signals</p>
+  </header>
+
+  <section class="config-panel">
+
+```
+<!-- AI SELECTION -->
+<p class="section-label">1 · Choose your AI</p>
+<div class="ai-tabs" id="aiTabs">
+  <div class="ai-tab active" data-ai="claude" onclick="selectAI('claude')">
+    <div class="ai-logo" style="background:#CC785C;color:#fff">C</div>Claude (Anthropic)
+  </div>
+  <div class="ai-tab" data-ai="openai" onclick="selectAI('openai')">
+    <div class="ai-logo" style="background:#10a37f;color:#fff">G</div>GPT-4o (OpenAI)
+  </div>
+  <div class="ai-tab" data-ai="gemini" onclick="selectAI('gemini')">
+    <div class="ai-logo" style="background:#4285F4;color:#fff">G</div>Gemini (Google)
+  </div>
+  <div class="ai-tab" data-ai="mistral" onclick="selectAI('mistral')">
+    <div class="ai-logo" style="background:#FF6B35;color:#fff">M</div>Mistral
+  </div>
+</div>
+
+<div class="key-field visible" id="key-claude">
+  <input type="password" id="apiKey-claude" placeholder="sk-ant-api03-…" autocomplete="off"/>
+  <span class="key-link">Get key → <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a></span>
+</div>
+<div class="key-field" id="key-openai">
+  <input type="password" id="apiKey-openai" placeholder="sk-proj-…" autocomplete="off"/>
+  <span class="key-link">Get key → <a href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com</a></span>
+</div>
+<div class="key-field" id="key-gemini">
+  <input type="password" id="apiKey-gemini" placeholder="AIza…" autocomplete="off"/>
+  <span class="key-link">Get key → <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com</a></span>
+</div>
+<div class="key-field" id="key-mistral">
+  <input type="password" id="apiKey-mistral" placeholder="Mistral API key…" autocomplete="off"/>
+  <span class="key-link">Get key → <a href="https://console.mistral.ai" target="_blank">console.mistral.ai</a></span>
+</div>
+
+<div class="divider"></div>
+
+<!-- BUCKET SELECTION -->
+<p class="section-label">2 · Choose buckets to explore</p>
+<div class="bucket-selector" id="bucketSelector"></div>
+<div class="sel-actions">
+  <button class="sel-btn" onclick="selectAllBuckets()">Select all</button>
+  <button class="sel-btn" onclick="clearAllBuckets()">Clear all</button>
+</div>
+
+<div class="divider"></div>
+
+<!-- TOPIC -->
+<p class="section-label">3 · Enter your topic</p>
+<div class="topic-row">
+  <input type="text" id="topicInput" placeholder="e.g. Starting a new school, Moving cities, Climate change, Learning to code…"/>
+  <button class="btn" id="exploreBtn" onclick="runExplore()">Explore</button>
+</div>
+```
+
+  </section>
+
+  <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+  <div id="status"></div>
+  <div id="results"></div>
+
+</div>
+
+<footer>
+  <p>© Srinivasa M. Kasturi · <em>HUMS™</em> · Human as Universal Modelling System Framework &nbsp;·&nbsp; API keys stay in your browser only</p>
+</footer>
+
+<script>
+/* ── DATA ── */
+const BUCKETS = [
+  { id:'who',      title:'Who We Are',  sub:'Identity',    color:'#7EC8A4', signals:['Feel','Ideate','Remember','Identify'] },
+  { id:'how',      title:'How We Work', sub:'Processing',  color:'#F5A623', signals:['Think','Reflex','Rely (physiology)','Dream'] },
+  { id:'senses',   title:'Senses',      sub:'Inputs',      color:'#6BAED6', signals:['See','Hear','Smell','Taste','Touch'] },
+  { id:'health',   title:'Health',      sub:'Processes',   color:'#E87060', signals:['Breathe','Digest','Circulate','Down and out','Up and up and out','Age'] },
+  { id:'actions',  title:'Actions',     sub:'Outputs',     color:'#C785D8', signals:['Speak','Manipulate (hands)','Move (legs)','Pee & Poo','Progeny'] },
+  { id:'purposes', title:'Purposes',    sub:'Requirements',color:'#F0C060', signals:['Live','Love','Connect'] }
+];
+
+const AI_CONFIGS = {
+  claude:  { name:'Claude',   color:'#CC785C', model:'claude-sonnet-4-20250514' },
+  openai:  { name:'GPT-4o',   color:'#10a37f', model:'gpt-4o' },
+  gemini:  { name:'Gemini',   color:'#4285F4', model:'gemini-1.5-flash' },
+  mistral: { name:'Mistral',  color:'#FF6B35', model:'mistral-small-latest' }
+};
+
+/* ── STATE ── */
+let selectedAI = 'claude';
+let selectedBuckets = new Set(BUCKETS.map(b => b.id));
+
+/* ── INIT ── */
+(function init() {
+  const sel = document.getElementById('bucketSelector');
+  BUCKETS.forEach(b => {
+    const div = document.createElement('div');
+    div.className = 'bucket-toggle selected';
+    div.id = 'btoggle-' + b.id;
+    div.style.color = b.color;
+    div.onclick = () => toggleBucket(b.id);
+    div.innerHTML = `
+      <div class="bucket-dot-toggle" style="background:${b.color}"></div>
+      <span class="bucket-toggle-label">${b.title}</span>
+      <span class="bucket-signals-count">${b.signals.length}</span>`;
+    sel.appendChild(div);
+  });
+})();
+
+/* ── AI SELECTION ── */
+function selectAI(id) {
+  selectedAI = id;
+  document.querySelectorAll('.ai-tab').forEach(t => t.classList.toggle('active', t.dataset.ai === id));
+  document.querySelectorAll('.key-field').forEach(f => f.classList.remove('visible'));
+  document.getElementById('key-' + id).classList.add('visible');
+}
+
+/* ── BUCKET SELECTION ── */
+function toggleBucket(id) {
+  const el = document.getElementById('btoggle-' + id);
+  if (selectedBuckets.has(id)) { selectedBuckets.delete(id); el.classList.remove('selected'); }
+  else                          { selectedBuckets.add(id);    el.classList.add('selected'); }
+}
+function selectAllBuckets() { BUCKETS.forEach(b => { selectedBuckets.add(b.id);    document.getElementById('btoggle-'+b.id).classList.add('selected'); }); }
+function clearAllBuckets()  { BUCKETS.forEach(b => { selectedBuckets.delete(b.id); document.getElementById('btoggle-'+b.id).classList.remove('selected'); }); }
+
+/* ── HELPERS ── */
+function slug(s) { return s.toLowerCase().replace(/[^a-z0-9]/g,'-'); }
+function setStatus(msg,cls='') { const e=document.getElementById('status'); e.textContent=msg; e.className=cls; }
+function setProgress(pct) {
+  const bar=document.getElementById('progressBar'), fill=document.getElementById('progressFill');
+  if (pct>0&&pct<=100) { bar.classList.add('visible'); fill.style.width=pct+'%'; }
+  else { bar.classList.remove('visible'); fill.style.width='0%'; }
+}
+function setSignalContent(bucketId, sig, text, isError=false) {
+  const el = document.getElementById(`content-${bucketId}-${slug(sig)}`);
+  if (!el) return;
+  el.className = 'signal-content' + (isError?' empty':'');
+  el.textContent = text;
+}
+
+/* ── BUILD SHELL ── */
+function buildShell(activeBuckets, aiName, aiColor) {
+  const results = document.getElementById('results');
+  results.innerHTML = '';
+  activeBuckets.forEach((bucket, bi) => {
+    const div = document.createElement('div');
+    div.className = 'bucket';
+    div.style.animationDelay = (bi*0.07)+'s';
+    div.innerHTML = `
+      <div class="bucket-header">
+        <div class="bucket-dot" style="background:${bucket.color}"></div>
+        <div class="bucket-title" style="color:${bucket.color}">${bucket.title}</div>
+        <span class="bucket-sub">${bucket.sub}</span>
+        <span class="ai-badge" style="background:${aiColor}22;color:${aiColor}">${aiName}</span>
+      </div>
+      <div class="signals-grid">
+        ${bucket.signals.map(sig=>`
+          <div class="signal-card">
+            <div class="signal-name">
+              <span class="signal-badge" style="background:${bucket.color}"></span>${sig}
+            </div>
+            <div class="signal-content loading" id="content-${bucket.id}-${slug(sig)}">Exploring…</div>
+          </div>`).join('')}
+      </div>`;
+    results.appendChild(div);
+  });
+}
+
+/* ── AI QUERIES ── */
+const PROMPT = (topic, bucket, signal) =>
+  `You are applying the HUMS framework (Human as Universal Modelling System) to analyze a topic.\n\nTopic: "${topic}"\nBucket: "${bucket.title}" (${bucket.sub})\nSignal: "${signal}"\n\nIn 2–3 sentences, explain how this signal manifests or matters in the context of the given topic. Be concrete, insightful, and human. Write directly — no preamble. Just the insight.`;
+
+async function queryClaude(apiKey, topic, bucket, signal) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'x-api-key':apiKey,
+      'anthropic-version':'2023-06-01',
+      'anthropic-dangerous-direct-browser-access':'true'
+    },
+    body:JSON.stringify({ model:AI_CONFIGS.claude.model, max_tokens:180,
+      messages:[{role:'user',content:PROMPT(topic,bucket,signal)}] })
+  });
+  if (!res.ok) { const e=await res.json().catch(()=>({})); throw new Error(e?.error?.message||`HTTP ${res.status}`); }
+  return (await res.json()).content?.[0]?.text?.trim()||'—';
+}
+
+async function queryOpenAI(apiKey, topic, bucket, signal) {
+  const res = await fetch('https://api.openai.com/v1/chat/completions', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},
+    body:JSON.stringify({ model:AI_CONFIGS.openai.model, max_tokens:180,
+      messages:[
+        {role:'system',content:'You apply the HUMS framework concisely and insightfully.'},
+        {role:'user',content:PROMPT(topic,bucket,signal)}
+      ]})
+  });
+  if (!res.ok) { const e=await res.json().catch(()=>({})); throw new Error(e?.error?.message||`HTTP ${res.status}`); }
+  return (await res.json()).choices?.[0]?.message?.content?.trim()||'—';
+}
+
+async function queryGemini(apiKey, topic, bucket, signal) {
+  const url=`https://generativelanguage.googleapis.com/v1beta/models/${AI_CONFIGS.gemini.model}:generateContent?key=${apiKey}`;
+  const res = await fetch(url, {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({contents:[{parts:[{text:PROMPT(topic,bucket,signal)}]}]})
+  });
+  if (!res.ok) { const e=await res.json().catch(()=>({})); throw new Error(e?.error?.message||`HTTP ${res.status}`); }
+  return (await res.json()).candidates?.[0]?.content?.parts?.[0]?.text?.trim()||'—';
+}
+
+async function queryMistral(apiKey, topic, bucket, signal) {
+  const res = await fetch('https://api.mistral.ai/v1/chat/completions', {
+    method:'POST',
+    headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},
+    body:JSON.stringify({ model:AI_CONFIGS.mistral.model, max_tokens:180,
+      messages:[{role:'user',content:PROMPT(topic,bucket,signal)}] })
+  });
+  if (!res.ok) { const e=await res.json().catch(()=>({})); throw new Error(e?.error?.message||`HTTP ${res.status}`); }
+  return (await res.json()).choices?.[0]?.message?.content?.trim()||'—';
+}
+
+const QUERY_FNS = { claude:queryClaude, openai:queryOpenAI, gemini:queryGemini, mistral:queryMistral };
+
+/* ── MAIN ── */
+async function runExplore() {
+  const apiKey = document.getElementById(`apiKey-${selectedAI}`).value.trim();
+  const topic  = document.getElementById('topicInput').value.trim();
+  const btn    = document.getElementById('exploreBtn');
+
+  const aiCfg = AI_CONFIGS[selectedAI];
+
+  if (!apiKey)               { setStatus(`Please enter your API key for ${aiCfg.name}.`,'status-error'); return; }
+  if (!topic)                { setStatus('Please enter a topic to explore.','status-error'); return; }
+  if (!selectedBuckets.size) { setStatus('Please select at least one bucket.','status-error'); return; }
+
+  const activeBuckets = BUCKETS.filter(b => selectedBuckets.has(b.id));
+  const totalSignals  = activeBuckets.reduce((s,b)=>s+b.signals.length, 0);
+
+  btn.disabled = true;
+  setStatus('Building the signal map…','status-loading');
+  setProgress(2);
+  buildShell(activeBuckets, aiCfg.name, aiCfg.color);
+
+  const queryFn  = QUERY_FNS[selectedAI];
+  const allTasks = [];
+  activeBuckets.forEach(b => b.signals.forEach(sig => allTasks.push({bucket:b,signal:sig})));
+
+  let completed=0, idx=0;
+
+  async function runNext() {
+    if (idx >= allTasks.length) return;
+    const {bucket,signal} = allTasks[idx++];
+    try {
+      const text = await queryFn(apiKey, topic, bucket, signal);
+      setSignalContent(bucket.id, signal, text);
+    } catch(e) {
+      setSignalContent(bucket.id, signal, '⚠ '+e.message, true);
+    }
+    completed++;
+    setProgress(Math.round((completed/totalSignals)*100));
+    setStatus(`Exploring… ${completed} of ${totalSignals} signals via ${aiCfg.name}`,'status-loading');
+    await runNext();
+  }
+
+  await Promise.all(Array.from({length:Math.min(4,allTasks.length)}, runNext));
+
+  setProgress(0);
+  setStatus(`✦ Done! ${totalSignals} signals explored for "${topic}" via ${aiCfg.name}`);
+  btn.disabled = false;
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key==='Enter' && document.activeElement===document.getElementById('topicInput')) runExplore();
+});
+</script>
+
+</body>
+</html>
