@@ -10,7 +10,6 @@
   :root {
     --gold: #c9a84c;
     --gold-light: #f0d080;
-    --deep: #130800;
     --parchment: #f5e6c8;
     --p1: #c94000;
     --p2: #005999;
@@ -34,212 +33,90 @@
     text-shadow: 0 0 28px rgba(240,208,128,0.4);
     letter-spacing: 0.08em;
   }
-  .hdr .sub {
-    font-family: 'Cinzel', serif;
-    font-size: 0.65rem;
-    color: var(--gold);
-    letter-spacing: 0.22em;
-    opacity: 0.85;
-    margin-top: 3px;
-  }
-  .sacred-note {
-    font-family: 'Cinzel', serif;
-    font-size: 0.62rem;
-    color: rgba(201,168,76,0.65);
-    letter-spacing: 0.18em;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-  .game-wrap {
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    justify-content: center;
-    width: 100%;
-    max-width: 1060px;
-  }
-  .board-outer {
-    border: 2px solid var(--gold);
-    box-shadow: 0 0 40px rgba(201,168,76,0.18);
-    line-height: 0;
-    flex-shrink: 0;
-  }
-  canvas#board { display: block; }
-  .panel {
-    width: 236px;
-    display: flex;
-    flex-direction: column;
-    gap: 11px;
-    flex-shrink: 0;
-  }
-  .pcard {
-    border: 1px solid rgba(201,168,76,0.35);
-    border-radius: 5px;
-    padding: 10px 13px;
-    background: rgba(201,168,76,0.04);
-    transition: background .25s, box-shadow .25s;
-  }
-  .pcard.active {
-    background: rgba(201,168,76,0.12);
-    box-shadow: 0 0 14px rgba(201,168,76,0.22);
-    border-color: var(--gold);
-  }
-  .pcard h3 {
-    font-family: 'Cinzel', serif;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    display: flex; align-items: center; gap: 7px;
-    margin-bottom: 4px;
-  }
-  .dot { width:11px;height:11px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);flex-shrink:0; }
+  .hdr .sub { font-family:'Cinzel',serif; font-size:0.65rem; color:var(--gold); letter-spacing:0.22em; opacity:.85; margin-top:3px; }
+  .sacred-note { font-family:'Cinzel',serif; font-size:0.62rem; color:rgba(201,168,76,0.65); letter-spacing:0.18em; text-align:center; margin-bottom:10px; }
+  .game-wrap { display:flex; gap:14px; align-items:flex-start; flex-wrap:wrap; justify-content:center; width:100%; max-width:1060px; }
+  .board-outer { border:2px solid var(--gold); box-shadow:0 0 40px rgba(201,168,76,0.18); line-height:0; flex-shrink:0; }
+  canvas#board { display:block; }
+  .panel { width:236px; display:flex; flex-direction:column; gap:11px; flex-shrink:0; }
+  .pcard { border:1px solid rgba(201,168,76,0.35); border-radius:5px; padding:10px 13px; background:rgba(201,168,76,0.04); transition:background .25s, box-shadow .25s; }
+  .pcard.active { background:rgba(201,168,76,0.12); box-shadow:0 0 14px rgba(201,168,76,0.22); border-color:var(--gold); }
+  .pcard h3 { font-family:'Cinzel',serif; font-size:0.75rem; letter-spacing:0.1em; display:flex; align-items:center; gap:7px; margin-bottom:4px; }
+  .dot { width:11px; height:11px; border-radius:50%; border:2px solid rgba(255,255,255,0.3); flex-shrink:0; }
   .d1{background:var(--p1);} .d2{background:var(--p2);}
   .ppos { font-family:'Cinzel',serif; font-size:1.25rem; color:var(--gold-light); font-weight:600; }
-  .ppos small{font-size:0.6rem;color:var(--parchment);opacity:.6;margin-left:3px;}
-  .dice-area {
-    text-align:center; padding:12px;
-    border:1px solid rgba(201,168,76,0.28);
-    border-radius:6px; background:rgba(0,0,0,0.28);
-  }
-  #diceFace {
-    width:62px;height:62px;
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    grid-template-rows:repeat(3,1fr);
-    padding:7px;gap:3px;
-    background:#f7ecd4; border-radius:10px;
-    border:2px solid var(--gold);
-    box-shadow:3px 3px 0 rgba(0,0,0,0.45);
-    margin:0 auto 9px;
-  }
-  #diceFace.rolling{animation:dr .38s ease;}
+  .ppos small { font-size:0.6rem; color:var(--parchment); opacity:.6; margin-left:3px; }
+  .dice-area { text-align:center; padding:12px; border:1px solid rgba(201,168,76,0.28); border-radius:6px; background:rgba(0,0,0,0.28); }
+  #diceFace { width:62px; height:62px; display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:repeat(3,1fr); padding:7px; gap:3px; background:#f7ecd4; border-radius:10px; border:2px solid var(--gold); box-shadow:3px 3px 0 rgba(0,0,0,0.45); margin:0 auto 9px; }
+  #diceFace.rolling { animation:dr .38s ease; }
   @keyframes dr{0%{transform:rotate(0)scale(1)}30%{transform:rotate(-18deg)scale(.88)}65%{transform:rotate(14deg)scale(1.06)}100%{transform:rotate(0)scale(1)}}
-  .pip{border-radius:50%;background:#1a0800;justify-self:center;align-self:center;width:9px;height:9px;opacity:0;transition:opacity .08s;}
-  .pip.on{opacity:1;}
-  .turn-lbl{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.1em;color:var(--gold-light);margin-bottom:8px;}
-  #rollBtn{
-    font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.08em;font-weight:700;
-    background:linear-gradient(135deg,#7a5810,#c9a84c,#7a5810);
-    border:none;color:#1a0800;padding:9px 20px;border-radius:4px;
-    cursor:pointer;width:100%;box-shadow:0 3px 8px rgba(0,0,0,0.4);
-    transition:transform .1s, box-shadow .15s;
-  }
-  #rollBtn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 5px 14px rgba(201,168,76,.28);}
-  #rollBtn:disabled{opacity:.4;cursor:not-allowed;}
-  .tabs{display:flex;gap:4px;flex-wrap:wrap;}
-  .tab{font-size:.58rem;font-family:'Cinzel',serif;padding:3px 6px;border-radius:3px;border:1px solid rgba(201,168,76,.3);color:var(--parchment);opacity:.75;line-height:1.3;}
-  .log-box{border:1px solid rgba(201,168,76,.22);border-radius:5px;background:rgba(0,0,0,.28);max-height:190px;overflow-y:auto;padding:8px 10px;}
-  .log-box h4{font-family:'Cinzel',serif;font-size:.63rem;letter-spacing:.17em;color:var(--gold);margin-bottom:5px;padding-bottom:4px;border-bottom:1px solid rgba(201,168,76,.18);}
-  .le{font-size:.68rem;line-height:1.45;padding:2px 0;border-bottom:1px solid rgba(255,255,255,.04);opacity:.85;}
-  .le.snake{color:#e07878;} .le.ladder{color:#7edba6;} .le.win{color:var(--gold-light);font-weight:600;}
-  #resetBtn{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.1em;background:transparent;border:1px solid rgba(201,168,76,.3);color:var(--gold);padding:7px;border-radius:4px;cursor:pointer;width:100%;transition:background .2s;}
-  #resetBtn:hover{background:rgba(201,168,76,.1);}
+  .pip { border-radius:50%; background:#1a0800; justify-self:center; align-self:center; width:9px; height:9px; opacity:0; transition:opacity .08s; }
+  .pip.on { opacity:1; }
+  .turn-lbl { font-family:'Cinzel',serif; font-size:.7rem; letter-spacing:.1em; color:var(--gold-light); margin-bottom:8px; }
+  #rollBtn { font-family:'Cinzel',serif; font-size:.8rem; letter-spacing:.08em; font-weight:700; background:linear-gradient(135deg,#7a5810,#c9a84c,#7a5810); border:none; color:#1a0800; padding:9px 20px; border-radius:4px; cursor:pointer; width:100%; box-shadow:0 3px 8px rgba(0,0,0,0.4); transition:transform .1s, box-shadow .15s; }
+  #rollBtn:hover:not(:disabled) { transform:translateY(-1px); box-shadow:0 5px 14px rgba(201,168,76,.28); }
+  #rollBtn:disabled { opacity:.4; cursor:not-allowed; }
+  .tabs { display:flex; gap:4px; flex-wrap:wrap; }
+  .tab { font-size:.58rem; font-family:'Cinzel',serif; padding:3px 6px; border-radius:3px; border:1px solid rgba(201,168,76,.3); color:var(--parchment); opacity:.75; line-height:1.3; }
+  .log-box { border:1px solid rgba(201,168,76,.22); border-radius:5px; background:rgba(0,0,0,.28); max-height:190px; overflow-y:auto; padding:8px 10px; }
+  .log-box h4 { font-family:'Cinzel',serif; font-size:.63rem; letter-spacing:.17em; color:var(--gold); margin-bottom:5px; padding-bottom:4px; border-bottom:1px solid rgba(201,168,76,.18); }
+  .le { font-size:.68rem; line-height:1.45; padding:2px 0; border-bottom:1px solid rgba(255,255,255,.04); opacity:.85; }
+  .le.snake { color:#e07878; } .le.ladder { color:#7edba6; } .le.win { color:var(--gold-light); font-weight:600; }
+  #resetBtn { font-family:'Cinzel',serif; font-size:.7rem; letter-spacing:.1em; background:transparent; border:1px solid rgba(201,168,76,.3); color:var(--gold); padding:7px; border-radius:4px; cursor:pointer; width:100%; transition:background .2s; }
+  #resetBtn:hover { background:rgba(201,168,76,.1); }
 
-/* ══════════ STORY POPUP ══════════ */
-#storyOverlay{
-display:none;position:fixed;inset:0;
-background:rgba(0,0,0,0.78);z-index:150;
-align-items:center;justify-content:center;padding:16px;
-}
-#storyOverlay.show{display:flex;}
-.story-card{
-position:relative;max-width:540px;width:100%;
-border-radius:10px;border:2px solid var(–gold);
-padding:26px 28px 22px;
-box-shadow:0 0 70px rgba(0,0,0,0.8);
-animation:cardIn .35s cubic-bezier(.175,.885,.32,1.275);
-max-height:90vh;overflow-y:auto;
-}
+/* ══ STORY POPUP ══ */
+#storyOverlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.78); z-index:150; align-items:center; justify-content:center; padding:16px; }
+#storyOverlay.show { display:flex; }
+.story-card { position:relative; max-width:560px; width:100%; border-radius:10px; border:2px solid var(–gold); padding:26px 28px 22px; box-shadow:0 0 70px rgba(0,0,0,0.8); animation:cardIn .35s cubic-bezier(.175,.885,.32,1.275); max-height:90vh; overflow-y:auto; }
 @keyframes cardIn{from{transform:scale(0.82)translateY(18px);opacity:0}to{transform:scale(1)translateY(0);opacity:1}}
-.story-card.is-ladder{background:linear-gradient(155deg,#0a2a18 0%,#051510 60%,#020c06 100%);border-color:#4a9e6a;}
-.story-card.is-snake {background:linear-gradient(155deg,#2a0808 0%,#180404 60%,#0e0303 100%);border-color:#9e4444;}
-
-.story-close{
-position:absolute;top:10px;right:12px;
-width:30px;height:30px;border-radius:50%;
-border:1px solid rgba(201,168,76,0.45);
-background:rgba(0,0,0,0.45);
-color:var(–gold);font-size:1rem;line-height:30px;
-text-align:center;cursor:pointer;transition:background .15s;
-display:flex;align-items:center;justify-content:center;
-font-weight:bold;flex-shrink:0;z-index:10;
-}
-.story-close:hover{background:rgba(201,168,76,0.22);}
-
-.story-badge{
-display:inline-block;
-font-family:‘Cinzel’,serif;font-size:0.58rem;letter-spacing:0.22em;
-padding:3px 9px;border-radius:20px;margin-bottom:10px;
-}
-.is-ladder .story-badge{background:rgba(74,158,106,0.2);color:#8edbb0;border:1px solid rgba(74,158,106,0.4);}
-.is-snake  .story-badge{background:rgba(158,68,68,0.2); color:#e8a0a0;border:1px solid rgba(158,68,68,0.4);}
-
-.story-move-tag{
-font-family:‘Cinzel’,serif;font-size:0.68rem;letter-spacing:0.1em;
-margin-bottom:14px;padding:4px 10px;border-radius:3px;
-display:inline-block;margin-left:8px;
-}
-.is-ladder .story-move-tag{background:rgba(74,158,106,0.15);color:#a0e8bc;}
-.is-snake  .story-move-tag{background:rgba(158,68,68,0.15); color:#e8b0b0;}
-
-.story-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px;}
-.story-emoji-big{font-size:2.8rem;line-height:1;flex-shrink:0;margin-top:2px;}
-.story-title-block h2{
-font-family:‘Cinzel Decorative’,serif;
-font-size:clamp(.95rem,2.8vw,1.25rem);
-line-height:1.2;color:var(–gold-light);
-text-shadow:0 0 16px rgba(240,208,128,0.3);
-margin-bottom:4px;
-}
-.story-subtitle-txt{font-family:‘Cinzel’,serif;font-size:0.68rem;letter-spacing:0.1em;opacity:0.7;}
-.is-ladder .story-subtitle-txt{color:#8edbb0;}
-.is-snake  .story-subtitle-txt{color:#e8a0a0;}
-
-.story-rule{height:1px;border:none;margin:0 0 14px;}
-.is-ladder .story-rule{background:linear-gradient(90deg,transparent,#4a9e6a88,transparent);}
-.is-snake  .story-rule{background:linear-gradient(90deg,transparent,#9e444488,transparent);}
-
-.story-body-text{font-size:0.8rem;line-height:1.8;color:rgba(245,230,200,0.88);}
-.story-body-text p{margin-bottom:9px;}
-.story-body-text p:last-child{margin-bottom:0;}
-
-.story-moral{
-margin-top:14px;padding:10px 14px;border-radius:5px;
-font-size:0.77rem;font-style:italic;line-height:1.6;
-color:var(–gold-light);
-}
-.is-ladder .story-moral{background:rgba(74,158,106,0.1);border-left:3px solid #4a9e6a;}
-.is-snake  .story-moral{background:rgba(158,68,68,0.1); border-left:3px solid #9e4444;}
-
-.story-continue{
-margin-top:18px;font-family:‘Cinzel’,serif;
-font-size:0.78rem;letter-spacing:0.1em;font-weight:700;
-border:none;padding:10px 24px;border-radius:4px;
-cursor:pointer;width:100%;transition:opacity .15s;
-}
-.is-ladder .story-continue{background:linear-gradient(135deg,#1a5c3a,#4a9e6a,#1a5c3a);color:#e8f5ec;}
-.is-snake  .story-continue{background:linear-gradient(135deg,#5c1a1a,#9e4444,#5c1a1a);color:#f5e8e8;}
-.story-continue:hover{opacity:0.82;}
+.story-card.is-ladder { background:linear-gradient(155deg,#0a2a18 0%,#051510 60%,#020c06 100%); border-color:#4a9e6a; }
+.story-card.is-snake  { background:linear-gradient(155deg,#2a0808 0%,#180404 60%,#0e0303 100%); border-color:#9e4444; }
+.story-close { position:absolute; top:10px; right:12px; width:30px; height:30px; border-radius:50%; border:1px solid rgba(201,168,76,0.45); background:rgba(0,0,0,0.45); color:var(–gold); font-size:1rem; display:flex; align-items:center; justify-content:center; font-weight:bold; cursor:pointer; transition:background .15s; z-index:10; }
+.story-close:hover { background:rgba(201,168,76,0.22); }
+.story-badge { display:inline-block; font-family:‘Cinzel’,serif; font-size:0.58rem; letter-spacing:0.22em; padding:3px 9px; border-radius:20px; margin-bottom:10px; }
+.is-ladder .story-badge { background:rgba(74,158,106,0.2); color:#8edbb0; border:1px solid rgba(74,158,106,0.4); }
+.is-snake  .story-badge { background:rgba(158,68,68,0.2);  color:#e8a0a0; border:1px solid rgba(158,68,68,0.4); }
+.story-move-tag { font-family:‘Cinzel’,serif; font-size:0.68rem; letter-spacing:0.1em; padding:4px 10px; border-radius:3px; display:inline-block; margin-left:8px; }
+.is-ladder .story-move-tag { background:rgba(74,158,106,0.15); color:#a0e8bc; }
+.is-snake  .story-move-tag { background:rgba(158,68,68,0.15); color:#e8b0b0; }
+.story-header { display:flex; align-items:flex-start; gap:14px; margin:14px 0; }
+.story-emoji-big { font-size:2.8rem; line-height:1; flex-shrink:0; margin-top:2px; }
+.story-title-block h2 { font-family:‘Cinzel Decorative’,serif; font-size:clamp(.95rem,2.8vw,1.25rem); line-height:1.2; color:var(–gold-light); text-shadow:0 0 16px rgba(240,208,128,0.3); margin-bottom:4px; }
+.story-subtitle-txt { font-family:‘Cinzel’,serif; font-size:0.68rem; letter-spacing:0.1em; opacity:0.7; }
+.is-ladder .story-subtitle-txt { color:#8edbb0; }
+.is-snake  .story-subtitle-txt { color:#e8a0a0; }
+.story-rule { height:1px; border:none; margin:0 0 14px; }
+.is-ladder .story-rule { background:linear-gradient(90deg,transparent,#4a9e6a88,transparent); }
+.is-snake  .story-rule { background:linear-gradient(90deg,transparent,#9e444488,transparent); }
+.story-body-text { font-size:0.82rem; line-height:1.85; color:rgba(245,230,200,0.9); }
+.story-body-text p { margin-bottom:10px; }
+.story-body-text p:last-child { margin-bottom:0; }
+.story-moral { margin-top:14px; padding:10px 14px; border-radius:5px; font-size:0.78rem; font-style:italic; line-height:1.65; color:var(–gold-light); }
+.is-ladder .story-moral { background:rgba(74,158,106,0.1); border-left:3px solid #4a9e6a; }
+.is-snake  .story-moral { background:rgba(158,68,68,0.1); border-left:3px solid #9e4444; }
+.story-continue { margin-top:18px; font-family:‘Cinzel’,serif; font-size:0.78rem; letter-spacing:0.1em; font-weight:700; border:none; padding:10px 24px; border-radius:4px; cursor:pointer; width:100%; transition:opacity .15s; }
+.is-ladder .story-continue { background:linear-gradient(135deg,#1a5c3a,#4a9e6a,#1a5c3a); color:#e8f5ec; }
+.is-snake  .story-continue { background:linear-gradient(135deg,#5c1a1a,#9e4444,#5c1a1a); color:#f5e8e8; }
+.story-continue:hover { opacity:0.82; }
 
 /* WIN */
-#winOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:200;align-items:center;justify-content:center;}
-#winOverlay.show{display:flex;}
-.win-box{background:radial-gradient(ellipse,#261000 0%,#0c0400 100%);border:2px solid var(–gold);border-radius:10px;padding:34px 42px;text-align:center;box-shadow:0 0 60px rgba(201,168,76,.4);animation:popIn .4s cubic-bezier(.175,.885,.32,1.275);}
+#winOverlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.82); z-index:200; align-items:center; justify-content:center; }
+#winOverlay.show { display:flex; }
+.win-box { background:radial-gradient(ellipse,#261000 0%,#0c0400 100%); border:2px solid var(–gold); border-radius:10px; padding:34px 42px; text-align:center; box-shadow:0 0 60px rgba(201,168,76,.4); animation:popIn .4s cubic-bezier(.175,.885,.32,1.275); }
 @keyframes popIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
-.win-box .wi{font-size:3rem;margin-bottom:8px;}
-.win-box h2{font-family:‘Cinzel Decorative’,serif;font-size:clamp(1.1rem,3vw,1.5rem);color:var(–gold-light);margin-bottom:5px;text-shadow:0 0 20px rgba(240,208,128,.5);}
-.win-box p{font-size:.85rem;color:var(–parchment);opacity:.8;margin-bottom:20px;}
-.win-box button{font-family:‘Cinzel’,serif;font-size:.82rem;letter-spacing:.1em;font-weight:700;background:linear-gradient(135deg,#7a5810,#c9a84c,#7a5810);border:none;color:#1a0800;padding:10px 28px;border-radius:4px;cursor:pointer;}
-
-#tooltip{position:fixed;pointer-events:none;background:rgba(20,8,0,.95);border:1px solid var(–gold);border-radius:5px;padding:7px 10px;font-family:‘Cinzel’,serif;font-size:.68rem;color:var(–parchment);line-height:1.5;max-width:200px;z-index:50;opacity:0;transition:opacity .15s;}
-#tooltip.show{opacity:1;}
-
-@media(max-width:680px){.panel{width:100%;max-width:440px;}}
+.win-box .wi { font-size:3rem; margin-bottom:8px; }
+.win-box h2 { font-family:‘Cinzel Decorative’,serif; font-size:clamp(1.1rem,3vw,1.5rem); color:var(–gold-light); margin-bottom:5px; text-shadow:0 0 20px rgba(240,208,128,.5); }
+.win-box p { font-size:.85rem; color:var(–parchment); opacity:.8; margin-bottom:20px; }
+.win-box button { font-family:‘Cinzel’,serif; font-size:.82rem; letter-spacing:.1em; font-weight:700; background:linear-gradient(135deg,#7a5810,#c9a84c,#7a5810); border:none; color:#1a0800; padding:10px 28px; border-radius:4px; cursor:pointer; }
+#tooltip { position:fixed; pointer-events:none; background:rgba(20,8,0,.95); border:1px solid var(–gold); border-radius:5px; padding:7px 10px; font-family:‘Cinzel’,serif; font-size:.68rem; color:var(–parchment); line-height:1.5; max-width:200px; z-index:50; opacity:0; transition:opacity .15s; }
+#tooltip.show { opacity:1; }
+@media(max-width:680px){ .panel{width:100%;max-width:440px;} }
 </style>
 
 </head>
 <body>
-S2L2
+
 <div class="hdr">
   <h1>Dashaavataara</h1>
   <div class="sub">✦ SLIPPERY SLOPES & LADDERS · THE SACRED 108 ✦</div>
@@ -258,30 +135,24 @@ S2L2
       <h3><span class="dot d2"></span>Player 2</h3>
       <div class="ppos" id="pos1">1 <small>/ 108</small></div>
     </div>
-
-```
-<div class="dice-area">
-  <div id="diceFace"></div>
-  <div class="turn-lbl" id="turnLbl">Player 1's Turn</div>
-  <button id="rollBtn">🎲 Roll the Dice</button>
-</div>
-
-<div style="border:1px solid rgba(201,168,76,.22);border-radius:5px;padding:10px 12px;background:rgba(0,0,0,.22);">
-  <div style="font-family:'Cinzel',serif;font-size:.63rem;letter-spacing:.17em;color:var(--gold);margin-bottom:7px;padding-bottom:4px;border-bottom:1px solid rgba(201,168,76,.18);">DAŚĀVATĀRA LADDERS · PRIME SQUARES</div>
-  <div class="tabs" id="avatarTabs"></div>
-</div>
-
-<div class="log-box">
-  <h4>CHRONICLE</h4>
-  <div id="logEntries"></div>
-</div>
-<button id="resetBtn">↺ New Game</button>
-```
-
+    <div class="dice-area">
+      <div id="diceFace"></div>
+      <div class="turn-lbl" id="turnLbl">Player 1's Turn</div>
+      <button id="rollBtn">🎲 Roll the Dice</button>
+    </div>
+    <div style="border:1px solid rgba(201,168,76,.22);border-radius:5px;padding:10px 12px;background:rgba(0,0,0,.22);">
+      <div style="font-family:'Cinzel',serif;font-size:.63rem;letter-spacing:.17em;color:var(--gold);margin-bottom:7px;padding-bottom:4px;border-bottom:1px solid rgba(201,168,76,.18);">DAŚĀVATĀRA LADDERS · PRIME SQUARES</div>
+      <div class="tabs" id="avatarTabs"></div>
+    </div>
+    <div class="log-box">
+      <h4>CHRONICLE</h4>
+      <div id="logEntries"></div>
+    </div>
+    <button id="resetBtn">↺ New Game</button>
   </div>
 </div>
 
-<!-- ═══ STORY POPUP ═══ -->
+<!-- STORY POPUP -->
 
 <div id="storyOverlay">
   <div class="story-card" id="storyCard">
@@ -293,11 +164,11 @@ S2L2
     <div class="story-header">
       <div class="story-emoji-big" id="storyEmoji">🐟</div>
       <div class="story-title-block">
-        <h2 id="storyTitle">Matsya Avataar</h2>
-        <div class="story-subtitle-txt" id="storySubtitle">Ladder of Rescue · Prime 2</div>
+        <h2 id="storyTitle">Matsya Avtaar</h2>
+        <div class="story-subtitle-txt" id="storySubtitle">Ladder · Prime 2</div>
       </div>
     </div>
-    <hr class="story-rule" id="storyRule">
+    <hr class="story-rule">
     <div class="story-body-text" id="storyBody"></div>
     <div class="story-moral" id="storyMoral"></div>
     <button class="story-continue" id="storyContinueBtn">Continue the Journey →</button>
@@ -323,7 +194,6 @@ const COLS=12, ROWS=9, TOTAL=108;
 const canvas=document.getElementById('board');
 const ctx=canvas.getContext('2d');
 let CELL;
-
 function setSize(){
   const maxW=Math.min(window.innerWidth-16, window.innerWidth>800?696:window.innerWidth-16);
   CELL=Math.max(34,Math.floor(maxW/COLS));
@@ -336,214 +206,223 @@ function sqXY(sq){
 }
 
 // ══════════════════════════════════════════════════
-//  DATA
+//  LADDERS (prime starts) & SNAKES
 // ══════════════════════════════════════════════════
 const LADDERS={2:22,7:30,11:40,19:48,29:58,41:68,53:80,61:88,71:96,83:105};
 const SNAKES={9:3,25:8,38:15,50:28,62:35,74:46,86:60,98:75,100:78,106:90};
 
+// ── ALL TEXT VERBATIM FROM "Dear Parent" letter, June 23rd 2005 ──────────────
 const LADDER_DATA={
   2:{
-    avatar:'Matsya Avataar',emoji:'🐟',color:'#1a6080',
-    subtitle:'Ladder of Rescue · Prime 2',badge:'LADDER · VIRTUE',
+    avatar:'Matsya Avtaar', emoji:'🐟', color:'#1a6080',
+    subtitle:'Ladder · Prime 2',
+    badge:'LADDER · VIRTUE',
     story:[
-      'When the universe was about to be submerged in the greatest of all floods, Lord Vishnu appeared as Matsya — a humongous fish — and rescued all forms of life that would listen to his plan. Once the waters receded, he gave them a brand new world.',
-      'Matsya asked the righteous Satyavrata to join his team. Satyavrata built a great ship and gathered all living things aboard, and Matsya guided it safely through the deluge.',
-      'While Satyavrata was building the ship, Hayagrivah stole all the sacred knowledge from the world. Vishnu saw this and asked him to return it. When Hayagrivah refused, Matsya vanquished him and restored wisdom to the world.'
+      'When the universe was going to be submerged in the biggest of all rains, Lord Vishnu appeared as a humongous fish, Matsya. Matsya rescued all forms of life that would listen to his plan and once the rains were gone, he gave them a brand new world. To do this Matsya asked Satyavrata to join his team. Satyavrata built a huge ship and got all the living things on to the ship and the ship was rescued by Matsya.',
+      'While Satyavrata was busy building the ship, Hayagrivah was busy stealing all the knowledge. Vishnu saw that and asked him to give the knowledge back to the world, when he refused, Vishnu Matsya vanquished him.'
     ],
-    moral:'"You are Matsya Brave!" — Courage to listen, plan ahead, and protect what matters most. The one who heeds the warning and acts is the one who survives.'
+    moral:'On every ladder or slope that you or your child hits, take the opportunity to introduce the stories of Dashavtaar, and, succinctly teach them dos and don\'ts of life.'
   },
   7:{
-    avatar:'Kuurma Avataar',emoji:'🐢',color:'#2e7d32',
-    subtitle:'Ladder of Steady Support · Prime 7',badge:'LADDER · VIRTUE',
+    avatar:'Kuuram Avtaar', emoji:'🐢', color:'#2e7d32',
+    subtitle:'Ladder · Prime 7',
+    badge:'LADDER · VIRTUE',
     story:[
-      'Indra and the Devas had become indulgent — like spending too much time in idle pleasures. They insulted great Rishis and lost both their spiritual and physical strength, getting beaten by the Asuras.',
-      'They prayed to Vishnu, who asked them to churn the great ocean for Amrutam. Using Mount Mandara as the churning rod and Vasuki as the rope, they began. But Mandara was sinking fast, drilling through the ocean floor.',
-      'They prayed again, and Vishnu came as Kuurma — the Great Turtle of all times. Mandara rested upon Kuurma\'s back and the churning continued. Wonders emerged: medicines, Lakshmi Devi, and finally Amrutam. Vishnu as Mohini outsmarted the Asuras, and the Devas were restored.'
+      'In this avtaar Indra and Devas became very indulgent. It is like watching too much TV of surfing the internet too much. They insulted the great Rishis and as a result lost their spiritual and physical strength and were getting beat by the Asuras. So, they prayed to Vishnu who asked them to churn the ocean and get Amrutam to gain their physical strength and to keep prying to him to get back their spirutal strength.',
+      'Devas did just that but seeing that Devas were going to get physically strong, Asuras wanted to do the same and joined the churning party. On Vishnu\'s suggestion, they asked mountin king Mandara to become the churnig rod and Vasuki the rope. Once they got started they quickly realised that Mandara drilled a hole in the ocean floor and was sinking fast. They pryed to Vishnu and Vishnu came as The Turtle of all times, Kuurma. Mandara rested on Kuurma\'s back and all was good.',
+      'Lots of good things happened such as the Master of nutrition and medicines came out. Also, Lakshmi Devi came out and married Vishnu again. One bad thing came out though, the Hala Halam. Lord Shiva came to the resuce and without even swallowing took out its potency. Finally Amrutam came out. Seeing that Asuras were still giving into low tendencies and false vlues, Vishnu can as Mohini and distracted them while Devas finished it. Once strong, Devas easly beat the asurs.'
     ],
-    moral:'"You are Kuurma Strong!" — Be the steady foundation that others can rest upon when things start to sink. Quiet, patient support is its own greatness.'
+    moral:'You are Kuurma Strong! Be the steady support that others rest upon when things start to sink.'
   },
   11:{
-    avatar:'Varaaha Avataar',emoji:'🐗',color:'#5d4037',
-    subtitle:'Ladder of Elevation · Prime 11',badge:'LADDER · VIRTUE',
+    avatar:'Varaaha Avtaar', emoji:'🐗', color:'#5d4037',
+    subtitle:'Ladder · Prime 11',
+    badge:'LADDER · VIRTUE',
     story:[
-      'Jaya and Vijaya were gatekeepers of Vaikuntha who turned away the boy-sages. Annoyed by their condescension, the sages cursed them to be born on earth three times to shed their low tendencies. Jaya was born first as Hiranyaksha.',
-      'Hiranyaksha was enormously strong and sought the title of the strongest of all times. Meanwhile, Brahma was restarting the human race and prayed to Vishnu to retrieve Bhoomata (the Earth) from the depths of the ocean of time.',
-      'Vishnu took the form of Varaaha, the King Boar, and dove into the ocean. Hiranyaksha challenged him. Once Bhoomata was safely raised up on Varaaha\'s tusks, Varaaha defeated Hiranyaksha — and helped Jaya complete his first lifetime away from Vaikuntha.'
+      'This story begins with Jaya and Vijaya. Jaya and Vijaya did physical security in Vaikuntha and would not let the boy-sages go in to see Vishnu. The boy-sages got annoyed at the condecending factor in these guys and cursed them to go to earth and be born three times to get rid of the low tendencies.',
+      'Jaya was born as Hiranyaksha. Hiranyaksha was very strong and wanted to earn the strongest man of all times title. At the same time, Bramha was getting ready to restart the human race and prayed to Vishnu to bring back Bhoomata (Earth) from the depths of the ocean of time. Vishnu took the form of Varaaha, the Kng Boar, and went into the ocean of time to bring back Bhoomata. Seeing the King Boar, Hirnyaksha felt the itch to challenge him. Once Bhoomata was safe, Varaaha defeated Hiranyaksha and thus helped Jaya finish his first lifetime away from Vaikuntha.'
     ],
-    moral:'"You are Varaaha Mighty!" — Use your strength to lift others up, not to seek personal glory. Real power rescues; it does not hoard.'
+    moral:'You are Varaaha Mighty! Use your strength to lift others up, not to seek the strongest title for yourself.'
   },
   19:{
-    avatar:'Narasimha Avataar',emoji:'🦁',color:'#e65100',
-    subtitle:"Ladder of Fearless Devotion · Prime 19",badge:'LADDER · VIRTUE',
+    avatar:'Narasimha Avtaar', emoji:'🦁', color:'#e65100',
+    subtitle:'Ladder · Prime 19',
+    badge:'LADDER · VIRTUE',
     story:[
-      'Vijaya was reborn as Hiranyakashipa — intelligent, powerful, and full of revenge against Vishnu. He tried to starve Vishnu by banning all worship. But his own son Prahlad turned out wiser than him and began praying to Vishnu.',
-      'Hiranyakashipa tested Prahlad\'s devotion at every turn: poison, fire, cliffs, stampeding elephants. Nothing could harm Prahlad. Enraged, Hiranyakashipa demanded Prahlad show him Vishnu — even within a palace pillar.',
-      'Prahlad said yes. Hiranyakashipa broke open a pillar — and Narasimha emerged. Neither fully man nor animal, at twilight, on a threshold, on his lap — every boon was outwitted. Thus Vijaya completed his first lifetime away from Vaikuntha.'
+      'Vijaya\'s first birst was as Hiranyapkashipu. Hiranyakshipu was very intelligent and strong. He wanted to rule the world but was also filled with revenge. He wanted to get back to Vishnu. He came up with a plan to starve Vishnu by making sure that no one worshiped. But, his own son Prahlad turned out to be smarter than him and Prahlad quickly realized his dad was wrong and started pryaing to Vishnu.',
+      'Prahlad\'s devotion and courage was tested to the nth degree by his father. Prahlad was made to drink poison, was thrown into fire, was thrown from clifs, and even elephants were sent out to trample him. Nothing happened to him and this made Hiranyakashipu mad. He could not take it and decided to find out if Vishnu was really that poweful. He challenged Prahlad to show him Vishnu. Prahlad including if he was in pillars of his palace. Prahalad said yes and Hiranyakashipu broke open a pillar only to see Narasimha.',
+      'Form of Narasimha was such that without breaking all the boons Hiranyakashipu received, he bascially outwitted and vanquished Hiranyakashipu. Thus Vishnu helped Vijaya finish his first life time away from Vaikuntha.'
     ],
-    moral:'"You are Narasimha Strong!" — True courage is devotion that no threat can shake. The devoted heart is the most protected heart of all.'
+    moral:'You are Narasimha Strong! True devotion and courage cannot be shaken by any test.'
   },
   29:{
-    avatar:'Vaamana Avataar',emoji:'🙏',color:'#4a148c',
-    subtitle:'Ladder of Humility · Prime 29',badge:'LADDER · VIRTUE',
+    avatar:'Vaaman Avtaar', emoji:'🙏', color:'#4a148c',
+    subtitle:'Ladder · Prime 29',
+    badge:'LADDER · VIRTUE',
     story:[
-      'Bali was the great-grandson of Prahlad and showed true values of service and sacrifice. But his ego was quietly rising — and Lord Vishnu came as a Brahmin midget to protect Bali from following the path of Hiranyakashipa.',
-      'Vaamana asked only for as much land as three strides could cover. Bali, too proud of his reputation as the Great Giver, agreed — ignoring his guru\'s warnings, never pausing to ask Vishnu why he truly came.',
-      'Once Bali agreed, Vaamana grew immense. One stride covered the entire earth; another covered all the heavens. Bali had no choice but to offer his own head for the third step. When Vaamana\'s foot rested on his head, Bali received the wisdom he needed — and went on ruling with egoless joy.'
+      'Bali was the great grandson of the Prahalad. Bali showed all the true values of a great man including attitudes of service and sacrifice. Though, his egoistic tendencies were on the rise. As a way to protect Bali from his ego making him into another Hiranyakashipu, Lord Vishnu came in the form of a Brahmin midget. He asked Bali to give him land long enough for three of his strides.',
+      'Bali was too attached to his fame as The Giver of all times. To keep his fame he agreed to give Vishnu the land thinking that Vishnu was just a midget. Bali basically ignored his gurus\' advice and also ignored to find out from Vishnu why he came to vanquish him. If only he asked, he would have learnt that his problem was his own ego. Anyways, once he agreed to grant Vaaman his wish, Vaaman basically blew Bali\'s socks off by becoming so huge that with one stride he covered the earth and with the next covered all heavens. Bali now had no choice other than to let go of his ego so he offered Vaaman his head to rest finish the third stride.',
+      'Once Vaaman put his foot on Bali\'s head, Bali got all the knowledge he needed to flush his ego and from them on continued to rule his kingdom with ego less efficiency and had fun doing it.'
     ],
-    moral:'"You are Vaamana Humble!" — Real greatness comes from letting go of what you think you own. A gift given with strings attached is not a gift at all.'
+    moral:'You are Vaaman Humble! Real greatness comes from letting go of what you think you own.'
   },
   41:{
-    avatar:'Parashurama Avataar',emoji:'⚔️',color:'#b71c1c',
-    subtitle:'Ladder of Righteous Discipline · Prime 41',badge:'LADDER · VIRTUE',
+    avatar:'Parasurama Avtaar', emoji:'⚔️', color:'#b71c1c',
+    subtitle:'Ladder · Prime 41',
+    badge:'LADDER · VIRTUE',
     story:[
-      'Many great Rishis had tried to bring the Kshatriyas — warriors and kings — back to the path of dharma. But those gifted with strength for protection had turned that strength toward looting and killing the very people they were meant to serve.',
-      'Kartaverya Arjuna had a thousand hands and zero humility. He stole Kamdhenu — the divine gift-giving cow of sage Jamadagni, used for world-benefiting yagnas. When Parashurama came to retrieve her, Kartaverya\'s army attacked. Parashurama defeated them all.',
-      'Kartaverya\'s sons, too foolish to see the truth, attacked the ashram and killed Jamadagni. Parashurama understood: if kings could not leave a righteous man and his family alone, what were they doing to ordinary people? He set out to remove all adharmic rulers, and afterward built institutions to teach the people to protect themselves.'
+      'Before Lord Vishnu had to come down as Lord Parashurama, many great Rishis tried to get Kshatriyas, Kings and rulers, back on path of dharma. Ksharityas are the once among us gifted with physical strength and prowess to fight, and become part of the administration and armed forces. At that time, these folks instead of protecting the people started to loot, steal and kill them.',
+      'Kartaverya Arjun was one such king. Kartaverya had thousand hands but zero humility. He stole the gift-giving cow, Kamdhenu, which belonged to sage Jamadagni. Sage Jamdgani by grace of the cow was undertaking and executing all loka-samvridhi (good for the world) yagnas. When Parashurama went to get Kamadhenu back Kartaverya and his army tried to kill him. Parahsurama aced them in the fight and killed every one.',
+      'Kartaverya\'s sons very so dumb that instead of seeing that Parashurama was a superman, they decided to attack him and his father. They came to sage Jamadgani\'s ashram and killed the sage. Parahsurama now knew that if the Kings class (Kshatriyas) could not leave a superman and his family alone, how much damage they were been doing to all other people. So, he set out on the adventure of routing out all the bad kings. He left all the dharmic and married kings and their children alone. After he lessened the burden of Bhoomata he setup institutions to teach self-defense along side Vedas and meditation to people who are not warrior by nature, much like the martial arts of today.'
     ],
-    moral:'"You are Parashurama Disciplined!" — Strength must always serve justice, never ego. The purpose of power is protection, not dominance.'
+    moral:'You are Parashurama Disciplined! Strength must always serve justice and protect the people, never ego.'
   },
   53:{
-    avatar:'Rama Avataar',emoji:'🏹',color:'#1b5e20',
-    subtitle:'Ladder of Ideal Dharma · Prime 53',badge:'LADDER · VIRTUE',
+    avatar:'Rama Avtaar', emoji:'🏹', color:'#1b5e20',
+    subtitle:'Ladder · Prime 53',
+    badge:'LADDER · VIRTUE',
     story:[
-      'Jaya and Vijaya were reborn as Ravana and Kumbhakarna. Ravana was covetous — he wanted everything for himself. His covetousness led him to abduct Sita, Rama\'s wife.',
-      'Jatayu, the king vulture, witnessed the abduction. Hanuman — wise advisor to Sugreeva — met Rama, heard his story, and chose to serve him with his whole heart. With Sugreeva\'s army, the search began.',
-      'Hanuman leaped across the ocean and confirmed Sita was alive in Lanka. The monkey army built a bridge across the sea and — through extraordinary teamwork — defeated the rakshasas who were ten times their size. Jaya and Vijaya completed their second life away from Vaikuntha.'
+      'Jaya and Vijaya, the doorkeepers of Vaikuntha, took birth as Ravana and Kumbhakarna. Ravana was covetous, he wanted all things for himself and Kumbhakarna chose brotherhood over Dharma.',
+      'Ravana\'s cousin sister started the trouble by wanting to kill Sita mata so that handsome Rama would marry her. When this did not work and she got her nose chopped of by Lakshmana, she went to Ravana and told him about Sita. Now, Ravana wanted to have Sita and kidnapped her. He hoped that she would marry him before Rama would come to her rescue.',
+      'As it happened, Jatayu (king vulture) saw Ravana kidnapping Sita mata and Sugreeva noticed the trail of which way Ravana went. Rama met Jatayu and on his suggestion set out to find Sugreeva. Hanuman, Sugreeva\'s advisor, accosted Rama and after finding out who they were, what they stood for and what they were looking to accomplish. On learning which, he decides to serve Rama and introduced him to Sugreeva. Rama helped Sugreeva get his kingdom and army back from his covetous brother Valli. Then Sugreeva sent his army to search for clues to trace Ravana and Sita mata\'s where abouts. Hanuman took one search paty to the south. There he and Jambhavan (King Bear) meet Smapathi, Jatayus brother, and found out that Ravana may have taken Sita to Lanka. Hanuman them jumped across the ocean and confirmed that Sita mata was alive and well. Then Rama and the monkeys got organized into a might army with one focus, to get rid of Ravana and rescue all the prisoners including Sita manta.',
+      'The monkey army built a bridge across the ocean, went to Lanka and with teamwork vanquished the rakshas who were 10 time taller then them. Thus Rama helped Jaya and Vijaya wrap up their second life away from Vaikunthat.'
     ],
-    moral:'"You are Rama Righteous!" — Live by your word. Serve others freely. Face every challenge with grace. Teamwork built the bridge that no single person could.'
+    moral:'You are Rama Righteous! Live by your word, serve others, and face every challenge with grace and teamwork.'
   },
   61:{
-    avatar:'Krishna Avataar',emoji:'🪈',color:'#1565c0',
-    subtitle:'Ladder of Wisdom · Prime 61',badge:'LADDER · VIRTUE',
+    avatar:'Krishna Avtaar', emoji:'🪈', color:'#1565c0',
+    subtitle:'Ladder · Prime 61',
+    badge:'LADDER · VIRTUE',
     story:[
-      'Vishnu came to reestablish Dharma. Many kings had become adharmic. But this time, Vishnu chose not just to vanquish the villains — he chose to lay the eternal foundation for people to govern themselves through wisdom.',
-      'Krishna outwitted the cleverest of vile kings — Jarasandha — and the most dangerous of advisors — Shakuni. He also vanquished Kamsa, Shishupala, Dantavakra, Kalayavana, and helped bring down the Kauravas.',
-      'Through the Bhagavad Gita, spoken on the battlefield of Kurukshetra, Krishna gave all of humanity a compass for dharmic living. And through his own life — full of challenge, purpose, and joy — he showed us how to have non-stop inner happiness.'
+      'Vishnu decided to come to earth to reestablish Dharma. Many kings, just like in times of Parasurama, became adharmic. But, this time Vishnu decided to lay the foundation for people to take back control by themselves with his guidance. He thus decided to lay the foundation of wisdom to produce dharmic leaders.',
+      'Krishna outwitted the smartest of the vile Kings Jarasandha and the vilest of all advisors Shakuni. In the process he also vanquished Kamsa, Shishupala, Dantavakra, Kalayavana, Kauravas and Karna.',
+      'Krishna even though he had a very busy and purposeful life, also showed us how to have non-stop happiness.'
     ],
-    moral:'"You are Krishna Smart!" — True intelligence is wisdom in action, guided by love. Knowledge without compassion is just cleverness. Wisdom changes the world.'
+    moral:'You are Krishna Smart! True wisdom lays the foundation for others to take back control and lead dharmic lives.'
   },
   71:{
-    avatar:'Buddha Avataar',emoji:'☸️',color:'#6a1b9a',
-    subtitle:'Ladder of Inner Peace · Prime 71',badge:'LADDER · VIRTUE',
+    avatar:'Buddha Avtaar', emoji:'☸️', color:'#6a1b9a',
+    subtitle:'Ladder · Prime 71',
+    badge:'LADDER · VIRTUE',
     story:[
-      'Just as powerfully as Jesus personifies love and Krishna personifies dharmic charm — Buddha personifies total peace. Watch Buddha and you will see an invitation to stillness.',
-      'With his cool inner-peace attitude, Buddha invites us to pursue our dreams driven by our inner connection to God — not by fear, competition, or craving.',
-      'In his times, Buddha hit the reset button for spiritual brokering. Some priests had turned religion into a business, distancing people from the divine. Buddha shut down that distance and connected people directly to God — heart to heart.'
+      'Just as powerfully as Jesus personifies love, and Krishna, the jagad-guru, personifies dharmic charm Buddha personifies total peace. Just watch Buddha and you will see a high five for peace. With this cool inner-peace attitude, Buddha seems to get us to pursue our dreams driven by our inner connection to God.',
+      'In his times, Buddha, basically hit the rest button for all the "spiritual brokering middle men." He shut down the brokering and associated dehumanizing that some of the Brahmin priests were practicing and he connected people directly to God.'
     ],
-    moral:'"You are Buddha Peaceful!" — Real strength is the quiet calm that no storm can disturb. The one who is at peace within can bring peace to the world without.'
+    moral:'You are Buddha Peaceful! Real strength is the quiet calm that no storm can disturb.'
   },
   83:{
-    avatar:'Kalki Avataar',emoji:'⚡',color:'#c62828',
-    subtitle:'Ladder of Final Renewal · Prime 83',badge:'LADDER · VIRTUE',
+    avatar:'Kalki Avtaar', emoji:'⚡', color:'#c62828',
+    subtitle:'Ladder · Prime 83',
+    badge:'LADDER · VIRTUE',
     story:[
-      'Human arrogance is incremental and gradual. It grows in the comfort of success — a slow forgetting of the source of all gifts. Kalki will press the reset button for true self-esteem.',
-      'He will help every being discover that real self-esteem is not rooted in looks, possessions, or intelligence — but in the simple truth that God created us, sustains us, and loves us.',
-      'In so doing, Kalki will vanquish the teachers, preachers, and cheerleaders of low tendencies and false values. He will resolve all conflicts through tough love and usher in an age where Dharma is the natural way of life once more.'
+      'Human arrogance is incremental and gradual. Kalki will rest the button for self-esteem. He will help all to have self-esteem and mutual respect just because God created us and sustains us. He will help every one realise that self-esteem based on physical looks, physical possessiosn and intelligence is just a temporary kick.',
+      'In so doing, he will have vanquished a lot of teachers and preachers and cheerers of low tendencies and false values. He will also resolve all religious conflcits through tough love and will shut down of all licenticious and human-arrognace based influences.'
     ],
-    moral:'"You are Kalki Renewed!" — True self-esteem comes from the divine, not the world. When you know your worth from the inside, nothing outside can shake it.'
+    moral:'You are Kalki Renewed! True self-esteem comes from God who created us — not from looks, possessions, or intelligence.'
   }
 };
 
+// Snakes: villain descriptions extracted verbatim from within the avatar stories
 const SNAKE_DATA={
   9:{
-    name:"Hiranyaaksha's Greed",emoji:'🐍',color:'#9e4444',
-    subtitle:'The Slope of Hoarding',badge:'SNAKE · VICE',
+    name:"Hiranyaaksha's Greed", emoji:'🐍', color:'#9e4444',
+    subtitle:'Slippery Slope · sq 9',
+    badge:'SNAKE · VICE',
     story:[
-      'Hiranyaaksha was born with immense strength — but all he wanted was to be the strongest of all times. He dragged Bhoomata (the Earth) into the ocean of time, denying life and light to every living being.',
-      'His greed was not born of need. It was a hunger to own, to dominate, to prove. He hoarded what was not his to hoard, and plunged the entire world into darkness as a result.',
-      'Varaaha had to come to restore what Hiranyaaksha had taken. What one person hoards, the world must suffer for — until someone comes to restore the balance.'
+      'Hiranyaksha was very strong and wanted to earn the strongest man of all times title. Seeing the King Boar (Varaaha), Hirnyaksha felt the itch to challenge him.',
+      'Hiranyaksha dragged Bhoomata (Earth) from the depths of the ocean of time — denying life and light to all. His greed was not for survival, but to prove dominance. Once Bhoomata was safe, Varaaha defeated Hiranyaksha and thus helped Jaya finish his first lifetime away from Vaikuntha.'
     ],
-    moral:'Guard against greed. What we hoard, we eventually lose. What we share generously, we keep in a deeper way forever.'
+    moral:'Where possible create compliments for your children, such as "You are Narasimha Strong." These will help children remember the avatars, unwittingly learn that God is within, compliments work.'
   },
   25:{
-    name:"Tataka's Deception",emoji:'🐍',color:'#9e4444',
-    subtitle:'The Slope of False Faces',badge:'SNAKE · VICE',
+    name:"Tataka's Deception", emoji:'🐍', color:'#9e4444',
+    subtitle:'Slippery Slope · sq 25',
+    badge:'SNAKE · VICE',
     story:[
-      'Tataka used great power not to protect or build — but to terrorize and destroy. She laid waste to what was peaceful and thriving, and made safe places dangerous.',
-      'She embodied the tendency to use strength for destruction and deception rather than for service. Her power, turned inward and selfish, became a danger to all around her.',
-      'Rama, guided by his guru Vishwamitra, had to confront and overcome Tataka to protect the sacred yagnas — an early lesson that adharma must be faced, not avoided or appeased.'
+      'At that time, those gifted with strength for protection started to loot, steal and kill the people instead of protecting them. Deception and force were used to terrorize rather than serve.',
+      'Parashurama knew that if the Kings class (Kshatriyas) could not leave a superman and his family alone, how much damage they were been doing to all other people. Adharma dressed as strength must be faced — not avoided.'
     ],
-    moral:'Deception destroys trust — the most valuable currency we have. True strength never hides behind a false face or uses power to frighten.'
+    moral:'On every ladder or slope that you or your child hits, take the opportunity to introduce the stories of Dashavtaar, and, succinctly teach them dos and don\'ts of life.'
   },
   38:{
-    name:"Shuurpanakha's Obsession",emoji:'🐍',color:'#9e4444',
-    subtitle:'The Slope of Unchecked Desire',badge:'SNAKE · VICE',
+    name:"Shuurpanakha's Obsession", emoji:'🐍', color:'#9e4444',
+    subtitle:'Slippery Slope · sq 38',
+    badge:'SNAKE · VICE',
     story:[
-      'Shuurpanakha\'s obsession with Rama — unchecked by reason or respect for others — set in motion the entire chain of events that led to Sita\'s abduction and the great war.',
-      'When desire overrides judgment and disregards the wellbeing of others, it harms not only ourselves but everyone around us. A single spark of unchecked wanting lit a war.',
-      'This is not a story against desire itself — desire can be the fuel for great achievement. It is a story about desire without wisdom, without boundaries, without love for others.'
+      'Ravana\'s cousin sister started the trouble by wanting to kill Sita mata so that handsome Rama would marry her. When this did not work and she got her nose chopped of by Lakshmana, she went to Ravana and told him about Sita.',
+      'Her unchecked obsession set in motion the entire chain of events that led to Sita\'s abduction and the great war. A single spark of desire without wisdom lit a fire that consumed kingdoms.'
     ],
-    moral:'Desire itself is not wrong — but desire without wisdom and respect becomes destruction. Ask yourself: does this wanting lift me, or does it pull others down?'
+    moral:'Younger children seem to like animal avtaars more. So we moved any teaching in the writeup below to the latter avtaars.'
   },
   50:{
-    name:"Raavana's Arrogance",emoji:'🐍',color:'#9e4444',
-    subtitle:'The Slope of Covetousness',badge:'SNAKE · VICE',
+    name:"Raavana's Covetousness", emoji:'🐍', color:'#9e4444',
+    subtitle:'Slippery Slope · sq 50',
+    badge:'SNAKE · VICE',
     story:[
-      'Ravana was brilliant — a master of the Vedas, a powerful ruler, a gifted musician. He had ten heads of knowledge. Yet his covetousness — his wanting what belonged to others — became his undoing.',
-      'He wanted Sita not from love, but from possession. He hoped she would choose him before Rama could come. Even as the world prepared to fall, Ravana could not release what was not his.',
-      'Even a great tree falls when its roots rot. All of Ravana\'s genius could not save him from the one vice he refused to confront: the belief that greatness entitles you to take.'
+      'Ravana was covetous, he wanted all things for himself and Kumbhakarna chose brotherhood over Dharma.',
+      'Now, Ravana wanted to have Sita and kidnapped her. He hoped that she would marry him before Rama would come to her rescue. He could not imagine that anyone gifted with less — a monkey army against his raksha warriors — could defeat him. But with teamwork, Rama\'s army vanquished the rakshas who were 10 time taller then them.'
     ],
-    moral:'Having much is a blessing. Wanting what belongs to another is the beginning of the fall. Greatness that reaches for what is not its own loses even what it already has.'
+    moral:'Having all things for yourself is not greatness. Ravana had every gift and lost everything because he could not stop wanting what was not his.'
   },
   62:{
-    name:"Kansa's Tyranny",emoji:'🐍',color:'#9e4444',
-    subtitle:'The Slope of Fear-Driven Power',badge:'SNAKE · VICE',
+    name:"Kansa's Tyranny", emoji:'🐍', color:'#9e4444',
+    subtitle:'Slippery Slope · sq 62',
+    badge:'SNAKE · VICE',
     story:[
-      'Kansa ruled through fear. A prophecy told him his nephew would be his end — and so he imprisoned his own sister, killed innocent children, and terrorized his entire kingdom.',
-      'Every decision he made was driven not by love for his people, but by terror for his own position. He wielded power to protect his throne, not to serve.',
-      'Fear drove every choice — and fear, in the end, made him exactly what he feared: brought down by his own actions, undone by the very obsession that consumed him.'
+      'Many kings, just like in times of Parasurama, became adharmic. Vishnu decided to come to earth to reestablish Dharma — this time laying the foundation of wisdom to produce dharmic leaders.',
+      'Krishna outwitted the smartest of the vile Kings Jarasandha and the vilest of all advisors Shakuni. In the process he also vanquished Kamsa, Shishupala, Dantavakra, Kalayavana, Kauravas and Karna. Power wielded in adharma always falls to wisdom and righteousness.'
     ],
-    moral:'Power driven by fear destroys what it tries to protect. True leadership serves, it does not terrorize. The ruler who rules by love keeps a throne; the one who rules by fear loses everything.'
+    moral:'You are Krishna Smart! Those who rule through fear and tyranny are outwitted by wisdom and dharma every time.'
   },
   74:{
-    name:"Duryodhana's Ego",emoji:'🐍',color:'#9e4444',
-    subtitle:'The Slope of Stubborn Pride',badge:'SNAKE · VICE',
+    name:"Duryodhana's Ego", emoji:'🐍', color:'#9e4444',
+    subtitle:'Slippery Slope · sq 74',
+    badge:'SNAKE · VICE',
     story:[
-      'Duryodhana had every advantage: wise elders, Krishna as a peacemaker, and every possible chance to choose differently. He refused to give the Pandavas even a needlepoint\'s worth of land.',
-      'It was not strategy. It was ego — the pure, rigid insistence that I am right, I will not yield, I will not share. Every door that opened toward peace, his pride slammed shut.',
-      'An entire generation of greatness was destroyed because one person\'s pride could not bend. The war of Kurukshetra was not caused by evil — it was caused by stubbornness dressed as strength.'
+      'Bali was too attached to his fame as The Giver of all times. To keep his fame he agreed to give Vishnu the land thinking that Vishnu was just a midget. Bali basically ignored his gurus\' advice and also ignored to find out from Vishnu why he came to vanquish him.',
+      'If only he asked, he would have learnt that his problem was his own ego. Egoistic tendencies, left unchecked, make even a great man into another Hiranyakashipu. Once Vaaman put his foot on Bali\'s head, Bali got all the knowledge he needed to flush his ego and from them on continued to rule his kingdom with ego less efficiency and had fun doing it.'
     ],
-    moral:'Pride that cannot yield is not strength — it is a prison. The flexible tree survives the storm. The rigid one cracks. Knowing when to bend is the mark of real wisdom.'
+    moral:'Pride that cannot yield is not strength — it is a prison. The one who can let go of ego rules with efficiency and has fun doing it.'
   },
   86:{
-    name:"Kali Yuga's Illusion",emoji:'🐍',color:'#9e4444',
-    subtitle:'The Slope of Confusion',badge:'SNAKE · VICE',
+    name:"Kali Yuga's Illusion", emoji:'🐍', color:'#9e4444',
+    subtitle:'Slippery Slope · sq 86',
+    badge:'SNAKE · VICE',
     story:[
-      'The Kali Yuga is the age of confusion — where vice wears the mask of virtue, where noise is called wisdom, and where the loudest voice is mistaken for truth.',
-      'In this age, the greatest danger is not an obvious villain. It is the slow, comfortable drift away from what is real and good. The illusion is comfortable. That is what makes it so dangerous.',
-      'Each small drift seems harmless. But step by step, the path curves far from where it began. The person who was kind becomes callous. The leader who served begins to hoard. It happens so gradually that no one notices until the distance is great.'
+      'Human arrogance is incremental and gradual. Kalki will rest the button for self-esteem. He will help all to have self-esteem and mutual respect just because God created us and sustains us.',
+      'He will help every one realise that self-esteem based on physical looks, physical possessiosn and intelligence is just a temporary kick. In so doing, he will have vanquished a lot of teachers and preachers and cheerers of low tendencies and false values.'
     ],
-    moral:'Stay close to what is true, kind, and useful. Confusion is conquered not by argument, but by clarity of character. Be the light that confusion cannot cloud.'
+    moral:'Self-esteem based on physical looks, possessions and intelligence is just a temporary kick. True self-esteem comes from God who created us and sustains us.'
   },
   98:{
-    name:'Human Arrogance',emoji:'🐍',color:'#9e4444',
-    subtitle:'The Slope of Forgetting',badge:'SNAKE · VICE',
+    name:'Human Arrogance', emoji:'🐍', color:'#9e4444',
+    subtitle:'Slippery Slope · sq 98',
+    badge:'SNAKE · VICE',
     story:[
-      'Human arrogance is incremental and gradual. It grows quietly in the comfort of success — a slow forgetting that what we have was given, not earned alone.',
-      'When we begin to believe our achievements are entirely our own making, we lose gratitude. And when gratitude goes, we lose the very qualities — humility, curiosity, openness — that made us successful in the first place.',
-      'This is the subtlest vice of all. It does not look like arrogance from the inside. It looks like confidence. It looks like self-sufficiency. It feels like strength — right up until the fall.'
+      'Human arrogance is incremental and gradual. Kalki will rest the button for self-esteem. He will help all to have self-esteem and mutual respect just because God created us and sustains us.',
+      'He will also resolve all religious conflcits through tough love and will shut down of all licenticious and human-arrognace based influences. Arrogance so close to the goal is the most dangerous arrogance of all.'
     ],
-    moral:'Arrogance is amnesia about where your gifts came from. Stay humble — not because you are small, but because you remember how large the source truly is.'
+    moral:'We hope and pray that your little ones grow to be strong and ethical leaders that we need in this society and for our culture. May blessings of Saraswati be with you and your children.'
   },
   100:{
-    name:'Adharmic Kauravas',emoji:'🐍',color:'#9e4444',
-    subtitle:'The Slope of Injustice',badge:'SNAKE · VICE',
+    name:'Adharmic Kauravas', emoji:'🐍', color:'#9e4444',
+    subtitle:'Slippery Slope · sq 100',
+    badge:'SNAKE · VICE',
     story:[
-      'The dice-game of the Mahabharata stands as one of history\'s most powerful lessons in how injustice becomes normalized. Step by step, what was clearly wrong was allowed to happen — because of silence, complicity, and loyalty to persons over loyalty to dharma.',
-      'Even good people stood by. Elders who knew better stayed quiet. Warriors who could have spoken did not. The crowd watched. And in their silence, they became part of the injustice.',
-      'This is the deepest teaching: adharma grows not only through villains — it grows through the silence of those who know better and say nothing. Hubris before the fall begins not with the wicked, but with those who watched and did not act.'
+      'Jaya and Vijaya, the doorkeepers of Vaikuntha, took birth as Ravana and Kumbhakarna. Ravana was covetous, he wanted all things for himself and Kumbhakarna chose brotherhood over Dharma.',
+      'Krishna outwitted the vilest of all advisors Shakuni. In the process he also vanquished the Kauravas and Karna. The dice-game of injustice — hubris before the fall — is what happens when those who know better choose adharma and silence over dharma and courage.'
     ],
-    moral:'When we see injustice and stay silent, we become part of it. Speak up — gently, firmly, always. One voice at the right moment can change the course of history.'
+    moral:'On every ladder or slope, take the opportunity to teach the dos and don\'ts of life. The Kauravas had every advantage and chose adharma. That choice is always available — so is the better one.'
   },
   106:{
-    name:'Adharma at the Gates',emoji:'🐍',color:'#9e4444',
-    subtitle:'The Final Slope',badge:'SNAKE · VICE',
+    name:'Adharma at the Gates', emoji:'🐍', color:'#9e4444',
+    subtitle:'Slippery Slope · sq 106',
+    badge:'SNAKE · VICE',
     story:[
-      'Even at square 106 — just two steps from liberation, so close to 108 — the final test awaits. Adharma does not give up at the door. Low tendencies and false values persist right up to the very end.',
-      'This is the hardest snake of all: the one that coils at the threshold of freedom. It is a reminder that the journey toward dharma is lifelong. The final steps demand the most watchfulness.',
-      'Many have stumbled here — not through ignorance, but through the relaxation that comes from being almost there. Almost at the goal, the guard lowers. And the last snake finds its moment.'
+      'He will have vanquished a lot of teachers and preachers and cheerers of low tendencies and false values. He will also resolve all religious conflcits through tough love and will shut down of all licenticious and human-arrognace based influences.',
+      'Even at the very threshold — so close to 108 — adharma persists. This is the final test. The journey to dharma is lifelong, and the last steps demand the most watchfulness of all.'
     ],
-    moral:'The closer you are to the goal, the more watchful you must be. Liberation belongs to those who remain true to the very last step. Finish with the same care you began with.'
+    moral:'Congratulations on starting on this journey with your tiny tots. The closer you are to the goal, the more watchful you must be. Finish with the same care you began with.'
   }
 };
 
@@ -553,7 +432,7 @@ const SNAKE_DATA={
 let positions=[1,1], currentPlayer=0, gameOver=false, pendingFinish=null;
 
 // ══════════════════════════════════════════════════
-//  DRAW
+//  BOARD DRAWING
 // ══════════════════════════════════════════════════
 const LIGHT=['#fdf8ec','#efe8ce'];
 function drawGrid(){
@@ -715,7 +594,7 @@ function roll(){
   animDice(val,()=>{
     let sq=positions[currentPlayer]+val;
     addLog(`${pname} rolled ${val} → ${Math.min(sq,108)}`);
-    if(sq>TOTAL){addLog(`${pname} needs an exact roll. Stays at ${positions[currentPlayer]}.`);finishTurn();return;}
+    if(sq>TOTAL){addLog(`${pname} needs exact roll. Stays at ${positions[currentPlayer]}.`);finishTurn();return;}
     positions[currentPlayer]=sq;drawBoard();
     if(SNAKES[sq]!==undefined){
       const dest=SNAKES[sq];
@@ -750,7 +629,7 @@ function finishTurn(){
 }
 function showWin(p){
   document.getElementById('winTitle').textContent=`Player ${p+1} Attains Moksha! 🙏`;
-  document.getElementById('winMsg').textContent='Dharma is fulfilled across the sacred 108.';
+  document.getElementById('winMsg').textContent='Dharma prevails across the sacred 108.';
   document.getElementById('winOverlay').classList.add('show');
 }
 function resetGame(){
@@ -762,7 +641,7 @@ function resetGame(){
   addLog('— New game. Seek Moksha across the sacred 108. —');
 }
 
-// Hover tooltip
+// Tooltip
 canvas.addEventListener('mousemove',e=>{
   const rect=canvas.getBoundingClientRect(),mx=e.clientX-rect.left,my=e.clientY-rect.top;
   const col=Math.floor(mx/CELL),row=Math.floor(my/CELL);
