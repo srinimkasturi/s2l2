@@ -1,1 +1,800 @@
-test
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashaavataara – 108</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600&family=Lora:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c9a84c;
+    --gold-light: #f0d080;
+    --deep: #130800;
+    --parchment: #f5e6c8;
+    --p1: #c94000;
+    --p2: #005999;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: radial-gradient(ellipse at 40% 25%, #1e0c00 0%, #060200 100%);
+    min-height: 100vh;
+    font-family: 'Lora', serif;
+    color: var(--parchment);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px 8px 28px;
+  }
+  .hdr { text-align: center; margin-bottom: 4px; }
+  .hdr h1 {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: clamp(1.1rem, 3.5vw, 1.9rem);
+    color: var(--gold-light);
+    text-shadow: 0 0 28px rgba(240,208,128,0.4);
+    letter-spacing: 0.08em;
+  }
+  .hdr .sub {
+    font-family: 'Cinzel', serif;
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.22em;
+    opacity: 0.85;
+    margin-top: 3px;
+  }
+  .sacred-note {
+    font-family: 'Cinzel', serif;
+    font-size: 0.62rem;
+    color: rgba(201,168,76,0.65);
+    letter-spacing: 0.18em;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .game-wrap {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    max-width: 1060px;
+  }
+  .board-outer {
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 40px rgba(201,168,76,0.18);
+    line-height: 0;
+    flex-shrink: 0;
+  }
+  canvas#board { display: block; }
+  .panel {
+    width: 236px;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    flex-shrink: 0;
+  }
+  .pcard {
+    border: 1px solid rgba(201,168,76,0.35);
+    border-radius: 5px;
+    padding: 10px 13px;
+    background: rgba(201,168,76,0.04);
+    transition: background .25s, box-shadow .25s;
+  }
+  .pcard.active {
+    background: rgba(201,168,76,0.12);
+    box-shadow: 0 0 14px rgba(201,168,76,0.22);
+    border-color: var(--gold);
+  }
+  .pcard h3 {
+    font-family: 'Cinzel', serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    display: flex; align-items: center; gap: 7px;
+    margin-bottom: 4px;
+  }
+  .dot { width:11px;height:11px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);flex-shrink:0; }
+  .d1{background:var(--p1);} .d2{background:var(--p2);}
+  .ppos { font-family:'Cinzel',serif; font-size:1.25rem; color:var(--gold-light); font-weight:600; }
+  .ppos small{font-size:0.6rem;color:var(--parchment);opacity:.6;margin-left:3px;}
+  .dice-area {
+    text-align:center; padding:12px;
+    border:1px solid rgba(201,168,76,0.28);
+    border-radius:6px; background:rgba(0,0,0,0.28);
+  }
+  #diceFace {
+    width:62px;height:62px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    grid-template-rows:repeat(3,1fr);
+    padding:7px;gap:3px;
+    background:#f7ecd4; border-radius:10px;
+    border:2px solid var(--gold);
+    box-shadow:3px 3px 0 rgba(0,0,0,0.45);
+    margin:0 auto 9px;
+  }
+  #diceFace.rolling{animation:dr .38s ease;}
+  @keyframes dr{0%{transform:rotate(0)scale(1)}30%{transform:rotate(-18deg)scale(.88)}65%{transform:rotate(14deg)scale(1.06)}100%{transform:rotate(0)scale(1)}}
+  .pip{border-radius:50%;background:#1a0800;justify-self:center;align-self:center;width:9px;height:9px;opacity:0;transition:opacity .08s;}
+  .pip.on{opacity:1;}
+  .turn-lbl{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.1em;color:var(--gold-light);margin-bottom:8px;}
+  #rollBtn{
+    font-family:'Cinzel',serif;font-size:.8rem;letter-spacing:.08em;font-weight:700;
+    background:linear-gradient(135deg,#7a5810,#c9a84c,#7a5810);
+    border:none;color:#1a0800;padding:9px 20px;border-radius:4px;
+    cursor:pointer;width:100%;box-shadow:0 3px 8px rgba(0,0,0,0.4);
+    transition:transform .1s, box-shadow .15s;
+  }
+  #rollBtn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 5px 14px rgba(201,168,76,.28);}
+  #rollBtn:disabled{opacity:.4;cursor:not-allowed;}
+  .tabs{display:flex;gap:4px;flex-wrap:wrap;}
+  .tab{font-size:.58rem;font-family:'Cinzel',serif;padding:3px 6px;border-radius:3px;border:1px solid rgba(201,168,76,.3);color:var(--parchment);opacity:.75;line-height:1.3;}
+  .log-box{border:1px solid rgba(201,168,76,.22);border-radius:5px;background:rgba(0,0,0,.28);max-height:190px;overflow-y:auto;padding:8px 10px;}
+  .log-box h4{font-family:'Cinzel',serif;font-size:.63rem;letter-spacing:.17em;color:var(--gold);margin-bottom:5px;padding-bottom:4px;border-bottom:1px solid rgba(201,168,76,.18);}
+  .le{font-size:.68rem;line-height:1.45;padding:2px 0;border-bottom:1px solid rgba(255,255,255,.04);opacity:.85;}
+  .le.snake{color:#e07878;} .le.ladder{color:#7edba6;} .le.win{color:var(--gold-light);font-weight:600;}
+  #resetBtn{font-family:'Cinzel',serif;font-size:.7rem;letter-spacing:.1em;background:transparent;border:1px solid rgba(201,168,76,.3);color:var(--gold);padding:7px;border-radius:4px;cursor:pointer;width:100%;transition:background .2s;}
+  #resetBtn:hover{background:rgba(201,168,76,.1);}
+
+/* ══════════ STORY POPUP ══════════ */
+#storyOverlay{
+display:none;position:fixed;inset:0;
+background:rgba(0,0,0,0.78);z-index:150;
+align-items:center;justify-content:center;padding:16px;
+}
+#storyOverlay.show{display:flex;}
+.story-card{
+position:relative;max-width:540px;width:100%;
+border-radius:10px;border:2px solid var(–gold);
+padding:26px 28px 22px;
+box-shadow:0 0 70px rgba(0,0,0,0.8);
+animation:cardIn .35s cubic-bezier(.175,.885,.32,1.275);
+max-height:90vh;overflow-y:auto;
+}
+@keyframes cardIn{from{transform:scale(0.82)translateY(18px);opacity:0}to{transform:scale(1)translateY(0);opacity:1}}
+.story-card.is-ladder{background:linear-gradient(155deg,#0a2a18 0%,#051510 60%,#020c06 100%);border-color:#4a9e6a;}
+.story-card.is-snake {background:linear-gradient(155deg,#2a0808 0%,#180404 60%,#0e0303 100%);border-color:#9e4444;}
+
+.story-close{
+position:absolute;top:10px;right:12px;
+width:30px;height:30px;border-radius:50%;
+border:1px solid rgba(201,168,76,0.45);
+background:rgba(0,0,0,0.45);
+color:var(–gold);font-size:1rem;line-height:30px;
+text-align:center;cursor:pointer;transition:background .15s;
+display:flex;align-items:center;justify-content:center;
+font-weight:bold;flex-shrink:0;z-index:10;
+}
+.story-close:hover{background:rgba(201,168,76,0.22);}
+
+.story-badge{
+display:inline-block;
+font-family:‘Cinzel’,serif;font-size:0.58rem;letter-spacing:0.22em;
+padding:3px 9px;border-radius:20px;margin-bottom:10px;
+}
+.is-ladder .story-badge{background:rgba(74,158,106,0.2);color:#8edbb0;border:1px solid rgba(74,158,106,0.4);}
+.is-snake  .story-badge{background:rgba(158,68,68,0.2); color:#e8a0a0;border:1px solid rgba(158,68,68,0.4);}
+
+.story-move-tag{
+font-family:‘Cinzel’,serif;font-size:0.68rem;letter-spacing:0.1em;
+margin-bottom:14px;padding:4px 10px;border-radius:3px;
+display:inline-block;margin-left:8px;
+}
+.is-ladder .story-move-tag{background:rgba(74,158,106,0.15);color:#a0e8bc;}
+.is-snake  .story-move-tag{background:rgba(158,68,68,0.15); color:#e8b0b0;}
+
+.story-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px;}
+.story-emoji-big{font-size:2.8rem;line-height:1;flex-shrink:0;margin-top:2px;}
+.story-title-block h2{
+font-family:‘Cinzel Decorative’,serif;
+font-size:clamp(.95rem,2.8vw,1.25rem);
+line-height:1.2;color:var(–gold-light);
+text-shadow:0 0 16px rgba(240,208,128,0.3);
+margin-bottom:4px;
+}
+.story-subtitle-txt{font-family:‘Cinzel’,serif;font-size:0.68rem;letter-spacing:0.1em;opacity:0.7;}
+.is-ladder .story-subtitle-txt{color:#8edbb0;}
+.is-snake  .story-subtitle-txt{color:#e8a0a0;}
+
+.story-rule{height:1px;border:none;margin:0 0 14px;}
+.is-ladder .story-rule{background:linear-gradient(90deg,transparent,#4a9e6a88,transparent);}
+.is-snake  .story-rule{background:linear-gradient(90deg,transparent,#9e444488,transparent);}
+
+.story-body-text{font-size:0.8rem;line-height:1.8;color:rgba(245,230,200,0.88);}
+.story-body-text p{margin-bottom:9px;}
+.story-body-text p:last-child{margin-bottom:0;}
+
+.story-moral{
+margin-top:14px;padding:10px 14px;border-radius:5px;
+font-size:0.77rem;font-style:italic;line-height:1.6;
+color:var(–gold-light);
+}
+.is-ladder .story-moral{background:rgba(74,158,106,0.1);border-left:3px solid #4a9e6a;}
+.is-snake  .story-moral{background:rgba(158,68,68,0.1); border-left:3px solid #9e4444;}
+
+.story-continue{
+margin-top:18px;font-family:‘Cinzel’,serif;
+font-size:0.78rem;letter-spacing:0.1em;font-weight:700;
+border:none;padding:10px 24px;border-radius:4px;
+cursor:pointer;width:100%;transition:opacity .15s;
+}
+.is-ladder .story-continue{background:linear-gradient(135deg,#1a5c3a,#4a9e6a,#1a5c3a);color:#e8f5ec;}
+.is-snake  .story-continue{background:linear-gradient(135deg,#5c1a1a,#9e4444,#5c1a1a);color:#f5e8e8;}
+.story-continue:hover{opacity:0.82;}
+
+/* WIN */
+#winOverlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:200;align-items:center;justify-content:center;}
+#winOverlay.show{display:flex;}
+.win-box{background:radial-gradient(ellipse,#261000 0%,#0c0400 100%);border:2px solid var(–gold);border-radius:10px;padding:34px 42px;text-align:center;box-shadow:0 0 60px rgba(201,168,76,.4);animation:popIn .4s cubic-bezier(.175,.885,.32,1.275);}
+@keyframes popIn{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.win-box .wi{font-size:3rem;margin-bottom:8px;}
+.win-box h2{font-family:‘Cinzel Decorative’,serif;font-size:clamp(1.1rem,3vw,1.5rem);color:var(–gold-light);margin-bottom:5px;text-shadow:0 0 20px rgba(240,208,128,.5);}
+.win-box p{font-size:.85rem;color:var(–parchment);opacity:.8;margin-bottom:20px;}
+.win-box button{font-family:‘Cinzel’,serif;font-size:.82rem;letter-spacing:.1em;font-weight:700;background:linear-gradient(135deg,#7a5810,#c9a84c,#7a5810);border:none;color:#1a0800;padding:10px 28px;border-radius:4px;cursor:pointer;}
+
+#tooltip{position:fixed;pointer-events:none;background:rgba(20,8,0,.95);border:1px solid var(–gold);border-radius:5px;padding:7px 10px;font-family:‘Cinzel’,serif;font-size:.68rem;color:var(–parchment);line-height:1.5;max-width:200px;z-index:50;opacity:0;transition:opacity .15s;}
+#tooltip.show{opacity:1;}
+
+@media(max-width:680px){.panel{width:100%;max-width:440px;}}
+</style>
+
+</head>
+<body>
+
+<div class="hdr">
+  <h1>Dashaavataara</h1>
+  <div class="sub">✦ SLIPPERY SLOPES & LADDERS · THE SACRED 108 ✦</div>
+</div>
+<div class="sacred-note">12 × 9 Grid &nbsp;|&nbsp; 1+0+8 = 9 &nbsp;|&nbsp; All 10 Avatara Ladders begin on Prime Squares</div>
+
+<div class="game-wrap">
+  <div class="board-outer"><canvas id="board"></canvas></div>
+
+  <div class="panel">
+    <div class="pcard active" id="card0">
+      <h3><span class="dot d1"></span>Player 1</h3>
+      <div class="ppos" id="pos0">1 <small>/ 108</small></div>
+    </div>
+    <div class="pcard" id="card1">
+      <h3><span class="dot d2"></span>Player 2</h3>
+      <div class="ppos" id="pos1">1 <small>/ 108</small></div>
+    </div>
+
+```
+<div class="dice-area">
+  <div id="diceFace"></div>
+  <div class="turn-lbl" id="turnLbl">Player 1's Turn</div>
+  <button id="rollBtn">🎲 Roll the Dice</button>
+</div>
+
+<div style="border:1px solid rgba(201,168,76,.22);border-radius:5px;padding:10px 12px;background:rgba(0,0,0,.22);">
+  <div style="font-family:'Cinzel',serif;font-size:.63rem;letter-spacing:.17em;color:var(--gold);margin-bottom:7px;padding-bottom:4px;border-bottom:1px solid rgba(201,168,76,.18);">DAŚĀVATĀRA LADDERS · PRIME SQUARES</div>
+  <div class="tabs" id="avatarTabs"></div>
+</div>
+
+<div class="log-box">
+  <h4>CHRONICLE</h4>
+  <div id="logEntries"></div>
+</div>
+<button id="resetBtn">↺ New Game</button>
+```
+
+  </div>
+</div>
+
+<!-- ═══ STORY POPUP ═══ -->
+
+<div id="storyOverlay">
+  <div class="story-card" id="storyCard">
+    <div class="story-close" id="storyClose">✕</div>
+    <div>
+      <span class="story-badge" id="storyBadge">LADDER · VIRTUE</span>
+      <span class="story-move-tag" id="storyMoveTag">sq 2 → 22</span>
+    </div>
+    <div class="story-header">
+      <div class="story-emoji-big" id="storyEmoji">🐟</div>
+      <div class="story-title-block">
+        <h2 id="storyTitle">Matsya Avataar</h2>
+        <div class="story-subtitle-txt" id="storySubtitle">Ladder of Rescue · Prime 2</div>
+      </div>
+    </div>
+    <hr class="story-rule" id="storyRule">
+    <div class="story-body-text" id="storyBody"></div>
+    <div class="story-moral" id="storyMoral"></div>
+    <button class="story-continue" id="storyContinueBtn">Continue the Journey →</button>
+  </div>
+</div>
+
+<div id="tooltip"></div>
+
+<div id="winOverlay">
+  <div class="win-box">
+    <div class="wi">🙏</div>
+    <h2 id="winTitle">Player 1 Wins!</h2>
+    <p id="winMsg">Dharma prevails across the sacred 108.</p>
+    <button onclick="resetGame()">Play Again</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+//  GRID  12 × 9 = 108
+// ══════════════════════════════════════════════════
+const COLS=12, ROWS=9, TOTAL=108;
+const canvas=document.getElementById('board');
+const ctx=canvas.getContext('2d');
+let CELL;
+
+function setSize(){
+  const maxW=Math.min(window.innerWidth-16, window.innerWidth>800?696:window.innerWidth-16);
+  CELL=Math.max(34,Math.floor(maxW/COLS));
+  canvas.width=CELL*COLS; canvas.height=CELL*ROWS;
+}
+function sqXY(sq){
+  const idx=sq-1, row=Math.floor(idx/COLS), col=idx%COLS;
+  const dx=(row%2===0)?col:(COLS-1-col);
+  return{x:dx*CELL+CELL/2, y:(ROWS-1-row)*CELL+CELL/2};
+}
+
+// ══════════════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════════════
+const LADDERS={2:22,7:30,11:40,19:48,29:58,41:68,53:80,61:88,71:96,83:105};
+const SNAKES={9:3,25:8,38:15,50:28,62:35,74:46,86:60,98:75,100:78,106:90};
+
+const LADDER_DATA={
+  2:{
+    avatar:'Matsya Avataar',emoji:'🐟',color:'#1a6080',
+    subtitle:'Ladder of Rescue · Prime 2',badge:'LADDER · VIRTUE',
+    story:[
+      'When the universe was about to be submerged in the greatest of all floods, Lord Vishnu appeared as Matsya — a humongous fish — and rescued all forms of life that would listen to his plan. Once the waters receded, he gave them a brand new world.',
+      'Matsya asked the righteous Satyavrata to join his team. Satyavrata built a great ship and gathered all living things aboard, and Matsya guided it safely through the deluge.',
+      'While Satyavrata was building the ship, Hayagrivah stole all the sacred knowledge from the world. Vishnu saw this and asked him to return it. When Hayagrivah refused, Matsya vanquished him and restored wisdom to the world.'
+    ],
+    moral:'"You are Matsya Brave!" — Courage to listen, plan ahead, and protect what matters most. The one who heeds the warning and acts is the one who survives.'
+  },
+  7:{
+    avatar:'Kuurma Avataar',emoji:'🐢',color:'#2e7d32',
+    subtitle:'Ladder of Steady Support · Prime 7',badge:'LADDER · VIRTUE',
+    story:[
+      'Indra and the Devas had become indulgent — like spending too much time in idle pleasures. They insulted great Rishis and lost both their spiritual and physical strength, getting beaten by the Asuras.',
+      'They prayed to Vishnu, who asked them to churn the great ocean for Amrutam. Using Mount Mandara as the churning rod and Vasuki as the rope, they began. But Mandara was sinking fast, drilling through the ocean floor.',
+      'They prayed again, and Vishnu came as Kuurma — the Great Turtle of all times. Mandara rested upon Kuurma\'s back and the churning continued. Wonders emerged: medicines, Lakshmi Devi, and finally Amrutam. Vishnu as Mohini outsmarted the Asuras, and the Devas were restored.'
+    ],
+    moral:'"You are Kuurma Strong!" — Be the steady foundation that others can rest upon when things start to sink. Quiet, patient support is its own greatness.'
+  },
+  11:{
+    avatar:'Varaaha Avataar',emoji:'🐗',color:'#5d4037',
+    subtitle:'Ladder of Elevation · Prime 11',badge:'LADDER · VIRTUE',
+    story:[
+      'Jaya and Vijaya were gatekeepers of Vaikuntha who turned away the boy-sages. Annoyed by their condescension, the sages cursed them to be born on earth three times to shed their low tendencies. Jaya was born first as Hiranyaksha.',
+      'Hiranyaksha was enormously strong and sought the title of the strongest of all times. Meanwhile, Brahma was restarting the human race and prayed to Vishnu to retrieve Bhoomata (the Earth) from the depths of the ocean of time.',
+      'Vishnu took the form of Varaaha, the King Boar, and dove into the ocean. Hiranyaksha challenged him. Once Bhoomata was safely raised up on Varaaha\'s tusks, Varaaha defeated Hiranyaksha — and helped Jaya complete his first lifetime away from Vaikuntha.'
+    ],
+    moral:'"You are Varaaha Mighty!" — Use your strength to lift others up, not to seek personal glory. Real power rescues; it does not hoard.'
+  },
+  19:{
+    avatar:'Narasimha Avataar',emoji:'🦁',color:'#e65100',
+    subtitle:"Ladder of Fearless Devotion · Prime 19",badge:'LADDER · VIRTUE',
+    story:[
+      'Vijaya was reborn as Hiranyakashipa — intelligent, powerful, and full of revenge against Vishnu. He tried to starve Vishnu by banning all worship. But his own son Prahlad turned out wiser than him and began praying to Vishnu.',
+      'Hiranyakashipa tested Prahlad\'s devotion at every turn: poison, fire, cliffs, stampeding elephants. Nothing could harm Prahlad. Enraged, Hiranyakashipa demanded Prahlad show him Vishnu — even within a palace pillar.',
+      'Prahlad said yes. Hiranyakashipa broke open a pillar — and Narasimha emerged. Neither fully man nor animal, at twilight, on a threshold, on his lap — every boon was outwitted. Thus Vijaya completed his first lifetime away from Vaikuntha.'
+    ],
+    moral:'"You are Narasimha Strong!" — True courage is devotion that no threat can shake. The devoted heart is the most protected heart of all.'
+  },
+  29:{
+    avatar:'Vaamana Avataar',emoji:'🙏',color:'#4a148c',
+    subtitle:'Ladder of Humility · Prime 29',badge:'LADDER · VIRTUE',
+    story:[
+      'Bali was the great-grandson of Prahlad and showed true values of service and sacrifice. But his ego was quietly rising — and Lord Vishnu came as a Brahmin midget to protect Bali from following the path of Hiranyakashipa.',
+      'Vaamana asked only for as much land as three strides could cover. Bali, too proud of his reputation as the Great Giver, agreed — ignoring his guru\'s warnings, never pausing to ask Vishnu why he truly came.',
+      'Once Bali agreed, Vaamana grew immense. One stride covered the entire earth; another covered all the heavens. Bali had no choice but to offer his own head for the third step. When Vaamana\'s foot rested on his head, Bali received the wisdom he needed — and went on ruling with egoless joy.'
+    ],
+    moral:'"You are Vaamana Humble!" — Real greatness comes from letting go of what you think you own. A gift given with strings attached is not a gift at all.'
+  },
+  41:{
+    avatar:'Parashurama Avataar',emoji:'⚔️',color:'#b71c1c',
+    subtitle:'Ladder of Righteous Discipline · Prime 41',badge:'LADDER · VIRTUE',
+    story:[
+      'Many great Rishis had tried to bring the Kshatriyas — warriors and kings — back to the path of dharma. But those gifted with strength for protection had turned that strength toward looting and killing the very people they were meant to serve.',
+      'Kartaverya Arjuna had a thousand hands and zero humility. He stole Kamdhenu — the divine gift-giving cow of sage Jamadagni, used for world-benefiting yagnas. When Parashurama came to retrieve her, Kartaverya\'s army attacked. Parashurama defeated them all.',
+      'Kartaverya\'s sons, too foolish to see the truth, attacked the ashram and killed Jamadagni. Parashurama understood: if kings could not leave a righteous man and his family alone, what were they doing to ordinary people? He set out to remove all adharmic rulers, and afterward built institutions to teach the people to protect themselves.'
+    ],
+    moral:'"You are Parashurama Disciplined!" — Strength must always serve justice, never ego. The purpose of power is protection, not dominance.'
+  },
+  53:{
+    avatar:'Rama Avataar',emoji:'🏹',color:'#1b5e20',
+    subtitle:'Ladder of Ideal Dharma · Prime 53',badge:'LADDER · VIRTUE',
+    story:[
+      'Jaya and Vijaya were reborn as Ravana and Kumbhakarna. Ravana was covetous — he wanted everything for himself. His covetousness led him to abduct Sita, Rama\'s wife.',
+      'Jatayu, the king vulture, witnessed the abduction. Hanuman — wise advisor to Sugreeva — met Rama, heard his story, and chose to serve him with his whole heart. With Sugreeva\'s army, the search began.',
+      'Hanuman leaped across the ocean and confirmed Sita was alive in Lanka. The monkey army built a bridge across the sea and — through extraordinary teamwork — defeated the rakshasas who were ten times their size. Jaya and Vijaya completed their second life away from Vaikuntha.'
+    ],
+    moral:'"You are Rama Righteous!" — Live by your word. Serve others freely. Face every challenge with grace. Teamwork built the bridge that no single person could.'
+  },
+  61:{
+    avatar:'Krishna Avataar',emoji:'🪈',color:'#1565c0',
+    subtitle:'Ladder of Wisdom · Prime 61',badge:'LADDER · VIRTUE',
+    story:[
+      'Vishnu came to reestablish Dharma. Many kings had become adharmic. But this time, Vishnu chose not just to vanquish the villains — he chose to lay the eternal foundation for people to govern themselves through wisdom.',
+      'Krishna outwitted the cleverest of vile kings — Jarasandha — and the most dangerous of advisors — Shakuni. He also vanquished Kamsa, Shishupala, Dantavakra, Kalayavana, and helped bring down the Kauravas.',
+      'Through the Bhagavad Gita, spoken on the battlefield of Kurukshetra, Krishna gave all of humanity a compass for dharmic living. And through his own life — full of challenge, purpose, and joy — he showed us how to have non-stop inner happiness.'
+    ],
+    moral:'"You are Krishna Smart!" — True intelligence is wisdom in action, guided by love. Knowledge without compassion is just cleverness. Wisdom changes the world.'
+  },
+  71:{
+    avatar:'Buddha Avataar',emoji:'☸️',color:'#6a1b9a',
+    subtitle:'Ladder of Inner Peace · Prime 71',badge:'LADDER · VIRTUE',
+    story:[
+      'Just as powerfully as Jesus personifies love and Krishna personifies dharmic charm — Buddha personifies total peace. Watch Buddha and you will see an invitation to stillness.',
+      'With his cool inner-peace attitude, Buddha invites us to pursue our dreams driven by our inner connection to God — not by fear, competition, or craving.',
+      'In his times, Buddha hit the reset button for spiritual brokering. Some priests had turned religion into a business, distancing people from the divine. Buddha shut down that distance and connected people directly to God — heart to heart.'
+    ],
+    moral:'"You are Buddha Peaceful!" — Real strength is the quiet calm that no storm can disturb. The one who is at peace within can bring peace to the world without.'
+  },
+  83:{
+    avatar:'Kalki Avataar',emoji:'⚡',color:'#c62828',
+    subtitle:'Ladder of Final Renewal · Prime 83',badge:'LADDER · VIRTUE',
+    story:[
+      'Human arrogance is incremental and gradual. It grows in the comfort of success — a slow forgetting of the source of all gifts. Kalki will press the reset button for true self-esteem.',
+      'He will help every being discover that real self-esteem is not rooted in looks, possessions, or intelligence — but in the simple truth that God created us, sustains us, and loves us.',
+      'In so doing, Kalki will vanquish the teachers, preachers, and cheerleaders of low tendencies and false values. He will resolve all conflicts through tough love and usher in an age where Dharma is the natural way of life once more.'
+    ],
+    moral:'"You are Kalki Renewed!" — True self-esteem comes from the divine, not the world. When you know your worth from the inside, nothing outside can shake it.'
+  }
+};
+
+const SNAKE_DATA={
+  9:{
+    name:"Hiranyaaksha's Greed",emoji:'🐍',color:'#9e4444',
+    subtitle:'The Slope of Hoarding',badge:'SNAKE · VICE',
+    story:[
+      'Hiranyaaksha was born with immense strength — but all he wanted was to be the strongest of all times. He dragged Bhoomata (the Earth) into the ocean of time, denying life and light to every living being.',
+      'His greed was not born of need. It was a hunger to own, to dominate, to prove. He hoarded what was not his to hoard, and plunged the entire world into darkness as a result.',
+      'Varaaha had to come to restore what Hiranyaaksha had taken. What one person hoards, the world must suffer for — until someone comes to restore the balance.'
+    ],
+    moral:'Guard against greed. What we hoard, we eventually lose. What we share generously, we keep in a deeper way forever.'
+  },
+  25:{
+    name:"Tataka's Deception",emoji:'🐍',color:'#9e4444',
+    subtitle:'The Slope of False Faces',badge:'SNAKE · VICE',
+    story:[
+      'Tataka used great power not to protect or build — but to terrorize and destroy. She laid waste to what was peaceful and thriving, and made safe places dangerous.',
+      'She embodied the tendency to use strength for destruction and deception rather than for service. Her power, turned inward and selfish, became a danger to all around her.',
+      'Rama, guided by his guru Vishwamitra, had to confront and overcome Tataka to protect the sacred yagnas — an early lesson that adharma must be faced, not avoided or appeased.'
+    ],
+    moral:'Deception destroys trust — the most valuable currency we have. True strength never hides behind a false face or uses power to frighten.'
+  },
+  38:{
+    name:"Shuurpanakha's Obsession",emoji:'🐍',color:'#9e4444',
+    subtitle:'The Slope of Unchecked Desire',badge:'SNAKE · VICE',
+    story:[
+      'Shuurpanakha\'s obsession with Rama — unchecked by reason or respect for others — set in motion the entire chain of events that led to Sita\'s abduction and the great war.',
+      'When desire overrides judgment and disregards the wellbeing of others, it harms not only ourselves but everyone around us. A single spark of unchecked wanting lit a war.',
+      'This is not a story against desire itself — desire can be the fuel for great achievement. It is a story about desire without wisdom, without boundaries, without love for others.'
+    ],
+    moral:'Desire itself is not wrong — but desire without wisdom and respect becomes destruction. Ask yourself: does this wanting lift me, or does it pull others down?'
+  },
+  50:{
+    name:"Raavana's Arrogance",emoji:'🐍',color:'#9e4444',
+    subtitle:'The Slope of Covetousness',badge:'SNAKE · VICE',
+    story:[
+      'Ravana was brilliant — a master of the Vedas, a powerful ruler, a gifted musician. He had ten heads of knowledge. Yet his covetousness — his wanting what belonged to others — became his undoing.',
+      'He wanted Sita not from love, but from possession. He hoped she would choose him before Rama could come. Even as the world prepared to fall, Ravana could not release what was not his.',
+      'Even a great tree falls when its roots rot. All of Ravana\'s genius could not save him from the one vice he refused to confront: the belief that greatness entitles you to take.'
+    ],
+    moral:'Having much is a blessing. Wanting what belongs to another is the beginning of the fall. Greatness that reaches for what is not its own loses even what it already has.'
+  },
+  62:{
+    name:"Kansa's Tyranny",emoji:'🐍',color:'#9e4444',
+    subtitle:'The Slope of Fear-Driven Power',badge:'SNAKE · VICE',
+    story:[
+      'Kansa ruled through fear. A prophecy told him his nephew would be his end — and so he imprisoned his own sister, killed innocent children, and terrorized his entire kingdom.',
+      'Every decision he made was driven not by love for his people, but by terror for his own position. He wielded power to protect his throne, not to serve.',
+      'Fear drove every choice — and fear, in the end, made him exactly what he feared: brought down by his own actions, undone by the very obsession that consumed him.'
+    ],
+    moral:'Power driven by fear destroys what it tries to protect. True leadership serves, it does not terrorize. The ruler who rules by love keeps a throne; the one who rules by fear loses everything.'
+  },
+  74:{
+    name:"Duryodhana's Ego",emoji:'🐍',color:'#9e4444',
+    subtitle:'The Slope of Stubborn Pride',badge:'SNAKE · VICE',
+    story:[
+      'Duryodhana had every advantage: wise elders, Krishna as a peacemaker, and every possible chance to choose differently. He refused to give the Pandavas even a needlepoint\'s worth of land.',
+      'It was not strategy. It was ego — the pure, rigid insistence that I am right, I will not yield, I will not share. Every door that opened toward peace, his pride slammed shut.',
+      'An entire generation of greatness was destroyed because one person\'s pride could not bend. The war of Kurukshetra was not caused by evil — it was caused by stubbornness dressed as strength.'
+    ],
+    moral:'Pride that cannot yield is not strength — it is a prison. The flexible tree survives the storm. The rigid one cracks. Knowing when to bend is the mark of real wisdom.'
+  },
+  86:{
+    name:"Kali Yuga's Illusion",emoji:'🐍',color:'#9e4444',
+    subtitle:'The Slope of Confusion',badge:'SNAKE · VICE',
+    story:[
+      'The Kali Yuga is the age of confusion — where vice wears the mask of virtue, where noise is called wisdom, and where the loudest voice is mistaken for truth.',
+      'In this age, the greatest danger is not an obvious villain. It is the slow, comfortable drift away from what is real and good. The illusion is comfortable. That is what makes it so dangerous.',
+      'Each small drift seems harmless. But step by step, the path curves far from where it began. The person who was kind becomes callous. The leader who served begins to hoard. It happens so gradually that no one notices until the distance is great.'
+    ],
+    moral:'Stay close to what is true, kind, and useful. Confusion is conquered not by argument, but by clarity of character. Be the light that confusion cannot cloud.'
+  },
+  98:{
+    name:'Human Arrogance',emoji:'🐍',color:'#9e4444',
+    subtitle:'The Slope of Forgetting',badge:'SNAKE · VICE',
+    story:[
+      'Human arrogance is incremental and gradual. It grows quietly in the comfort of success — a slow forgetting that what we have was given, not earned alone.',
+      'When we begin to believe our achievements are entirely our own making, we lose gratitude. And when gratitude goes, we lose the very qualities — humility, curiosity, openness — that made us successful in the first place.',
+      'This is the subtlest vice of all. It does not look like arrogance from the inside. It looks like confidence. It looks like self-sufficiency. It feels like strength — right up until the fall.'
+    ],
+    moral:'Arrogance is amnesia about where your gifts came from. Stay humble — not because you are small, but because you remember how large the source truly is.'
+  },
+  100:{
+    name:'Adharmic Kauravas',emoji:'🐍',color:'#9e4444',
+    subtitle:'The Slope of Injustice',badge:'SNAKE · VICE',
+    story:[
+      'The dice-game of the Mahabharata stands as one of history\'s most powerful lessons in how injustice becomes normalized. Step by step, what was clearly wrong was allowed to happen — because of silence, complicity, and loyalty to persons over loyalty to dharma.',
+      'Even good people stood by. Elders who knew better stayed quiet. Warriors who could have spoken did not. The crowd watched. And in their silence, they became part of the injustice.',
+      'This is the deepest teaching: adharma grows not only through villains — it grows through the silence of those who know better and say nothing. Hubris before the fall begins not with the wicked, but with those who watched and did not act.'
+    ],
+    moral:'When we see injustice and stay silent, we become part of it. Speak up — gently, firmly, always. One voice at the right moment can change the course of history.'
+  },
+  106:{
+    name:'Adharma at the Gates',emoji:'🐍',color:'#9e4444',
+    subtitle:'The Final Slope',badge:'SNAKE · VICE',
+    story:[
+      'Even at square 106 — just two steps from liberation, so close to 108 — the final test awaits. Adharma does not give up at the door. Low tendencies and false values persist right up to the very end.',
+      'This is the hardest snake of all: the one that coils at the threshold of freedom. It is a reminder that the journey toward dharma is lifelong. The final steps demand the most watchfulness.',
+      'Many have stumbled here — not through ignorance, but through the relaxation that comes from being almost there. Almost at the goal, the guard lowers. And the last snake finds its moment.'
+    ],
+    moral:'The closer you are to the goal, the more watchful you must be. Liberation belongs to those who remain true to the very last step. Finish with the same care you began with.'
+  }
+};
+
+// ══════════════════════════════════════════════════
+//  GAME STATE
+// ══════════════════════════════════════════════════
+let positions=[1,1], currentPlayer=0, gameOver=false, pendingFinish=null;
+
+// ══════════════════════════════════════════════════
+//  DRAW
+// ══════════════════════════════════════════════════
+const LIGHT=['#fdf8ec','#efe8ce'];
+function drawGrid(){
+  for(let sq=1;sq<=TOTAL;sq++){
+    const{x,y}=sqXY(sq);
+    const idx=sq-1,row=Math.floor(idx/COLS),col=idx%COLS;
+    ctx.fillStyle=(row+col)%2===0?LIGHT[0]:LIGHT[1];
+    ctx.fillRect(x-CELL/2,y-CELL/2,CELL,CELL);
+    ctx.strokeStyle='rgba(160,130,60,0.28)';ctx.lineWidth=0.5;
+    ctx.strokeRect(x-CELL/2,y-CELL/2,CELL,CELL);
+    ctx.fillStyle='rgba(80,50,8,0.42)';
+    ctx.font=`bold ${Math.max(8,CELL*0.17)}px Cinzel,serif`;
+    ctx.textAlign='left';ctx.textBaseline='top';
+    ctx.fillText(sq,x-CELL/2+2,y-CELL/2+1);
+    if(LADDERS[sq]!==undefined){
+      ctx.fillStyle='rgba(30,100,60,0.6)';ctx.beginPath();
+      ctx.arc(x+CELL/2-5,y-CELL/2+5,3,0,Math.PI*2);ctx.fill();
+    }
+  }
+}
+function drawSnake(from,to){
+  const f=sqXY(from),t=sqXY(to);
+  const mx=(f.x+t.x)/2+(f.x>t.x?26:-26),my=(f.y+t.y)/2+10;
+  ctx.save();
+  ctx.strokeStyle='#7a1010';ctx.lineWidth=Math.max(5,CELL*0.11);ctx.lineCap='round';ctx.globalAlpha=0.76;
+  ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.quadraticCurveTo(mx,my,t.x,t.y);ctx.stroke();
+  ctx.strokeStyle='#c04040';ctx.lineWidth=Math.max(2,CELL*0.05);ctx.globalAlpha=0.36;
+  ctx.setLineDash([CELL*0.07,CELL*0.09]);
+  ctx.beginPath();ctx.moveTo(f.x,f.y);ctx.quadraticCurveTo(mx,my,t.x,t.y);ctx.stroke();
+  ctx.setLineDash([]);ctx.globalAlpha=1;
+  ctx.font=`${Math.max(11,CELL*0.34)}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('🐍',f.x,f.y);
+  ctx.fillStyle='#5a0e0e';ctx.globalAlpha=0.6;
+  ctx.beginPath();ctx.arc(t.x,t.y,Math.max(3,CELL*0.07),0,Math.PI*2);ctx.fill();
+  ctx.restore();
+}
+function drawLadder(from,to,color){
+  const f=sqXY(from),t=sqXY(to);
+  const dx=t.x-f.x,dy=t.y-f.y,len=Math.sqrt(dx*dx+dy*dy);
+  const px=-dy/len,py=dx/len,hw=Math.max(4,CELL*0.09);
+  ctx.save();ctx.globalAlpha=0.88;
+  ['#5a3510','#7a4d18'].forEach((c,si)=>{
+    const s=si===0?1:-1;
+    ctx.strokeStyle=c;ctx.lineWidth=Math.max(2,CELL*0.05);ctx.lineCap='round';
+    ctx.beginPath();ctx.moveTo(f.x+px*hw*s,f.y+py*hw*s);ctx.lineTo(t.x+px*hw*s,t.y+py*hw*s);ctx.stroke();
+  });
+  const nR=Math.max(3,Math.round(len/(CELL*0.55)));
+  ctx.strokeStyle='#9a6830';ctx.lineWidth=Math.max(1.5,CELL*0.04);
+  for(let i=1;i<nR;i++){
+    const tt=i/nR,cx=f.x+dx*tt,cy=f.y+dy*tt;
+    ctx.beginPath();ctx.moveTo(cx-px*hw,cy-py*hw);ctx.lineTo(cx+px*hw,cy+py*hw);ctx.stroke();
+  }
+  const d=LADDER_DATA[from];
+  if(d){ctx.globalAlpha=0.82;ctx.font=`${Math.max(11,CELL*0.32)}px serif`;ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(d.emoji,f.x,f.y);}
+  ctx.globalAlpha=0.65;
+  const g=ctx.createRadialGradient(t.x,t.y,0,t.x,t.y,CELL*0.32);
+  g.addColorStop(0,color+'99');g.addColorStop(1,'transparent');
+  ctx.fillStyle=g;ctx.beginPath();ctx.arc(t.x,t.y,CELL*0.32,0,Math.PI*2);ctx.fill();
+  ctx.restore();
+}
+function drawTokens(){
+  positions.forEach((sq,i)=>{
+    const{x,y}=sqXY(sq),off=i===0?-CELL*0.16:CELL*0.16,cx=x+off;
+    const col=['#c94000','#005999'][i],r=Math.max(8,CELL*0.2);
+    ctx.save();ctx.shadowColor='rgba(0,0,0,0.55)';ctx.shadowBlur=7;ctx.shadowOffsetY=2;
+    ctx.beginPath();ctx.arc(cx,y,r,0,Math.PI*2);ctx.fillStyle=col;ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,0.7)';ctx.lineWidth=1.5;ctx.stroke();ctx.restore();
+    ctx.fillStyle='white';ctx.font=`bold ${Math.max(8,CELL*0.17)}px Cinzel,serif`;
+    ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(i+1,cx,y);
+    if(i===currentPlayer&&!gameOver){
+      ctx.save();ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.globalAlpha=0.38;
+      ctx.beginPath();ctx.arc(cx,y,r+4,0,Math.PI*2);ctx.stroke();ctx.restore();
+    }
+  });
+}
+function drawBoard(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);drawGrid();
+  for(const[f,t]of Object.entries(LADDERS)){const d=LADDER_DATA[Number(f)];drawLadder(Number(f),t,d?d.color:'#1a5c3a');}
+  for(const[f,t]of Object.entries(SNAKES))drawSnake(Number(f),t);
+  drawTokens();
+}
+
+// ══════════════════════════════════════════════════
+//  DICE
+// ══════════════════════════════════════════════════
+const PIPS={
+  1:[0,0,0,0,1,0,0,0,0],2:[1,0,0,0,0,0,0,0,1],3:[1,0,0,0,1,0,0,0,1],
+  4:[1,0,1,0,0,0,1,0,1],5:[1,0,1,0,1,0,1,0,1],6:[1,0,1,1,0,1,1,0,1]
+};
+function buildDice(){
+  const f=document.getElementById('diceFace');f.innerHTML='';
+  for(let i=0;i<9;i++){const p=document.createElement('div');p.className='pip';f.appendChild(p);}
+}
+function setPips(v){document.querySelectorAll('#diceFace .pip').forEach((p,i)=>p.classList.toggle('on',!!PIPS[v][i]));}
+function animDice(fin,cb){
+  const f=document.getElementById('diceFace');f.classList.add('rolling');let n=0;
+  const iv=setInterval(()=>{setPips(Math.ceil(Math.random()*6));if(++n>=7){clearInterval(iv);setPips(fin);f.classList.remove('rolling');cb();}},60);
+}
+
+// ══════════════════════════════════════════════════
+//  STORY POPUP
+// ══════════════════════════════════════════════════
+function showStory(type,sq,from,to,onClose){
+  const data=type==='ladder'?LADDER_DATA[sq]:SNAKE_DATA[sq];
+  if(!data){onClose();return;}
+  const card=document.getElementById('storyCard');
+  const isL=type==='ladder';
+  card.className='story-card '+(isL?'is-ladder':'is-snake');
+  document.getElementById('storyBadge').textContent=data.badge;
+  document.getElementById('storyMoveTag').textContent=`sq ${from} → ${to}`;
+  document.getElementById('storyEmoji').textContent=data.emoji;
+  document.getElementById('storyTitle').textContent=data.avatar||data.name;
+  document.getElementById('storySubtitle').textContent=data.subtitle;
+  const body=document.getElementById('storyBody');
+  body.innerHTML='';
+  (data.story||[]).forEach(para=>{const p=document.createElement('p');p.textContent=para;body.appendChild(p);});
+  document.getElementById('storyMoral').textContent=data.moral;
+  document.getElementById('storyContinueBtn').textContent=isL?'Continue the Journey →':'Learn from this & Continue →';
+  pendingFinish=onClose;
+  document.getElementById('storyOverlay').classList.add('show');
+}
+function closeStory(){
+  document.getElementById('storyOverlay').classList.remove('show');
+  if(pendingFinish){const cb=pendingFinish;pendingFinish=null;cb();}
+}
+document.getElementById('storyClose').addEventListener('click',closeStory);
+document.getElementById('storyContinueBtn').addEventListener('click',closeStory);
+document.getElementById('storyOverlay').addEventListener('click',e=>{if(e.target===document.getElementById('storyOverlay'))closeStory();});
+
+// ══════════════════════════════════════════════════
+//  LOG
+// ══════════════════════════════════════════════════
+function addLog(msg,cls=''){
+  const el=document.createElement('div');el.className='le '+cls;el.textContent=msg;
+  const c=document.getElementById('logEntries');c.insertBefore(el,c.firstChild);
+}
+
+// ══════════════════════════════════════════════════
+//  UI
+// ══════════════════════════════════════════════════
+function updateUI(){
+  document.getElementById('pos0').innerHTML=`${positions[0]} <small>/ 108</small>`;
+  document.getElementById('pos1').innerHTML=`${positions[1]} <small>/ 108</small>`;
+  document.getElementById('card0').classList.toggle('active',currentPlayer===0&&!gameOver);
+  document.getElementById('card1').classList.toggle('active',currentPlayer===1&&!gameOver);
+  document.getElementById('turnLbl').textContent=gameOver?'🏆 Game Over':`Player ${currentPlayer+1}'s Turn`;
+  document.getElementById('rollBtn').disabled=gameOver;
+  drawBoard();
+}
+
+// ══════════════════════════════════════════════════
+//  GAME LOGIC
+// ══════════════════════════════════════════════════
+function roll(){
+  if(gameOver)return;
+  document.getElementById('rollBtn').disabled=true;
+  const val=Math.ceil(Math.random()*6);
+  const pname=`Player ${currentPlayer+1}`;
+  animDice(val,()=>{
+    let sq=positions[currentPlayer]+val;
+    addLog(`${pname} rolled ${val} → ${Math.min(sq,108)}`);
+    if(sq>TOTAL){addLog(`${pname} needs an exact roll. Stays at ${positions[currentPlayer]}.`);finishTurn();return;}
+    positions[currentPlayer]=sq;drawBoard();
+    if(SNAKES[sq]!==undefined){
+      const dest=SNAKES[sq];
+      setTimeout(()=>{
+        const sd=SNAKE_DATA[sq];
+        addLog(`🐍 "${sd.name}" — slides ${sq}→${dest}`,'snake');
+        positions[currentPlayer]=dest;drawBoard();
+        showStory('snake',sq,sq,dest,()=>finishTurn());
+      },400);return;
+    }
+    if(LADDERS[sq]!==undefined){
+      const dest=LADDERS[sq];
+      setTimeout(()=>{
+        const ld=LADDER_DATA[sq];
+        addLog(`🪜 ${ld.emoji} ${ld.avatar} — climbs ${sq}→${dest}`,'ladder');
+        positions[currentPlayer]=dest;drawBoard();
+        showStory('ladder',sq,sq,dest,()=>finishTurn());
+      },400);return;
+    }
+    finishTurn();
+  });
+}
+function finishTurn(){
+  drawBoard();
+  if(positions[currentPlayer]===TOTAL){
+    gameOver=true;
+    addLog(`🎉 Player ${currentPlayer+1} reaches 108 — Moksha attained!`,'win');
+    updateUI();setTimeout(()=>showWin(currentPlayer),600);return;
+  }
+  currentPlayer=1-currentPlayer;updateUI();
+  document.getElementById('rollBtn').disabled=false;
+}
+function showWin(p){
+  document.getElementById('winTitle').textContent=`Player ${p+1} Attains Moksha! 🙏`;
+  document.getElementById('winMsg').textContent='Dharma is fulfilled across the sacred 108.';
+  document.getElementById('winOverlay').classList.add('show');
+}
+function resetGame(){
+  positions=[1,1];currentPlayer=0;gameOver=false;pendingFinish=null;
+  document.getElementById('logEntries').innerHTML='';
+  document.getElementById('winOverlay').classList.remove('show');
+  document.getElementById('storyOverlay').classList.remove('show');
+  setPips(1);updateUI();
+  addLog('— New game. Seek Moksha across the sacred 108. —');
+}
+
+// Hover tooltip
+canvas.addEventListener('mousemove',e=>{
+  const rect=canvas.getBoundingClientRect(),mx=e.clientX-rect.left,my=e.clientY-rect.top;
+  const col=Math.floor(mx/CELL),row=Math.floor(my/CELL);
+  if(col<0||col>=COLS||row<0||row>=ROWS)return;
+  const bRow=ROWS-1-row,sqCol=(bRow%2===0)?col:(COLS-1-col),sq=bRow*COLS+sqCol+1;
+  const tip=document.getElementById('tooltip');let html='';
+  if(LADDERS[sq]){const d=LADDER_DATA[sq];html=`${d.emoji} <b>${d.avatar}</b><br>Prime ${sq} → ${LADDERS[sq]}`;}
+  else if(SNAKES[sq]){const d=SNAKE_DATA[sq];html=`🐍 <b>${d.name}</b><br>${sq} → ${SNAKES[sq]}`;}
+  if(html){tip.innerHTML=html;tip.style.left=(e.clientX+14)+'px';tip.style.top=(e.clientY-10)+'px';tip.classList.add('show');}
+  else tip.classList.remove('show');
+});
+canvas.addEventListener('mouseleave',()=>document.getElementById('tooltip').classList.remove('show'));
+
+// Avatar tabs
+function buildAvatarTabs(){
+  const wrap=document.getElementById('avatarTabs');wrap.innerHTML='';
+  for(const[sq,d]of Object.entries(LADDER_DATA)){
+    const t=document.createElement('div');t.className='tab';
+    t.title=`${d.avatar}: prime sq ${sq}→${LADDERS[sq]}`;
+    t.textContent=`${d.emoji} ${sq}`;t.style.borderColor=d.color+'99';
+    wrap.appendChild(t);
+  }
+}
+
+// Init
+buildDice();buildAvatarTabs();setSize();setPips(1);updateUI();
+addLog('— Game started. Player 1 begins the journey. —');
+window.addEventListener('resize',()=>{setSize();drawBoard();});
+document.getElementById('rollBtn').addEventListener('click',roll);
+document.getElementById('resetBtn').addEventListener('click',resetGame);
+window.resetGame=resetGame;
+</script>
+
+</body>
+</html>
