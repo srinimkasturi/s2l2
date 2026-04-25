@@ -382,12 +382,36 @@ header h1 { font-size: 2rem; }
   position: fixed;
   inset: 0;
   z-index: 140;
-  background: rgba(26,42,74,0.4);
+  background: rgba(26,42,74,0.72);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
 }
 .sidebar-overlay.open { display: block; }
 ```
 
 }
+
+/* ── FOOTER ── */
+footer {
+position: relative; z-index: 10;
+text-align: center;
+padding: 1.2rem 1rem;
+border-top: 1px solid var(–border);
+background: var(–sand2);
+}
+.footer-copy {
+font-family: ‘Cinzel’, serif;
+font-size: 0.62rem;
+letter-spacing: 0.22em;
+color: var(–muted);
+text-transform: uppercase;
+}
+.footer-copy a {
+color: var(–peacock);
+text-decoration: none;
+letter-spacing: 0.1em;
+}
+.footer-copy a:hover { color: var(–flute); }
 </style>
 
 </head>
@@ -822,6 +846,14 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   navigate(-1);
 });
 </script>
+
+<footer>
+  <div class="footer-copy">
+    &copy; 2024 Srinivasa M. Kasturi &nbsp;&middot;&nbsp;
+    <a href="mailto:srini.m.kasturi@gmail.com">srini.m.kasturi@gmail.com</a>
+    &nbsp;&middot;&nbsp; All Rights Reserved
+  </div>
+</footer>
 
 </body>
 </html>
