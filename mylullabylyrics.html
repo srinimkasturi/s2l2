@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lullabies · HUMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /*
+   * Krishna palette:
+   * --sand    : warm silica base (the finite, the earth, Vrindavan dust)
+   * --deep    : infinite peacock-night blue (Krishna's skin, the cosmos)
+   * --flute   : warm gold-amber (his flute, Yamuna sunset)
+   * --peacock : vivid teal-green (peacock feather iridescence)
+   * --rose    : Radha's rose-mauve (devotion, madhura bhakti)
+   * --text    : deep slate on sand (readable, grounded)
+   */
+  :root {
+    --sand:    #f0ebe0;
+    --sand2:   #e8e1d3;
+    --sidebar: #e2d9c8;
+    --deep:    #1a2a4a;
+    --flute:   #c47e1a;
+    --flute2:  #e8a020;
+    --peacock: #2a7a6a;
+    --rose:    #9b4e6e;
+    --text:    #1e1a14;
+    --muted:   #6a5f50;
+    --border:  rgba(36,70,110,0.15);
+  }
+
+- { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+background: var(–sand);
+color: var(–text);
+font-family: ‘Crimson Pro’, Georgia, serif;
+font-size: 18px;
+min-height: 100vh;
+overflow-x: hidden;
+}
+
+/* ── AMBIENT GLOW (peacock-blue wash, sand warmth) ── */
+.stars {
+position: fixed; inset: 0; z-index: 0; pointer-events: none;
+background:
+radial-gradient(ellipse at 15% 0%,   rgba(26,42,74,0.07)  0%, transparent 55%),
+radial-gradient(ellipse at 85% 100%, rgba(196,126,26,0.06) 0%, transparent 50%),
+radial-gradient(ellipse at 50% 50%,  rgba(42,122,106,0.04) 0%, transparent 70%);
+}
+.stars::before {
+content: ‘’;
+position: absolute; inset: 0;
+background-image:
+radial-gradient(1.5px 1.5px at 12% 18%, rgba(42,122,106,0.5)  0%, transparent 100%),
+radial-gradient(1px   1px   at 40% 6%,  rgba(196,126,26,0.45) 0%, transparent 100%),
+radial-gradient(1.5px 1.5px at 68% 22%, rgba(26,42,74,0.3)    0%, transparent 100%),
+radial-gradient(1px   1px   at 82% 10%, rgba(155,78,110,0.35) 0%, transparent 100%),
+radial-gradient(1px   1px   at 25% 45%, rgba(42,122,106,0.25) 0%, transparent 100%),
+radial-gradient(1.5px 1.5px at 90% 50%, rgba(196,126,26,0.3)  0%, transparent 100%),
+radial-gradient(1px   1px   at 55% 75%, rgba(26,42,74,0.2)    0%, transparent 100%),
+radial-gradient(1px   1px   at 8%  82%, rgba(196,126,26,0.25) 0%, transparent 100%),
+radial-gradient(1px   1px   at 72% 88%, rgba(155,78,110,0.2)  0%, transparent 100%),
+radial-gradient(1px   1px   at 38% 93%, rgba(42,122,106,0.2)  0%, transparent 100%);
+}
+
+/* ── HEADER ── */
+header {
+position: relative; z-index: 10;
+text-align: center;
+padding: 3.5rem 1rem 1.5rem;
+border-bottom: 1px solid var(–border);
+background: linear-gradient(180deg, rgba(26,42,74,0.06) 0%, transparent 100%);
+}
+.header-eyebrow {
+font-family: ‘Cinzel’, serif;
+font-size: 0.65rem;
+letter-spacing: 0.3em;
+color: var(–peacock);
+text-transform: uppercase;
+margin-bottom: 0.75rem;
+}
+header h1 {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: clamp(2.4rem, 6vw, 4rem);
+font-weight: 300;
+letter-spacing: 0.06em;
+color: var(–deep);
+line-height: 1;
+}
+header h1 span {
+font-style: italic;
+color: var(–flute);
+}
+.header-sub {
+font-family: ‘Crimson Pro’, serif;
+font-size: 0.95rem;
+color: var(–muted);
+margin-top: 0.6rem;
+letter-spacing: 0.08em;
+}
+
+/* ── LAYOUT ── */
+.container {
+position: relative; z-index: 5;
+display: grid;
+grid-template-columns: 260px 1fr;
+gap: 0;
+max-width: 1100px;
+margin: 0 auto;
+min-height: calc(100vh - 160px);
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+background: var(–sidebar);
+border-right: 1px solid var(–border);
+padding: 2rem 0;
+position: sticky;
+top: 0;
+height: calc(100vh - 160px);
+overflow-y: auto;
+scrollbar-width: thin;
+scrollbar-color: rgba(26,42,74,0.2) transparent;
+}
+.sidebar-title {
+font-family: ‘Cinzel’, serif;
+font-size: 0.6rem;
+letter-spacing: 0.25em;
+color: var(–muted);
+text-transform: uppercase;
+padding: 0 1.5rem 1rem;
+}
+.song-btn {
+display: block;
+width: 100%;
+text-align: left;
+background: none;
+border: none;
+cursor: pointer;
+padding: 0.7rem 1.5rem;
+font-family: ‘Crimson Pro’, serif;
+font-size: 1rem;
+color: var(–muted);
+transition: color 0.2s, background 0.2s, border-color 0.2s;
+border-left: 3px solid transparent;
+line-height: 1.3;
+}
+.song-btn:hover {
+color: var(–deep);
+background: rgba(26,42,74,0.06);
+border-left-color: rgba(42,122,106,0.4);
+}
+.song-btn.active {
+color: var(–deep);
+background: rgba(26,42,74,0.09);
+border-left-color: var(–peacock);
+font-weight: 400;
+}
+.song-btn .tag {
+display: block;
+font-size: 0.62rem;
+font-family: ‘Cinzel’, serif;
+letter-spacing: 0.12em;
+color: var(–peacock);
+opacity: 0.75;
+margin-top: 0.15rem;
+text-transform: uppercase;
+}
+.song-btn.active .tag { opacity: 1; color: var(–rose); }
+
+/* ── MAIN PANEL ── */
+.main-panel {
+padding: 2.5rem 3rem;
+position: relative;
+background: var(–sand);
+}
+
+.lyric-card {
+display: none;
+animation: fadeUp 0.4s ease forwards;
+}
+.lyric-card.active { display: block; }
+
+@keyframes fadeUp {
+from { opacity: 0; transform: translateY(10px); }
+to   { opacity: 1; transform: translateY(0); }
+}
+
+.song-header {
+margin-bottom: 2rem;
+padding-bottom: 1.5rem;
+border-bottom: 2px solid rgba(26,42,74,0.12);
+}
+.song-number {
+font-family: ‘Cinzel’, serif;
+font-size: 0.58rem;
+letter-spacing: 0.3em;
+color: var(–peacock);
+opacity: 0.7;
+margin-bottom: 0.4rem;
+text-transform: uppercase;
+}
+.song-title {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: clamp(1.8rem, 4vw, 2.8rem);
+font-weight: 400;
+color: var(–deep);
+line-height: 1.15;
+}
+.song-title em { color: var(–flute); font-style: italic; }
+.song-type {
+font-family: ‘Cinzel’, serif;
+font-size: 0.62rem;
+letter-spacing: 0.22em;
+color: var(–rose);
+text-transform: uppercase;
+margin-top: 0.5rem;
+}
+
+/* ── LYRICS BODY ── */
+.lyrics {
+font-size: 1.35rem;
+line-height: 2.1;
+color: var(–text);
+font-weight: 400;
+}
+.lyrics p { margin-bottom: 0.1rem; }
+.lyrics .stanza { margin-bottom: 1.8rem; }
+
+.lyrics .chorus {
+padding: 1rem 1.6rem;
+border-left: 3px solid var(–flute2);
+background: rgba(196,126,26,0.07);
+margin: 1.4rem 0;
+font-style: italic;
+color: var(–deep);
+font-size: 1.35rem;
+line-height: 2.1;
+border-radius: 0 4px 4px 0;
+}
+.lyrics .chant {
+font-family: ‘Cormorant Garamond’, serif;
+font-size: 1.38rem;
+font-style: italic;
+color: var(–rose);
+line-height: 2;
+letter-spacing: 0.03em;
+}
+.lyrics .annotation {
+font-size: 0.72rem;
+font-family: ‘Cinzel’, serif;
+letter-spacing: 0.16em;
+color: var(–peacock);
+text-transform: uppercase;
+margin-bottom: 0.4rem;
+margin-top: 0.2rem;
+display: block;
+}
+.lyrics .timestamp {
+font-size: 0.75rem;
+color: var(–muted);
+font-family: ‘Crimson Pro’, serif;
+margin-right: 0.6rem;
+letter-spacing: 0.04em;
+}
+.lyrics .note {
+font-size: 0.85rem;
+color: var(–muted);
+font-style: italic;
+padding: 0.8rem 1rem;
+border: 1px dashed rgba(26,42,74,0.2);
+margin-top: 1.5rem;
+background: rgba(26,42,74,0.03);
+border-radius: 2px;
+}
+
+/* ── NAV ARROWS ── */
+.nav-row {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-top: 3rem;
+padding-top: 1.5rem;
+border-top: 1px solid var(–border);
+}
+.nav-btn {
+background: none;
+border: 1px solid rgba(26,42,74,0.25);
+color: var(–muted);
+font-family: ‘Cinzel’, serif;
+font-size: 0.62rem;
+letter-spacing: 0.2em;
+text-transform: uppercase;
+padding: 0.6rem 1.2rem;
+cursor: pointer;
+transition: all 0.2s;
+border-radius: 2px;
+}
+.nav-btn:hover:not(:disabled) {
+color: var(–deep);
+border-color: var(–peacock);
+background: rgba(42,122,106,0.06);
+}
+.nav-btn:disabled { opacity: 0.2; cursor: default; }
+.nav-counter {
+font-family: ‘Cinzel’, serif;
+font-size: 0.6rem;
+letter-spacing: 0.2em;
+color: var(–muted);
+}
+
+/* ── MOBILE ── */
+.mobile-toggle {
+display: none;
+position: fixed;
+bottom: 1.5rem; left: 1.5rem;
+z-index: 100;
+background: var(–deep);
+border: none;
+color: var(–flute2);
+font-family: ‘Cinzel’, serif;
+font-size: 0.6rem;
+letter-spacing: 0.15em;
+text-transform: uppercase;
+padding: 0.7rem 1.1rem;
+cursor: pointer;
+border-radius: 2px;
+box-shadow: 0 2px 12px rgba(26,42,74,0.25);
+}
+
+@media (max-width: 720px) {
+.container { grid-template-columns: 1fr; }
+.sidebar {
+display: none;
+position: fixed;
+inset: 0;
+z-index: 50;
+background: var(–sidebar);
+height: 100vh;
+padding-top: 4rem;
+}
+.sidebar.open { display: block; }
+.mobile-toggle { display: block; }
+.main-panel { padding: 1.5rem 1.2rem; }
+.song-title { font-size: 1.8rem; }
+.lyrics { font-size: 1.2rem; line-height: 2; }
+}
+</style>
+
+</head>
+<body>
+
+<div class="stars"></div>
+
+<header>
+  <div class="header-eyebrow">HUMS · Creative Works</div>
+  <h1><span>Lullabies</span></h1>
+  <div class="header-sub">Vedanta inside nursery rhymes · Encoded 2024</div>
+</header>
+
+<div class="container">
+
+  <nav class="sidebar" id="sidebar">
+    <div class="sidebar-title">Songs</div>
+    <!-- buttons injected by JS -->
+  </nav>
+
+  <main class="main-panel" id="mainPanel">
+    <!-- cards injected by JS -->
+  </main>
+
+</div>
+
+<button class="mobile-toggle" id="mobileToggle">☰ Songs</button>
+
+<script>
+const songs = [
+  {
+    title: "Close Your Eyes",
+    subtitle: "Peter White · Chorlette's Song",
+    type: "Lullaby · Original",
+    body: `
+      <div class="stanza">
+        <span class="annotation">Verse (repeats ×3)</span>
+        <p><span class="timestamp">0:19</span>Close your eyes, see your breath</p>
+        <p><span class="timestamp">0:24</span>Still be on my chest</p>
+        <p><span class="timestamp">0:31</span>Hear my heart synch in rest</p>
+        <p><span class="timestamp">0:37</span>Sink in my arms and rest</p>
+        <p><span class="timestamp">0:41</span>My child…</p>
+      </div>
+      <div class="stanza">
+        <p><span class="timestamp">0:47</span>Close your eyes, see your breath</p>
+        <p><span class="timestamp">0:52</span>Still be on my chest</p>
+        <p><span class="timestamp">0:59</span>Hear my heart synch in rest</p>
+        <p><span class="timestamp">1:05</span>Sink in my arms and rest</p>
+      </div>
+      <div class="chorus">
+        My child<br>
+        Will dawn inside<br>
+        My bliss
+      </div>
+      <div class="note">Note: Add Sudhita songs</div>
+    `
+  },
+  {
+    title: "You'll Be in My Heart",
+    subtitle: "No Matter What",
+    type: "Lullaby · Original",
+    body: `
+      <div class="stanza">
+        <p>No matter what the ups and downs of life</p>
+        <p>No matter if they take you left or right</p>
+        <p>No matter which way life takes you, my child</p>
+      </div>
+      <div class="chorus">
+        You'll be in my heart<br>
+        I will always be there for you<br>
+        You'll be in my heart, always in my heart<br>
+        No matter which way life takes — my child
+      </div>
+      <div class="stanza">
+        <p>I will love you</p>
+        <p>I will be there</p>
+        <p>I will be there in your heart's beat's warmth</p>
+        <p>No matter what life holds</p>
+        <p>I will be there for you, my child</p>
+        <p>I will be there to love and share and care</p>
+      </div>
+      <div class="chorus">
+        You'll be in my heart
+      </div>
+    `
+  },
+  {
+    title: "Twinkle Twinkle Little Om",
+    subtitle: "Vedantic Nursery Rhyme — Two Versions",
+    type: "Adaptation · Vedanta",
+    body: `
+      <div class="stanza">
+        <span class="annotation">Version I</span>
+        <p>Twinkle Twinkle Little Om</p>
+        <p>How I wonder what's your home?</p>
+        <p>Up above the world so high</p>
+        <p>Like a diamond deep inside?</p>
+        <p>Twinkle Twinkle</p>
+        <p>Twinkle Twinkle little Om</p>
+        <p>Am I your home?</p>
+        <p>Twinkle Twinkle little Om</p>
+        <p>I am your home!!</p>
+      </div>
+      <div class="stanza">
+        <span class="annotation">Version II</span>
+        <p>Twinkle Twinkle Little Om!</p>
+        <p>What a wonder — what's your home?</p>
+        <p>Is it up above the world so high?</p>
+        <p>Or like a diamond deep inside?</p>
+        <p>Twinkle Twinkle Twinkle Om!</p>
+        <p>What a wonder you are!!</p>
+      </div>
+    `
+  },
+  {
+    title: "No Matter the Swirls",
+    subtitle: "Strength of Life",
+    type: "Lullaby · Original",
+    body: `
+      <div class="stanza">
+        <p>No matter the swirls of life</p>
+        <p>No matter the storms of life</p>
+        <p>I will be there for you, dear child</p>
+        <p>I will be there with all I can</p>
+      </div>
+      <div class="chorus">
+        No matter the swirls<br>
+        No matter the storms<br>
+        No matter what's in store
+      </div>
+      <div class="stanza">
+        <p>You will prevail — for strength of life</p>
+        <p>Has birthed you and kept you living till now</p>
+        <p>And kept you growing through it all</p>
+        <p>For life in you is life survived</p>
+        <p>For life in you is life in all</p>
+        <p>It survived against all odds, all corners</p>
+        <p>And in even joy, simple — it thrives</p>
+      </div>
+    `
+  },
+  {
+    title: "Sent Over the Rainbow",
+    subtitle: "My Child, My Love",
+    type: "Lullaby · Original",
+    body: `
+      <div class="stanza">
+        <p>My child</p>
+        <p>My love</p>
+        <p>I sent you over the rainbow</p>
+        <p>To parents</p>
+        <p>Who wanted</p>
+        <p>A child like you</p>
+        <p>To love and care</p>
+      </div>
+      <div class="chorus">
+        My love, my love<br>
+        I love you love you love you love you<br>
+        My child
+      </div>
+    `
+  },
+  {
+    title: "Live the Day",
+    subtitle: "Flow into the Bay",
+    type: "Lullaby · Original",
+    body: `
+      <div class="stanza">
+        <p>Live the day, let it ebb, let it flow</p>
+        <p>Into the bay — flow, flow into the bay</p>
+      </div>
+      <div class="stanza">
+        <p>Flow to the bay with the dusk</p>
+        <p>Let it wash off the good and bad of the day</p>
+        <p>Let it flow, let it flow to the bay</p>
+        <p>Let it go and let it flow, let it flow to the past</p>
+        <p>And live the next day new</p>
+      </div>
+    `
+  },
+  {
+    title: "Hokey Pokey · Self in the Game",
+    subtitle: "HUMS Adaptation",
+    type: "Adaptation · Vedanta",
+    body: `
+      <div class="stanza">
+        <span class="annotation">Self in the Game · Body / Mind / Intellect</span>
+        <p>You put your both hands in</p>
+        <p>You put your full heart out</p>
+        <p>You put your whole head in</p>
+        <p>And you shake it all about</p>
+        <p>You put your zesty best in…</p>
+        <p>And you turn yourself around</p>
+        <p>That's what life's all about.</p>
+      </div>
+      <div class="stanza">
+        <span class="annotation">Right Foods in For · Body / Heart / Brain</span>
+        <p>You put the right foods in</p>
+        <p>You put the right love out</p>
+        <p>You put the right know in</p>
+        <p>And you shake it all about</p>
+        <p>You put your zesty best in…</p>
+        <p>And you turn yourself around</p>
+        <p>That's what life's all about.</p>
+      </div>
+      <div class="stanza">
+        <span class="annotation">No Robbers · Laziness / Fear / Doubt</span>
+        <p>You put no doubt in you</p>
+        <p>You put no bum in you</p>
+        <p>You put no fear in you</p>
+        <p>And you shake it all about</p>
+        <p>You put your zesty best in…</p>
+        <p>And you turn yourself around</p>
+        <p>That's what life's all about.</p>
+      </div>
+      <div class="stanza">
+        <span class="annotation">Stay in the Now · Past / Present / Future</span>
+        <p>You put the past behind you</p>
+        <p>You shut the yearn in you</p>
+        <p>You put the now in you</p>
+        <p>And you shake it all about</p>
+        <p>You put your zesty best in…</p>
+        <p>And you turn yourself around</p>
+        <p>That's what life's all about.</p>
+      </div>
+      <div class="stanza">
+        <span class="annotation">Living Life · Sat / Chit / Ananda</span>
+        <p>You start being now</p>
+        <p>You start doing now</p>
+        <p>You start enjoying now</p>
+        <p>And you shake the world about</p>
+        <p>You put your zesty best out</p>
+        <p>And you turn yourself loose —</p>
+        <p><em>That's what winning's all about.</em></p>
+      </div>
+    `
+  },
+  {
+    title: "Roller Coaster Road",
+    subtitle: "The Journey Song",
+    type: "Lullaby · Original",
+    body: `
+      <div class="stanza">
+        <span class="annotation">Roller Coaster Road</span>
+        <p>Some time it goes up</p>
+        <p>Some time it goes down</p>
+        <p>Don't get off the road</p>
+        <p class="chant">tawn tawn tawn tawn tawn tawn</p>
+        <p class="chant">tawn tawn tawn tawn tawn tawn</p>
+      </div>
+      <div class="stanza">
+        <span class="annotation">Windshield Wiper Dance</span>
+        <p>Some time it goes left</p>
+        <p>Some time it goes right</p>
+        <p>Don't get off the road</p>
+        <p class="chant">tawn tawn tawn tawn tawn tawn</p>
+        <p class="chant">tawn tawn tawn tawn tawn tawn</p>
+      </div>
+    `
+  },
+  {
+    title: "Raas Radhe Krishna",
+    subtitle: "Devotional Chant",
+    type: "Chant · Devotional",
+    body: `
+      <div class="chant">
+        <p>Raas Radhe Krishna Radhe Krishna</p>
+        <p>Raas Radhe Krishna</p>
+        <p>Raas Radhe Krishna Radhe Krishna</p>
+        <p>Raas Radhe Krishna Radhe Krishna Radhe</p>
+        <p>Radhe Krishna Radhe</p>
+        <br>
+        <p>Radhe Radhe Radhe Radhe Radhe Radhe Krishna</p>
+        <p>Radhe Radhe Radhe Radhe Radhe Radhe Krishna</p>
+        <p>Krishna</p>
+        <br>
+        <p>Radhe — Radhe — Radhe hey Krishna</p>
+        <p>Radhe Radhe Radhe Radhe Radhe Radhe Krishna</p>
+        <br>
+        <p>Raas Radhe Krishna</p>
+        <p>Radhe Krishna Radhe</p>
+        <p>Radhe Krishna Radhe</p>
+        <p>Radhe Krishna</p>
+        <p>Radhe hey Krishna Radhe</p>
+      </div>
+    `
+  },
+  {
+    title: "Govinda Hari Govinda",
+    subtitle: "Dashaavataara Stotra",
+    type: "Stotra · Dashaavataara",
+    body: `
+      <div class="chant">
+        <p>Govinda Hari Govinda … Govinda Hari Govinda</p>
+      </div>
+      <div class="stanza">
+        <span class="annotation">Matsya — Protector of Vedas</span>
+        <p class="chant">Veda Rakshaka Govinda … Matsya swaroopa Govinda</p>
+        <span class="annotation">Kurma — Bearer of Devas</span>
+        <p class="chant">Devo Dharaka Govinda … Kurma swaroopa Govinda</p>
+        <span class="annotation">Varaha — Lifter of Earth</span>
+        <p class="chant">Dharani Udharaka Govinda … Varaha roopa Govinda</p>
+        <span class="annotation">Narasimha — Saviour of Devotees</span>
+        <p class="chant">Bhakta Udharaka Govinda … Narahari roopa Govinda</p>
+        <span class="annotation">Vamana — Subduer of Bali</span>
+        <p class="chant">Bali Bhrama Nashaka Govinda … Vamana roopa Govinda</p>
+        <span class="annotation">Parashurama — Destroyer of Adharma</span>
+        <p class="chant">Adharma Nashaka Govinda … Bhargava Rama Govinda</p>
+        <span class="annotation">Rama — Embodiment of Dharma</span>
+        <p class="chant">Dharma swaroopa Govinda … Janaki Rama Govinda</p>
+        <span class="annotation">Krishna — Establisher of Dharma</span>
+        <p class="chant">Dharma sthapaka Govinda … Jagath Gurave Govinda</p>
+        <span class="annotation">Buddha — Beyond Vedas</span>
+        <p class="chant">Veda ateeta Govinda … Dhamma Gurave Govinda</p>
+        <span class="annotation">Kalki — Establisher of New Age</span>
+        <p class="chant">Nava yugasthapaka Govinda … Kalki Narayana Govinda</p>
+      </div>
+      <div class="chant">
+        <p>Govinda Hari Govinda … Govinda Hari Govinda</p>
+      </div>
+    `
+  },
+  {
+    title: "Avatara Names",
+    subtitle: "Ten Avatars — English Epithets",
+    type: "HUMS · Dashaavataara",
+    body: `
+      <div class="stanza">
+        <span class="annotation">The Ten Avatars</span>
+        <p>Ocean Liner Avatara</p>
+        <p>Mountain Lifter Avatara</p>
+        <p>Earth Lifter Avatara</p>
+        <p>Gene Master Avatara</p>
+        <p>Measures Master Avatara</p>
+        <p>Master Warrior Avatara</p>
+        <p>Warrior Prince Avatara</p>
+        <p>Masterful Statesman Avatara</p>
+        <p>Direct Connector Avatara</p>
+        <p>Re-setter Avatara</p>
+      </div>
+    `
+  },
+  {
+    title: "Hare Krishna",
+    subtitle: "Maha Mantra",
+    type: "Chant · Devotional",
+    body: `
+      <div class="chant">
+        <p>Haare Krishna</p>
+        <p>Haare Krishna</p>
+        <p>Haare Krishna</p>
+        <p>Sari Krishna</p>
+      </div>
+    `
+  }
+];
+
+// ── BUILD DOM ──
+const sidebar = document.getElementById('sidebar');
+const mainPanel = document.getElementById('mainPanel');
+let current = 0;
+
+songs.forEach((s, i) => {
+  // Sidebar button
+  const btn = document.createElement('button');
+  btn.className = 'song-btn' + (i === 0 ? ' active' : '');
+  btn.innerHTML = `${s.title}<span class="tag">${s.type}</span>`;
+  btn.addEventListener('click', () => { activate(i); closeSidebar(); });
+  sidebar.appendChild(btn);
+
+  // Card
+  const card = document.createElement('div');
+  card.className = 'lyric-card' + (i === 0 ? ' active' : '');
+  card.innerHTML = `
+    <div class="song-header">
+      <div class="song-number">Track ${String(i+1).padStart(2,'0')} of ${songs.length}</div>
+      <div class="song-title">${s.title}<br><em style="font-size:0.6em; font-weight:300; opacity:0.7">${s.subtitle}</em></div>
+      <div class="song-type">${s.type}</div>
+    </div>
+    <div class="lyrics">${s.body}</div>
+    <div class="nav-row">
+      <button class="nav-btn" onclick="navigate(-1)" ${i===0?'disabled':''}>← Prev</button>
+      <span class="nav-counter">${i+1} / ${songs.length}</span>
+      <button class="nav-btn" onclick="navigate(1)" ${i===songs.length-1?'disabled':''}>Next →</button>
+    </div>
+  `;
+  mainPanel.appendChild(card);
+});
+
+function activate(i) {
+  const btns = sidebar.querySelectorAll('.song-btn');
+  const cards = mainPanel.querySelectorAll('.lyric-card');
+  btns[current].classList.remove('active');
+  cards[current].classList.remove('active');
+  current = i;
+  btns[current].classList.add('active');
+  cards[current].classList.add('active');
+  mainPanel.scrollTop = 0;
+  // Rebuild nav buttons (disabled state)
+  cards[current].querySelectorAll('.nav-btn').forEach((btn, j) => {
+    btn.disabled = j === 0 ? current === 0 : current === songs.length - 1;
+  });
+  const counter = cards[current].querySelector('.nav-counter');
+  if (counter) counter.textContent = `${current+1} / ${songs.length}`;
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next >= 0 && next < songs.length) activate(next);
+}
+
+// Mobile sidebar toggle
+const toggle = document.getElementById('mobileToggle');
+function closeSidebar() {
+  sidebar.classList.remove('open');
+  toggle.textContent = '☰ Songs';
+}
+toggle.addEventListener('click', () => {
+  const open = sidebar.classList.toggle('open');
+  toggle.textContent = open ? '✕ Close' : '☰ Songs';
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   navigate(-1);
+});
+</script>
+
+</body>
+</html>
