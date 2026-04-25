@@ -257,6 +257,16 @@
   <div class="header-sub">Vedanta inside nursery rhymes &middot; Encoded 2024</div>
 </header>
 
+<div class="inspiration">
+  <div class="inspiration-icon">&#9835;</div>
+  <div class="inspiration-text">
+    <div class="inspiration-label">Inspired by</div>
+    <div class="inspiration-title">Lullabies &mdash; Dave Koz (2001)</div>
+    <div class="inspiration-sub">featuring Peter White &middot; Rick Braun &middot; Dave Koz &middot; Norman Brown &amp; more</div>
+  </div>
+  <a class="inspiration-link" href="https://www.amazon.com/dp/B00005NNMX" target="_blank" rel="noopener">&#8599;&nbsp; View Album</a>
+</div>
+
 <main class="main-panel" id="mainPanel"></main>
 
 <footer>
@@ -372,6 +382,13 @@ for (var i=0;i<songs.length;i++) {
     var lh = '';
     for (var j=0;j<s.verses.length;j++) lh += renderVerse(s.verses[j]);
     var n = songs.length;
+    var attrHtml = '';
+    if (s.attribution) {
+      attrHtml = '<a class="attribution" href="'+s.attribution.url+'" target="_blank" rel="noopener">'+
+        '<span class="attr-icon">&#8599;</span>'+
+        '<span class="attr-label">Source</span>&nbsp;&nbsp;'+s.attribution.label+
+        '</a>';
+    }
     var card = document.createElement('div');
     card.className = 'lyric-card' + (idx===0?' active':'');
     card.innerHTML =
@@ -380,6 +397,7 @@ for (var i=0;i<songs.length;i++) {
         '<div class="song-title">'+s.title+'</div>'+
         '<div class="song-subtitle">'+s.subtitle+'</div>'+
         '<div class="song-type">'+s.type+'</div>'+
+        attrHtml+
       '</div>'+
       '<div class="lyrics">'+lh+'</div>'+
       '<div class="nav-row">'+
