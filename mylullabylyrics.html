@@ -315,8 +315,8 @@ color: var(–muted);
 .mobile-toggle {
 display: none;
 position: fixed;
-bottom: 1.5rem; left: 1.5rem;
-z-index: 100;
+bottom: 1.5rem; right: 1.5rem;
+z-index: 200;
 background: var(–deep);
 border: none;
 color: var(–flute2);
@@ -327,25 +327,66 @@ text-transform: uppercase;
 padding: 0.7rem 1.1rem;
 cursor: pointer;
 border-radius: 2px;
-box-shadow: 0 2px 12px rgba(26,42,74,0.25);
+box-shadow: 0 2px 16px rgba(26,42,74,0.35);
 }
 
 @media (max-width: 720px) {
-.container { grid-template-columns: 1fr; }
-.sidebar {
-display: none;
-position: fixed;
-inset: 0;
-z-index: 50;
-background: var(–sidebar);
-height: 100vh;
-padding-top: 4rem;
+/* Stack: sidebar hidden by default, main always visible */
+.container {
+grid-template-columns: 1fr;
+display: block;
 }
-.sidebar.open { display: block; }
+
+```
+/* Sidebar: hidden off-screen, slides in as overlay */
+.sidebar {
+  display: block;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 150;
+  background: var(--sidebar);
+  height: 100vh;
+  padding-top: 3rem;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+}
+.sidebar.open {
+  transform: translateX(0);
+}
+
+/* Main panel always rendered, never obscured */
+.main-panel {
+  display: block;
+  padding: 1.2rem 1rem 5rem;
+  position: relative;
+  z-index: 1;
+}
+
 .mobile-toggle { display: block; }
-.main-panel { padding: 1.5rem 1.2rem; }
-.song-title { font-size: 1.8rem; }
-.lyrics { font-size: 1.2rem; line-height: 2; }
+
+header {
+  padding: 1.5rem 1rem 1rem;
+}
+header h1 { font-size: 2rem; }
+.header-sub { font-size: 0.8rem; }
+
+.song-title { font-size: 1.6rem; }
+.lyrics { font-size: 1.1rem; line-height: 1.95; }
+.lyrics .chorus { font-size: 1.1rem; }
+.lyrics .chant { font-size: 1.1rem; }
+
+/* Dim overlay behind open sidebar */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 140;
+  background: rgba(26,42,74,0.4);
+}
+.sidebar-overlay.open { display: block; }
+```
+
 }
 </style>
 
@@ -373,6 +414,7 @@ padding-top: 4rem;
 
 </div>
 
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
 <button class="mobile-toggle" id="mobileToggle">☰ Songs</button>
 
 <script>
@@ -760,14 +802,19 @@ function navigate(dir) {
 
 // Mobile sidebar toggle
 const toggle = document.getElementById('mobileToggle');
+const overlay = document.getElementById('sidebarOverlay');
+
 function closeSidebar() {
   sidebar.classList.remove('open');
+  overlay.classList.remove('open');
   toggle.textContent = '☰ Songs';
 }
 toggle.addEventListener('click', () => {
   const open = sidebar.classList.toggle('open');
+  overlay.classList.toggle('open', open);
   toggle.textContent = open ? '✕ Close' : '☰ Songs';
 });
+overlay.addEventListener('click', closeSidebar);
 
 // Keyboard navigation
 document.addEventListener('keydown', e => {
